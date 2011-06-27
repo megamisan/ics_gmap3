@@ -145,7 +145,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 					$this->incCssFile(t3lib_extMgm::siteRelPath($this->extKey).'res/css/jquery-ui-1.8.12.custom.css','_jquery_ui_css');
 				break;
 				case 'GMAP3':
-					$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/js/gmap3.min.js', false, '_gmpa3');
+					$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/js/gmap3.min.js', false, '_gmap3');
 				break;
 				case 'JQUERY_LIB':
 					$this->incJsFile('http://code.jquery.com/jquery-1.6.1.min.js', false, '_jquery_lib');
@@ -167,8 +167,8 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 	function initJSData() {
 		$marker= array();
 
-		$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3.js"></script>';
-		$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_data.js"></script>';
+		//$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3.js"></script>';
+		//$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_data.js"></script>';
 		
 		
 		//var_dump($this->data);
