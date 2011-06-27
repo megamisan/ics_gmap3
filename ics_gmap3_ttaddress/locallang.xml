@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'ics_gmap3'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="provider.ttaddress">tt_address data provider</label>
+			<label index="provider.ttaddress.storagePid">Storage Pid</label>
+			<label index="provider.ttaddress.category">Category</label>
+			<label index="provider.ttaddress.templateFile">Template file</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="provider.ttaddress">Fournisseur de données tt_address</label>
+			<label index="provider.ttaddress.storagePid">Dossier de stockage</label>
+			<label index="provider.ttaddress.category">Catégorie</label>
+			<label index="provider.ttaddress.templateFile">Fichier template</label>
+		</languageKey>
+	</data>
+</T3locallang>

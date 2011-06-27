@@ -1,0 +1,270 @@
+<T3DataStructure>
+	<meta>
+		<langDisable>1</langDisable>
+	</meta>
+	<sheets>
+		<sDEF>
+			<ROOT>
+				<TCEforms>
+					<sheetTitle>LLL:EXT:ics_gmap3/locallang.php:tt_content.pi_flexform.sheet_general</sheetTitle>
+				</TCEforms>
+				<type>array</type>
+				<el>
+					<templateFile>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.templateFile</label>	
+							<config>
+								<type>input</type>
+								<eval>trim</eval>
+								<default>EXT:ics_gmap3/res/template_gmap3.html</default>
+								<wizards type="array">
+									<_PADDING>2</_PADDING>
+									<link type="array">
+										<type>popup</type>
+										<title>Link</title>
+										<icon>link_popup.gif</icon>
+										<script>browse_links.php?mode=wizard&amp;act=file</script>
+										<params type="array">
+											<blindLinkOptions>page,url,mail,spec</blindLinkOptions>
+											<allowedExtensions>htm,html,tmpl,tpl</allowedExtensions>
+										</params>
+										<JSopenParams>height=300,width=500,status=0,menubar=0,scrollbars=1</JSopenParams>
+									</link>
+								</wizards>
+							</config>
+						</TCEforms>
+					</templateFile>
+					<providers>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.providers</label>
+							<onChange>reload</onChange>
+							<config>
+								<type>select</type>
+							    <itemsProcFunc>EXT:ics_gmap3/classes/helpers/class.tx_icsgmap3_flexform_helper.php:tx_icsgmap3_flexform_helper->renderProviderList</itemsProcFunc>
+								<maxitems>100</maxitems>
+								<size>4</size>
+								<multiple>1</multiple>
+								<selectedListStyle>width:250px</selectedListStyle>
+								<itemListStyle>width:250px</itemListStyle>
+							</config>
+						</TCEforms>
+					</providers>
+					<mapId>
+				        <TCEforms>
+				         <exclude>1</exclude>
+				         <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.mapId</label>
+							<config>
+								<type>input</type>
+								<size>48</size>
+								<eval>trim</eval>
+								<default></default>
+							</config>
+				        </TCEforms>
+					</mapId>
+					<displayMarkers>
+				        <TCEforms>
+				         <exclude>1</exclude>
+				         <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.displayMarkers</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.displayMarkers.1</numIndex>
+										<numIndex index="1">show</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.displayMarkers.2</numIndex>
+										<numIndex index="1">hide</numIndex>
+									</numIndex>
+								</items>
+							</config>
+				        </TCEforms>
+					</displayMarkers>
+					<width>
+                        <TCEforms>
+                            <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.width</label>
+                            <config>
+                                <type>input</type>
+                                <size>10</size>
+                                <eval>num</eval>
+                            </config>
+                        </TCEforms>
+                    </width>
+                    <height>
+                        <TCEforms>
+                            <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.height</label>
+                            <config>
+                                <type>input</type>
+                                <size>10</size>
+                                <eval>num</eval>
+                            </config>
+                        </TCEforms>
+                    </height>                    
+                    <lng>
+                        <TCEforms>
+                            <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.lng</label>
+                            <config>
+                                <type>input</type>
+                                <size>15</size>
+                            </config>
+                        </TCEforms>
+                    </lng>
+                    <lat>
+                        <TCEforms>
+                            <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.lat</label>
+                            <config>
+                                <type>input</type>
+                                <size>15</size>
+                            </config>
+                        </TCEforms>
+                    </lat>
+                    <zoom>
+                        <TCEforms>
+                            <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.zoom</label>
+                            <config>
+                                <type>input</type>
+                                <size>3</size>
+                                <eval>num</eval>
+                            </config>
+                        </TCEforms>
+                    </zoom>
+					<type>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type.map</numIndex>
+										<numIndex index="1">google.maps.MapTypeId.ROADMAP</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type.satellite</numIndex>
+										<numIndex index="1">google.maps.MapTypeId.SATELLITE</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type.hybrid</numIndex>
+										<numIndex index="1">google.maps.MapTypeId.HYBRID</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type.terrain</numIndex>
+										<numIndex index="1">google.maps.MapTypeId.TERRAIN</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</type>
+					<type_controls>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type_controls</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type_controls.1</numIndex>
+										<numIndex index="1">show</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.type_controls.2</numIndex>
+										<numIndex index="1">hide</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</type_controls>
+					<nav_controls>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.nav_controls</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.nav_controls.1</numIndex>
+										<numIndex index="1">google.maps.ZoomControlStyle.SMALL</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.nav_controls.2</numIndex>
+										<numIndex index="1">google.maps.ZoomControlStyle.LARGE</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.nav_controls.3</numIndex>
+										<numIndex index="1">hide</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</nav_controls>
+					<scrollwheel>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.scrollwheel</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.scrollwheel.1</numIndex>
+										<numIndex index="1">show</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.scrollwheel.2</numIndex>
+										<numIndex index="1">hide</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</scrollwheel>
+					<streetview_control>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.streetview_control</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.streetview_control.1</numIndex>
+										<numIndex index="1">show</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.streetview_control.2</numIndex>
+										<numIndex index="1">hide</numIndex>
+									</numIndex>
+								</items>
+							</config>
+						</TCEforms>
+					</streetview_control>
+					<includeLibJS>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.includeLibJS</label>
+							<config>
+								<type>select</type>
+								<items type="array">
+									<numIndex index="0" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.includeLibJS.jquery_lib</numIndex>
+										<numIndex index="1">jquery_lib</numIndex>
+									</numIndex>
+									<numIndex index="1" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.includeLibJS.gmap_api</numIndex>
+										<numIndex index="1">gmap_api</numIndex>
+									</numIndex>
+									<numIndex index="2" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.includeLibJS.jquery_ui</numIndex>
+										<numIndex index="1">jquery_ui</numIndex>
+									</numIndex>
+									<numIndex index="3" type="array">
+										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.includeLibJS.gmap3</numIndex>
+										<numIndex index="1">gmap3</numIndex>
+									</numIndex>
+								</items>
+								<maxitems>100</maxitems>
+								<size>4</size>
+								<multiple>1</multiple>
+								<selectedListStyle>width:200px</selectedListStyle>
+								<itemListStyle>width:200px</itemListStyle>
+							</config>
+						</TCEforms>
+					</includeLibJS>
+				</el>
+			</ROOT>
+		</sDEF>
+		<!-- ###ADDITIONAL FLEX DATA PROVIDER### -->
+		<!-- ###ADDITIONAL FLEX DATA BEHAVIOUR### -->
+	</sheets>
+</T3DataStructure>
