@@ -39,6 +39,8 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 	}
 	
 	function getStaticData($conf) {
+		$fields = '';
+		$whereClauseCat = array();
 		$tables = '`tt_address` address, `tt_address_group` addressgroup, `tt_address_group_mm` rel';
 		if(!empty($conf['storagePid'])) {
 			$aStorage = t3lib_div::trimExplode(',',$conf['storagePid'],true);
@@ -51,34 +53,52 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 				}
 			}
 		}
-
-		if(!empty($conf['category'])) {
+		
+		if(!empty($conf['category'])/* && $_SERVER['REMOTE_ADDR'] == '80.11.134.90'*/) {
 			$aCategory = t3lib_div::trimExplode(',',$conf['category'],true);
 			if(is_array($aCategory) && count($aCategory)) {
 				foreach($aCategory as $category) {
 					$aCat = t3lib_div::trimExplode('_',$category,true);
 					if(strpos($category, 'tt_address_group') !== false) {
-						$whereClause .= ' AND addressgroup.`uid` = rel.`uid_foreign` AND address.`uid` = rel.`uid_local` AND addressgroup.`uid` = ' . $aCat[count($aCat)-1] . ' AND address.`deleted` = 0 AND address.`hidden` = 0  AND addressgroup.`deleted` = 0 AND addressgroup.`hidden` = 0 ';
+						$whereClauseCat[] = ' (addressgroup.`uid` = rel.`uid_foreign` AND address.`uid` = rel.`uid_local` AND addressgroup.`uid` = ' . $aCat[count($aCat)-1] . ' AND address.`deleted` = 0 AND address.`hidden` = 0  AND addressgroup.`deleted` = 0 AND addressgroup.`hidden` = 0) ';
 					}
 				}
 			}
 		}
+		else {
+			$param = t3lib_div::_GP($conf['prefixId']);
+			if(!empty($param['category'])) {
+				$whereClauseCat[] = ' (addressgroup.`uid` = rel.`uid_foreign` AND address.`uid` = rel.`uid_local` AND addressgroup.`uid` = ' . $param['category'] . ' AND address.`deleted` = 0 AND address.`hidden` = 0  AND addressgroup.`deleted` = 0 AND addressgroup.`hidden` = 0) ';
+			}
+		}
+		
+		if(is_array($whereClauseCat) && count($whereClauseCat)) {
+			$whereClauseCat = ' AND (' . implode(' OR ',$whereClauseCat) . ')';
+		}
+		else {
+			$whereClauseCat = '';
+		}
+		
+		if(!empty($conf['windowsInfoFields'])) {
+			 $fields = ',' . implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true));
+		}
+		
 		
 		$addresses = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-			'address.`uid` as uid, address.`name` as name, address.`tx_icsgmap3ttaddress_coordinates` as coordinates, address.`address` as address, addressgroup.`tx_icsgmap3ttaddress_picto` as picto , addressgroup.`tx_icsgmap3ttaddress_pictothumb` as thumb , addressgroup.`uid` as catid, addressgroup.`title` as catName',
-			$tables,
-			'1 ' . $whereClause,
-			'',
-			'addressgroup.`uid`'
+				'address.`uid` as uid, address.`name` as name, address.`tx_icsgmap3ttaddress_coordinates` as coordinates, address.`address` as address, addressgroup.`tx_icsgmap3ttaddress_picto` as picto , addressgroup.`tx_icsgmap3ttaddress_pictothumb` as thumb , addressgroup.`uid` as catid, addressgroup.`title` as catName ' . $fields,
+				$tables,
+				'1 ' . $whereClause . ' ' . $whereClauseCat,
+				'',
+				'addressgroup.`uid`'
 		);
-
+		
 		if(is_array($addresses) && count($addresses)) {
 			foreach($addresses as $addresse) {
 				$data[$addresse['catid']][] = $addresse;
 			}
 		}
-		
-		return $this->initTagsListJSon($data);
+
+		return $this->initTagsListJSon($data, implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true)), 'tt_address');
 		//return $this->renderTagsListJSon($conf,$data);	
 		//return $data;
 	}
@@ -123,40 +143,43 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		return $content;
 	}*/
 	
-	function initTagsListJSon($data) {
+	function initTagsListJSon($data, $fields, $table) {
 		if(is_array($data) && count($data)) {
 			$jsCodeData = array();
 			$jsCode = '[' . "\r\n";
 			foreach($data as $cat => $tags) {
-				//$indexCat = 0;
 				foreach($tags as $row) {
-					/*if($indexCat == 0) {
-						$jsCode .= '[';
-					}*/
-					
 					if(!empty($row['coordinates'])) {
 						$coordinates = t3lib_div::trimExplode(',',$row['coordinates'],true);
 						$address['lat'] = $coordinates[0];
 						$address['lng'] = $coordinates[1];
 						$address['tag'] = $row['catName'];
-						
-						$address['data'] = array(
+						$address['icon'] = $row['picto'];
+						/*$address['data'] = array(
 							'name' => $row['name'],
 							'address' => $row['address'],
-						);
+						);*/
+						
+						// à continuer
+						$aFields = t3lib_div::trimExplode(',',$fields);
+						foreach($aFields as $windowsInfoFields) {
+							if(!is_null($row[$windowsInfoFields])) {
+								$address['data'][$windowsInfoFields] = $row[$windowsInfoFields];
+							}
+							else {
+								$address['data'][$windowsInfoFields] = '';
+							}
+						}
+						
 						$jsCodeData[] = json_encode($address);
 					}
-					
-					/*if($indexCat == count($tags)-1) {
-						$jsCode .= '];';
-					}*/
-					//$indexCat++;
 				}
 			}
 			$jsCode .= implode(',' . "\r\n",$jsCodeData);
 			$jsCode .= ']';
 		}
-		
+		//$conf['windowsInfoFields']
+		//var_dump($data);
 		return $jsCode;
 	}
 	
