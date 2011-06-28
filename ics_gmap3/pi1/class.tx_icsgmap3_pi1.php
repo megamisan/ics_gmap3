@@ -94,21 +94,24 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 					}
 				}
 				
-				var_dump($provider->type);
-				
 				if($provider->type == 'data') {
 					if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
 						$this->data[] = null;
 						//$this->dataInit[] = $provider->data;
 					}
 					elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_STATIC) {
-						$this->data[] = $provider->getStaticData($confProvider);
+						$this->data[] = $provider->getStaticData(array_merge($confProvider,array('prefixId' => $this->prefixId)));
 						//var_dump($this->data);
 						//$this->dataInit[] = $provider->data;
 					}
 					elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_DYNAMIC) {
 						$this->data[] = $provider->getDynamicDataUrl($confProvider);
 						//$this->dataInit[] = $provider->data;
+					}
+				}
+				else {
+					if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
+						$this->behaviourFunc[] = $provider->getBehaviourInitFunction($confProvider);
 					}
 				}
 			}
@@ -132,6 +135,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		$this->navigationControl_id = $this->lConf['nav_controls'];
 		$this->scrollwheel = $this->lConf['scrollwheel'] == "show"?"true":"false";
 		$this->streetViewControl = $this->lConf['streetview_control'] == "show"?"true":"false";
+		$this->windowsInfoFields = $this->lConf['windowsInfoFields'];
 		
 		$includeLibJS = t3lib_div::trimExplode(',', $this->lConf['includeLibJS'], 1);
 		while (list(, $lib) = each($includeLibJS)) {
@@ -170,17 +174,15 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		//$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3.js"></script>';
 		//$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_data.js"></script>';
 		
-		
-		//var_dump($this->data);
-		
 		$jsCodeInitData = '
 
 jQuery(function(){
 	var gmap3 = new ics.Map();
 	gmap3.setConf("' . $this->mapId . '",' . $this->mapLng . ',' . $this->mapLat . ',' . $this->mapZoom . ',' . $this->mapTypeId . ',' . $this->mapTypeControl . ',' . $this->navigationControl . ',' . $this->scrollwheel . ',' . $this->streetViewControl . ');
 	gmap3.addStaticData(' . implode('',$this->data) . ');
+	gmap3.addBehaviourInit(' . implode(',',$this->behaviourFunc) . ');
 	gmap3.createMap();
-
+	
 });';
 		$this->incJsFile($jsCodeInitData, true, '_carto_init');
 	}
@@ -225,14 +227,19 @@ jQuery(function(){
 	* @return
 	*/
 	function incJsFile($script,$jsCode = false, $suffix = '') {
-		if(!$jsCode)
+		if(!$jsCode) {
 			$js = '<script src="'.$script.'" type="text/javascript"><!-- //--></script>';
+			//var_dump($script);
+		}
 		else
 		{
 			$js .= '<script type="text/javascript">
 				'.$script.'
 			</script>';
 		}
+		
+		
+		
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $js;
 	}
 	
