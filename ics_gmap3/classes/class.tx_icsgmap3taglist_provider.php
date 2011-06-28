@@ -29,14 +29,16 @@
 
 
 class tx_icsgmap3taglist_provider implements tx_icsgmap3_iprovider {
+
+	var $extKey = 'ics_gmap3';
 	
 	function tx_icsgmap3taglist_provider() {
-		$this->uploadsPath = 'uploads/tx_icsgmap3ttaddress/';
+		$this->uploadsPath = 'uploads/tx_icsgmap3/';
 		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:ics_gmap3/flexform_ds.xml'));
 	}
 	
 	function getStaticData($conf) {
-		return $conf;	
+		return null;	
 	}
 	
 	function getDynamicDataUrl($conf) {
@@ -44,7 +46,27 @@ class tx_icsgmap3taglist_provider implements tx_icsgmap3_iprovider {
 	}
 	
 	function getBehaviourInitFunction($conf) {
-		return null;
+		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/js/gmap3_provider_taglist.js', false, '_gmap3_provider_taglist');
+		
+		$jsCode = '';
+		$jsCode .= '
+			function (map) { 
+				var list = new Array();';
+		
+		$tagsList = explode(',', $conf['tagsList']);
+		if (is_array($tagsList) && !empty($tagsList)) {
+			foreach ($tagsList as $tag) {
+				$jsCode .= '
+				list.push(\'' . $tag . '\');';
+			}
+		}
+		
+		$jsCode .= '
+				tx_icsgmap3_taglist(map, list);
+			}
+		';
+		
+		return $jsCode;
 	}
 	
 	function getFlexform($conf) {
@@ -57,7 +79,7 @@ class tx_icsgmap3taglist_provider implements tx_icsgmap3_iprovider {
 	* @param string $script Input the Script Name to insert JS
 	* @return
 	*/
-	/*function incJsFile($script,$jsCode = false, $suffix = '') {
+	function incJsFile($script,$jsCode = false, $suffix = '') {
 		if(!$jsCode)
 			$js = '<script src="'.$script.'" type="text/javascript"><!-- //--></script>';
 		else
@@ -67,7 +89,7 @@ class tx_icsgmap3taglist_provider implements tx_icsgmap3_iprovider {
 			</script>';
 		}
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $js;
-	}*/
+	}
 	
 	/**
 	* Replace an HTML template with data
