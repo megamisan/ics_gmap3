@@ -15,6 +15,9 @@ ics.Map.prototype.setConf = function(gmap3,mapLng,mapLat,mapZoom,mapTypeId,mapTy
 ics.Map.prototype.createMap = function() {
 	this.initGMap_();
 	this.createMarkersStatic_(this.data);
+	this.addBehaviours_(this.func);
+	//var eventFuncList = this.eventFuncList();
+	//alert(eventFuncList);
 };// Créer la carte, appel les méthodes ci-dessous, pas forcément dans l'ordre de déclaration
 
 ics.Map.prototype.initGMap_ = function() {
@@ -42,55 +45,183 @@ ics.Map.prototype.createMarkersStatic_ = function(data) {
 	for (index in data) {
 		markersData.push(data[index]);
 	}
-	//alert('1');
+	
 	jQuery('#' + this.gmap3).gmap3({
 		action: 'addMarkers',
 		markers: markersData,
 		marker: {
-            options:{
-                icon:icsmap.getIcon(data),
-            },
-            events:{
-                mouseover: function(marker, event, data){
-                    var map = jQuery(this).gmap3('get'),
-                        infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
-                    if (infowindow){
-                        infowindow.open(map, marker);
-                        infowindow.setContent(icsmap.createWindowsInfo(data));
-                    } else {
-                        jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: icsmap.createWindowsInfo(data)}});
-                    }
-                },
-                mouseout: function(){
-                    var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
-                    if (infowindow){
-                        infowindow.close();
-                    }
-                }
-            }
+			events:{
+				click:function(marker, event, data){
+					var map = jQuery(this).gmap3('get'),
+						infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
+					if (infowindow){
+						infowindow.open(map, marker);
+						infowindow.setContent(icsmap.createWindowsInfo(data));
+					} else {
+						jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: icsmap.createWindowsInfo(data)}});
+					}
+				},
+				closeclick: function(){
+					var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
+					if (infowindow){
+						infowindow.close();
+					}
+				},
+				mouseover: function(marker, event, data){
+					var map = jQuery(this).gmap3('get'),
+						infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
+					if (infowindow){
+						infowindow.open(map, marker);
+						infowindow.setContent(icsmap.createWindowsInfo(data));
+					} else {
+						jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: icsmap.createWindowsInfo(data)}});
+					}
+				},
+				mouseout: function(){
+					var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
+					if (infowindow){
+						infowindow.close();
+					}
+				}
+			}
 		}
 	});
 }; // Exécution l'action d'ajout des marqueurs, à surcharger si on veux effectuer des actions supplémentaires sur les données des marqueurs.
 
 ics.Map.prototype.createWindowsInfo = function(row) {
 	var content = '';
+	
+	/*content = ics.createElement({
+		'tag': 'p', 
+		'children': 'test'
+	});*/
+	
 	for(var name in row) {
 		if(name != '' && name != 'undefined' && row[name] != 'undefined' && row[name] != '') {
 			content += '<p>' + row[name] + '</p>'; // à modifier DOM
+			//content += row[name];
 		}
 	}
 	return content;
 };
 
-ics.Map.prototype.getIcon = function(row) {
-	//alert(row);
-	//new google.maps.MarkerImage("http://jquery-ui.googlecode.com/svn-history/r3145/branches/labs/assets/theme/images/ui-icons_222222_256x240.png", new google.maps.Size(16, 16), new google.maps.Point((14.5*1), (14.5*10)))
-	return '';
+
+ics.Map.prototype.addBehaviourInit = function (func) {
+	this.func = func;
+}// Ajoute une fonction à appeler au stockage local
+
+
+ics.Map.prototype.addBehaviours_ = function () {
+	this.func(this);
+}// Exécution les méthodes d'initialisation des comportements.
+
+ics.Map.prototype.eventFuncList = function() {
+	//this.eventFunc = ['click', 'closeclick', 'mouseover', 'mouseout'];
+	this.eventFunc = ['click', 'closeclick'];
 }
 
 
+/*ics.Map.prototype.eventFunc = function(event) {
+	return event:ics.Map.prototype.event;
+}
+						for(var event2 in this.eventFunc) {
+							alert(this.eventFunc[event2]);
+						}*/
+
+/*function click(marker, event, data) {
+	var map = jQuery(this).gmap3('get'),
+	infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
+	alert(infowindow);
+	
+	if (infowindow){
+		infowindow.open(map, marker);
+		infowindow.setContent(icsmap.createWindowsInfo(data));
+		//alert('a');
+	} else {
+		jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: icsmap.createWindowsInfo(data)}});
+		//alert(infowindow);
+		//alert('b');
+	}
+}*/
+	
+ics.Map.prototype.closeclick = function(marker, event, data) {
+	alert('closeclick');
+}
+	
+/**
+ * Create html elements from description and returns the created elements.
+ *
+ * @param elementDescriptionList The array of elements to create. See ics.createElement to know the format of one element.
+ * @return The array of created elements.
+ */
+ics.createElements = function(elementDescriptionList) {
+	var elements = new Array();
+	for (var i = 0; i < elementDescriptionList.length; i++)
+	{
+		var element = ics.createElement(elementDescriptionList[i]);
+		if (element != null)
+			elements.push(element);
+	}
+	return elements;
+}
+
+/**
+ * Create an html element from description and return the created element.
+ *
+ * @param elementDescription The object representing the element.
+ * It has these properties:
+ * - tag: The tag of the element, if empty, a textNode is to be created. In this last case, only the property value has a meaning.
+ * - properties: The collection of properties to define in the element.
+ * - children: The array of elementDescription for the element's children.
+ * - value: The value of the textNode.
+ * @return The created element.
+ */
+ics.createElement = function (elementDescription) {
+	var element = null;
+	if (elementDescription.tag == "")
+		element = document.createTextNode(elementDescription.value);
+	else
+	{
+		element = document.createElement(elementDescription.tag);
+		if (element != null)
+		{
+			if (elementDescription.children != null)
+			{
+				var elements = ics.createElements(elementDescription.children);
+				for (var i = 0; i < elements.length; i++)
+					element.appendChild(elements[i]);
+			}
+			if (elementDescription.properties != null)
+			{
+				for (var name in elementDescription.properties)
+					ics.createElement.setProperty(element, name, elementDescription.properties[name]);
+			}
+		}
+	}
+	return element;
+}
+
+/**
+ * Sets an object property to the specified value. Go recursively into values which are objects.
+ *
+ * @param object The object reference.
+ * @param name The property name.
+ * @param value The value to define.
+ */
+ics.createElement.setProperty = function (object, name, value) {
+	if (typeof(value) == 'object')
+	{
+		if (object[name] == null)
+			object[name] = {};
+		object = object[name];
+		for (name in value)
+			ics.createElement.setProperty(object, name, value[name]);
+	}
+	else
+	{
+		object[name] = value;
+	}
+}
+
 //ics.Map.prototype.addDynamicData = function(url) { ... }; // Ajoute une url de données dynamique au stockage local
-//ics.Map.prototype.addBehaviourInit = function(func) { ... }; // Ajoute une fonction à appeler au stockage local
-//ics.Map.prototype.createMarkersStatic_ = function(data) { ... }; // Exécution l'action d'ajout des marqueurs, à surcharger si on veux effectuer des actions supplémentaires sur les données des marqueurs.
 //ics.Map.prototype.createMarkersDynamic_ = function(url) { ... }; // Exécute la requête de données pour l'url indiquée.
-//ics.Map.prototype.addBehaviours_ = function() { ... }; // Exécution les méthodes d'initialisation des comportements.
