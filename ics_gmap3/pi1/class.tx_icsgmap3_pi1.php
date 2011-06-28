@@ -94,7 +94,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 					}
 				}
 				
-				
+				var_dump($provider->type);
 				
 				if($provider->type == 'data') {
 					if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
