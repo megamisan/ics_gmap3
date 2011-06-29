@@ -1,3 +1,4 @@
 page.includeJS {
 	gmap3 = EXT:ics_gmap3/res/js/gmap3.js
+	gmap3_icsCreateElements = EXT:ics_gmap3/res/js/icsCreateElements.js
 }
