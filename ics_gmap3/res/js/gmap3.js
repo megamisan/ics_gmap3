@@ -149,6 +149,81 @@ ics.Map.prototype.closeclick = function(marker, event, data) {
 }
 	
 /**
+ * Get markers to correspond to tags array. If no specified tag, return all markers
+ *
+ * @param tags tags array
+ * @return markers array
+ */
+ics.Map.prototype.getMarkers = function(tags) {
+	var markers = new Array();
+	
+	if (tags != null) {
+		for (var i = 0; i < tags.length; i++) {
+			markersTags = jQuery('#' + this.gmap3).gmap3({
+				action:	'get', 
+				name:	'marker', 
+				tag:	tags[i], 
+				all:	true
+			});
+			jQuery.each(markersTags, function(key, value) {
+				markers.push(value);
+			});
+		}
+	} else {
+		markersTags = jQuery('#' + this.gmap3).gmap3({
+			action:	'get', 
+			name:	'marker',  
+			all:	true
+		});
+		jQuery.each(markersTags, function(key, value) {
+			markers.push(value);
+		});
+	}
+	return markers;
+}
+
+/**
+ * Display Marker
+  *
+ * @param 	marker 	Marker to render visible or not
+ * @param 	visible 	True/false => visible / hide
+ */
+ics.Map.prototype.displayMarker = function(marker, visible) {
+	var map = jQuery('#' + this.gmap3).gmap3('get');
+	if (visible) 
+		marker.setMap(map);
+	else
+		marker.setMap(null);
+}
+
+/**
+ * Display Markers
+  *
+ * @param 	markers 	Markers array
+ * @param 	visible 	True/false => visible / hide
+ */
+ics.Map.prototype.displayMarkers = function(markers, visible) {
+	for (var i = 0; i < markers.length; i++)
+	{
+		this.displayMarker(markers[i], visible);
+	}
+}
+
+/**
+ * Center map depending on visibles markers
+ */
+ics.Map.prototype.centerMap = function(tags) {
+	var map = jQuery('#' + this.gmap3).gmap3('get');
+	var allMarkers = this.getMarkers();
+	bounds = new google.maps.LatLngBounds();
+	jQuery.each(allMarkers, function(key, value) {
+		if(value.getMap()) 
+			bounds.extend(value.getPosition());
+	});
+	map.fitBounds(bounds);
+}
+	
+/**
  * Create html elements from description and returns the created elements.
  *
  * @param elementDescriptionList The array of elements to create. See ics.createElement to know the format of one element.
@@ -196,6 +271,11 @@ ics.createElement = function (elementDescription) {
 				for (var name in elementDescription.properties)
 					ics.createElement.setProperty(element, name, elementDescription.properties[name]);
 			}
+			if (elementDescription.attributes != null)
+			{
+				for (var name in elementDescription.attributes)
+					ics.createElement.setAttributes(element, name, elementDescription.attributes[name]);
+			}
 		}
 	}
 	return element;
@@ -220,6 +300,29 @@ ics.createElement.setProperty = function (object, name, value) {
 	else
 	{
 		object[name] = value;
+	}
+}
+
+/**
+ * Sets an object attribute to the specified value. Go recursively into values which are objects.
+ *
+ * @param object The object reference.
+ * @param name The property name.
+ * @param value The value to define.
+ */
+ics.createElement.setAttributes = function (object, name, value) {
+	if (typeof(value) == 'object')
+	{
+		if (object[name] == null)
+			object[name] = {};
+		object = object[name];
+		for (name in value)
+			ics.createElement.setAttributes(object, name, value[name]);
+	}
+	else
+	{
+		object.setAttribute(name, value);
+		// object.onClick = value; => IE7 ?
 	}
 }
 

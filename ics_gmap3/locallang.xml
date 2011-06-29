@@ -50,6 +50,10 @@
 			<label index="flexform.sheets.general.includeLibJS.gmap3">GMap 3</label>
 			<label index="flexform.sheets.general.includeLibJS.jquery_lib">jQuery lib</label>
 			<label index="provider.tagList">Tags list</label>
+			<label index="provider.tagList.exclusivesTags">Exclusives tags</label>
+			<label index="provider.tagList.hiddenTags">Hidden tags</label>
+			<label index="provider.tagList.defaultTags">Default tags</label>
+			<label index="provider.tagList.defaultMapEmpty">View defaut tags if selected tags are empty</label>
 			<label index="provider.tagList.templateFile">Template file (tags list)</label>
 			<label index="provider.tagList.title">Behaviour provider (tags list)</label>
 		</languageKey>
@@ -98,6 +102,10 @@
 			<label index="flexform.sheets.general.includeLibJS.gmap3">GMap 3</label>
 			<label index="flexform.sheets.general.includeLibJS.jquery_lib">Librairie jQuery </label>
 			<label index="provider.tagList">Liste de tags</label>
+			<label index="provider.tagList.exclusivesTags">Tags exclusifs</label>
+			<label index="provider.tagList.hiddenTags">Tags cachés</label>
+			<label index="provider.tagList.defaultTags">Tags affichés par défaut</label>
+			<label index="provider.tagList.defaultMapEmpty">Afficher les tags par défaut si aucun tag n'est coché</label>
 			<label index="provider.tagList.templateFile">Fichier template (Liste de tags)</label>
 			<label index="provider.tagList.title">Fournisseur de comportement (Liste de tags)</label>
 		</languageKey>

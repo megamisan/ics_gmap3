@@ -51,18 +51,38 @@ class tx_icsgmap3taglist_provider implements tx_icsgmap3_iprovider {
 		$jsCode = '';
 		$jsCode .= '
 			function (map) { 
-				var list = new Array();';
+				var exclusivesTags = new Array();
+				var hiddenTags = new Array();
+				var defaultTags = new Array();';
 		
-		$tagsList = explode(',', $conf['tagsList']);
-		if (is_array($tagsList) && !empty($tagsList)) {
-			foreach ($tagsList as $tag) {
-				$jsCode .= '
-				list.push(\'' . $tag . '\');';
+		$exclusivesTags = explode(',', $conf['exclusivesTags']);
+		if (is_array($exclusivesTags) && !empty($exclusivesTags)) {
+			foreach ($exclusivesTags as $tag) {
+				if ($tag) 
+					$jsCode .= '
+				exclusivesTags.push(\'' . $tag . '\');';
+			}
+		}
+		$hiddenTags = explode(',', $conf['hiddenTags']);
+		if (is_array($hiddenTags) && !empty($hiddenTags)) {
+			foreach ($hiddenTags as $tag) {
+				if ($tag) 
+					$jsCode .= '
+				hiddenTags.push(\'' . $tag . '\');';
+				
+			}
+		}
+		$defaultTags = explode(',', $conf['defaultTags']);
+		if (is_array($defaultTags) && !empty($defaultTags)) {
+			foreach ($defaultTags as $tag) {
+				if ($tag) 
+					$jsCode .= '
+				defaultTags.push(\'' . $tag . '\');';
 			}
 		}
 		
 		$jsCode .= '
-				tx_icsgmap3_taglist(map, list);
+				tx_icsgmap3_taglist(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ');
 			}
 		';
 		

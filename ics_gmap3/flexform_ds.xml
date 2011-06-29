@@ -23,14 +23,43 @@
 			</config>
 		</TCEforms>
 	</templateFile>-->
-	<tagsList>
+	<exclusivesTags>
 		<TCEforms>
-			<label>LLL:EXT:ics_gmap3/locallang.xml:provider.tagList</label>	
+			<label>LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.exclusivesTags</label>	
 			<config>
 				<type>text</type>
 				<cols>50</cols>
 				<rows>30</rows>
 			</config>
 		</TCEforms>
-	</tagsList>
+	</exclusivesTags>
+	<hiddenTags>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.hiddenTags</label>	
+			<config>
+				<type>text</type>
+				<cols>50</cols>
+				<rows>30</rows>
+			</config>
+		</TCEforms>
+	</hiddenTags>
+	<defaultTags>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.defaultTags</label>	
+			<config>
+				<type>text</type>
+				<cols>50</cols>
+				<rows>30</rows>
+			</config>
+		</TCEforms>
+	</defaultTags>
+	<defaultMapEmpty>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.defaultMapEmpty</label>	
+			<config>
+				 <type>check</type>
+                <default>0</default>
+			</config>
+		</TCEforms>
+	</defaultMapEmpty>
 </el>
