@@ -145,6 +145,9 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 	
 	function initTagsListJSon($data, $fields, $table) {
 		if(is_array($data) && count($data)) {
+			// t3lib_div::loadTCA('tx_icsgmap3ttaddress_picto');
+			tslib_fe::includeTCA();
+			$uploadfolder = $GLOBALS['TCA']['tt_address_group']['columns']['tx_icsgmap3ttaddress_picto']['config']['uploadfolder'];
 			$jsCodeData = array();
 			$jsCode = '[' . "\r\n";
 			foreach($data as $cat => $tags) {
@@ -154,7 +157,7 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 						$address['lat'] = $coordinates[0];
 						$address['lng'] = $coordinates[1];
 						$address['tag'] = $row['catName'];
-						$address['icon'] = $row['picto'];
+						$address['icon'] = $row['picto'] ? $uploadfolder. '/' . $row['picto'] : '';
 						/*$address['data'] = array(
 							'name' => $row['name'],
 							'address' => $row['address'],

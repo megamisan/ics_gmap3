@@ -4,11 +4,15 @@
 	
 	ics.Map.prototype.createMarkersStatic_ = function(data) {
 		var tags = new Array();
+		var icons = new Array();
 		for (var index in data) {
-			if (data[index].tag && jQuery.inArray(data[index].tag, tags) < 0)
+			if (data[index].tag && jQuery.inArray(data[index].tag, tags) < 0) {
 				tags.push(data[index].tag);
+				icons[data[index].tag] = data[index].icon;
+			}
 		}
 		this.markersTags = tags;
+		this.iconsTags = icons;
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
 	}
 })();
@@ -53,6 +57,12 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 				'tag': 'li', 
 				'children': [
 					{
+						'tag': 'img',
+						'attributes': { 
+							'src': map.iconsTags[tag]
+						}
+					},
+					{
 						'tag': 'input',
 						'properties': { 
 							'type': 'checkbox', 
@@ -67,7 +77,7 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 							'for': 'tx_icsgmap3_taglist_checkbox' + i
 						},
 						'children': [{ 'tag': '', 'value': tag }]					 
-					}
+					}						
 				]
 			});
 		}
