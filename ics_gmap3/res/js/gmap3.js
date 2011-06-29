@@ -14,6 +14,7 @@ ics.Map.prototype.setConf = function(gmap3,mapLng,mapLat,mapZoom,mapTypeId,mapTy
 
 ics.Map.prototype.createMap = function() {
 	this.initGMap_();
+	this.initMarkerEvents();
 	this.createMarkersStatic_(this.data);
 	this.addBehaviours_(this.func);
 	//var eventFuncList = this.eventFuncList();
@@ -46,6 +47,7 @@ ics.Map.prototype.createMarkersStatic_ = function(data) {
 		markersData.push(data[index]);
 	}
 	
+//	alert(this.markerEvents);
 	jQuery('#' + this.gmap3).gmap3({
 		action: 'addMarkers',
 		markers: markersData,
@@ -87,6 +89,51 @@ ics.Map.prototype.createMarkersStatic_ = function(data) {
 		}
 	});
 }; // Exécution l'action d'ajout des marqueurs, à surcharger si on veux effectuer des actions supplémentaires sur les données des marqueurs.
+
+ics.Map.prototype.initMarkerEvents = function() {
+	markerEvents = new Array();
+	// markerEvents.push(this.markerEventClick);
+	// markerEvents.push(this.markerEventMouseover(marker, event, data));
+	// markerEvents.push(this.markerEventCloseclick(marker, event, data));
+	// markerEvents.push(this.markerEventMouseout(marker, event, data));
+	this.markerEvents = markerEvents;
+};
+
+ics.Map.prototype.markerEventClick = function(marker, event, data) {
+	var map = jQuery('#' + this.gmap3).gmap3('get'),
+		infowindow = jQuery('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	if (infowindow){
+		infowindow.open(map, marker);
+		infowindow.setContent(this.createWindowsInfo(data));
+	} else {
+		jQuery('#' + this.gmap3).gmap3({action:'addinfowindow', anchor:marker, options:{content: this.createWindowsInfo(data)}});
+	}
+};
+
+ics.Map.prototype.markerEventMouseover = function(marker, event, data) {
+	var map = jQuery('#' + this.gmap3).gmap3('get'),
+		infowindow = jQuery('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	if (infowindow){
+		infowindow.open(map, marker);
+		infowindow.setContent(this.createWindowsInfo(data));
+	} else {
+		jQuery('#' + this.gmap3).gmap3({action:'addinfowindow', anchor:marker, options:{content: this.createWindowsInfo(data)}});
+	}
+};
+
+ics.Map.prototype.markerEventCloseclick = function(marker, event, data) {
+	var infowindow = $('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	if (infowindow){
+		infowindow.close();
+	}
+};
+
+ics.Map.prototype.markerEventMouseout = function(marker, event, data) {
+	var infowindow = $('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	if (infowindow){
+		infowindow.close();
+	}
+};
 
 ics.Map.prototype.createWindowsInfo = function(row) {
 	var content = '';
