@@ -13,10 +13,6 @@
 			<label index="flexform.sheets.general.providers">Providers</label>
 			<label index="flexform.sheets.general.startingpoint">Storage page</label>
 			<label index="flexform.sheets.general.mapId">Map id</label>
-			<label index="flexform.sheets.general.displayMarkers">Display markers at the beginning</label>
-			<label index="flexform.sheets.general.displayMarkers.0"></label>
-			<label index="flexform.sheets.general.displayMarkers.1">Show</label>
-			<label index="flexform.sheets.general.displayMarkers.2">Hide</label>
 			<label index="flexform.sheets.general.width">Map width</label>
 			<label index="flexform.sheets.general.height">Map height</label>
 			<label index="flexform.sheets.general.zoom">Map zoom</label>
@@ -65,10 +61,6 @@
 			<label index="flexform.sheets.general.providers">Fournisseurs</label>
 			<label index="flexform.sheets.general.startingpoint">Dossier de stockage</label>
 			<label index="flexform.sheets.general.mapId">Identifiant de la Carte</label>
-			<label index="flexform.sheets.general.displayMarkers">Afficher les marqueurs au démarrage</label>
-			<label index="flexform.sheets.general.displayMarkers.0"></label>
-			<label index="flexform.sheets.general.displayMarkers.1">Afficher</label>
-			<label index="flexform.sheets.general.displayMarkers.2">Cacher</label>
 			<label index="flexform.sheets.general.width">Largeur de la Carte</label>
 			<label index="flexform.sheets.general.height">Hauteur de la Carte</label>
 			<label index="flexform.sheets.general.zoom">Niveau de zoom de la Carte</label>

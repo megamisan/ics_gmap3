@@ -123,7 +123,6 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		
 		$this->storage = $this->lConf['pages'];
 		$this->mapId = $this->lConf['mapId'];
-		$this->displayMarkers = $this->lConf['displayMarkers'] == "show"?true:false;
 		$this->mapWidth = $this->lConf['width'];
 		$this->mapHeight = $this->lConf['height'];
 		$this->mapLng = $this->lConf['lng'];
@@ -210,7 +209,6 @@ jQuery(function(){
 			'###ZOOM###' => $zoom,
 			'###MAP_SCROLLWHEEL###' => $this->scrollwheel,
 			'###MAP_STREETVIEWCONTROL###' => $this->streetViewControl,
-			'###DISPLAY_MARKERS###' => $this->displayMarkers ? 'map' : 'null',
 			'###ID###' => $this->cObj->data['uid'],
 			'###JSON_DATA###' => implode('',$this->data),
 		);

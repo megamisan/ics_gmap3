@@ -222,6 +222,17 @@ ics.Map.prototype.centerMap = function(tags) {
 	});
 	map.fitBounds(bounds);
 }
+/**
+ * Center map depending on default latitude/longitude
+ */
+ics.Map.prototype.centerMapDefault = function() {
+	var map = jQuery('#' + this.gmap3).gmap3('get');
+	
+	var center = new google.maps.LatLng(this.mapLng, this.mapLat);
+	var bounds = new google.maps.LatLngBounds(center);
+	map.fitBounds(bounds);
+	map.setZoom(this.mapZoom);
+}
 	
 /**
  * Create html elements from description and returns the created elements.

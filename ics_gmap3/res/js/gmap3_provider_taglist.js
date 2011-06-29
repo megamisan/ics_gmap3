@@ -100,7 +100,7 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 	map.displayMarkers(markers, true);
 	
 	// CENTER MAP
-	map.centerMap();
+	// map.centerMap();
 	
 	// add click event 
 	jQuery('#' + map.gmap3 + ' + ul.tagList li input').click(function() {
@@ -112,7 +112,7 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 
 function tx_icsgmap3_taglist_clik(element, map) {	
 	var allMarkers = map.getMarkers(map.listTags);
-	
+	var rezise = true;
 	/* 
 		S'il s'agit d'un tag exclusif : 
 			- Il doit être affiché seul
@@ -135,19 +135,27 @@ function tx_icsgmap3_taglist_clik(element, map) {
 	/*
 		Si on décoche une case:
 			- On vérifie qu'il reste encore des cases cochées
-			- Si non et si l'option: map.viewDefaultTags est à true: on affiche les tags par defaut
+			- Si non :
+				- si l'option: map.viewDefaultTags est à true: on affiche les tags par defaut
+				- si l'option: map.viewDefaultTags est à false: on centre la carte sur le point défini en BE
 	*/
-	if (!element.checked && map.viewDefaultTags && !jQuery('#' + map.gmap3 + ' + ul.tagList li input:checked').size()) {
+	if (!element.checked && !jQuery('#' + map.gmap3 + ' + ul.tagList li input:checked').size()) {
 		// remove all markers except default tags (include hidden tags)
 		var markers = map.getMarkers();
 		map.displayMarkers(markers, false);	
-		var markers = map.getMarkers(map.defaultTags);
-		map.displayMarkers(markers, true);
-		// on coche tous les tags par défaut
-		jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
-			if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0)
-				jQuery(this).attr('checked', true);
-		});
+		
+		if (map.viewDefaultTags) {
+			var markers = map.getMarkers(map.defaultTags);
+			map.displayMarkers(markers, true);
+			// on coche tous les tags par défaut
+			jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
+				if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0)
+					jQuery(this).attr('checked', true);
+			});
+		} else {
+			map.centerMapDefault();
+			rezise = false;
+		}
 	}
 	
 	/* 
@@ -165,5 +173,6 @@ function tx_icsgmap3_taglist_clik(element, map) {
 	}
 	
 	// CENTER MAP
-	map.centerMap();
+	if (rezise) 
+		map.centerMap();
 }

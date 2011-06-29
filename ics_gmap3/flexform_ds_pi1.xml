@@ -61,25 +61,6 @@
 							</config>
 				        </TCEforms>
 					</mapId>
-					<displayMarkers>
-				        <TCEforms>
-				         <exclude>1</exclude>
-				         <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.displayMarkers</label>
-							<config>
-								<type>select</type>
-								<items type="array">
-									<numIndex index="0" type="array">
-										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.displayMarkers.1</numIndex>
-										<numIndex index="1">show</numIndex>
-									</numIndex>
-									<numIndex index="1" type="array">
-										<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.displayMarkers.2</numIndex>
-										<numIndex index="1">hide</numIndex>
-									</numIndex>
-								</items>
-							</config>
-				        </TCEforms>
-					</displayMarkers>
 					<width>
                         <TCEforms>
                             <label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.width</label>
