@@ -103,10 +103,10 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 	// map.centerMap();
 	
 	// add click event 
-	jQuery('#' + map.gmap3 + ' + ul.tagList li input').click(function() {
+	// jQuery('#' + map.gmap3 + ' + ul.tagList li input').click(function() {
+	jQuery('ul.tagList li input').click(function() {
 		tx_icsgmap3_taglist_clik(this, map);
 	});
-	
 	return true;
 }
 
@@ -121,7 +121,8 @@ function tx_icsgmap3_taglist_clik(element, map) {
 	if (element.checked && jQuery.inArray(element.value, map.exclusivesTags) >= 0) {
 		map.displayMarkers(allMarkers, false);
 		// on décoche toutes les cases à cocher
-		jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
+		// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
+		jQuery('ul.tagList li input').each(function() {
 			if (jQuery(this).attr('id') != element.id)
 				jQuery(this).attr('checked', false);
 		});
@@ -139,7 +140,8 @@ function tx_icsgmap3_taglist_clik(element, map) {
 				- si l'option: map.viewDefaultTags est à true: on affiche les tags par defaut
 				- si l'option: map.viewDefaultTags est à false: on centre la carte sur le point défini en BE
 	*/
-	if (!element.checked && !jQuery('#' + map.gmap3 + ' + ul.tagList li input:checked').size()) {
+	// if (!element.checked && !jQuery('#' + map.gmap3 + ' + ul.tagList li input:checked').size()) {
+	if (!element.checked && !jQuery('ul.tagList li input:checked').size()) {
 		// remove all markers except default tags (include hidden tags)
 		var markers = map.getMarkers();
 		map.displayMarkers(markers, false);	
@@ -148,7 +150,8 @@ function tx_icsgmap3_taglist_clik(element, map) {
 			var markers = map.getMarkers(map.defaultTags);
 			map.displayMarkers(markers, true);
 			// on coche tous les tags par défaut
-			jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
+			// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
+			jQuery('ul.tagList li input').each(function() {
 				if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0)
 					jQuery(this).attr('checked', true);
 			});
@@ -166,7 +169,8 @@ function tx_icsgmap3_taglist_clik(element, map) {
 		var markers = map.getMarkers(map.exclusivesTags);
 		map.displayMarkers(markers, false);	
 		// on décoche tous les tags exclusifs
-		jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
+		// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
+		jQuery('ul.tagList li input').each(function() {
 			if (jQuery.inArray(jQuery(this).attr('value'), map.exclusivesTags) >= 0)
 				jQuery(this).attr('checked', false);
 		});
