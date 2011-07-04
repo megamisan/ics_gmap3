@@ -79,8 +79,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		}
 		
 		$aProviders = t3lib_div::trimExplode(',',$this->lConf['providers']);
-		
-		if(is_array($aProviders) && count($aProviders)) {
+		if(is_array($aProviders) && count($aProviders) && !empty($aProviders[0])) {
 			foreach($aProviders as $aProvider) {
 
 				$provider = t3lib_div::makeInstance($aProvider);
@@ -111,7 +110,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 				}
 				else {
 					if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
-						$this->behaviourFunc[] = $provider->getBehaviourInitFunction($confProvider);
+						$this->behaviourFunc[] = $provider->getBehaviourInitFunction(array_merge($confProvider,array('prefixId' => $this->prefixId)));
 					}
 				}
 			}
@@ -199,7 +198,7 @@ jQuery(function(){
 		$marker = array(
 			'###MAP_ID###' => $this->mapId,
 			'###MAP_HEIGHT###' => $this->mapHeight,
-			'###MAP_WIDTH###' => !empty($this->mapWidth)?$this->mapWidth:'100%',
+			'###MAP_WIDTH###' => !empty($this->mapWidth)?$this->mapWidth . 'px':'100%',
 			'###MAP_LNG###' => $this->mapLng,
 			'###MAP_LAT###' => $this->mapLat,
 			'###MAP_ZOOM###' => $this->mapZoom,
