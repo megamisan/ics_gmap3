@@ -16,7 +16,9 @@ ics.Map.prototype.createMap = function() {
 	this.initGMap_();
 	this.initMarkerEvents();
 	this.createMarkersStatic_(this.data);
-	this.addBehaviours_(this.func);
+	if(this.func != 'undefined' && this.func != undefined) {
+		this.addBehaviours_(this.func);
+	}
 };// Créer la carte, appel les méthodes ci-dessous, pas forcément dans l'ordre de déclaration
 
 ics.Map.prototype.initGMap_ = function() {
