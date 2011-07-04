@@ -17,8 +17,6 @@ ics.Map.prototype.createMap = function() {
 	this.initMarkerEvents();
 	this.createMarkersStatic_(this.data);
 	this.addBehaviours_(this.func);
-	//var eventFuncList = this.eventFuncList();
-	//alert(eventFuncList);
 };// Créer la carte, appel les méthodes ci-dessous, pas forcément dans l'ordre de déclaration
 
 ics.Map.prototype.initGMap_ = function() {
@@ -47,89 +45,56 @@ ics.Map.prototype.createMarkersStatic_ = function(data) {
 		markersData.push(data[index]);
 	}
 	
-//	alert(this.markerEvents);
 	jQuery('#' + this.gmap3).gmap3({
 		action: 'addMarkers',
 		markers: markersData,
 		marker: {
-			events:{
-				click:function(marker, event, data){
-					var map = jQuery(this).gmap3('get'),
-						infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
-					if (infowindow){
-						infowindow.open(map, marker);
-						infowindow.setContent(icsmap.createWindowsInfo(data));
-					} else {
-						jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: icsmap.createWindowsInfo(data)}});
-					}
-				},
-				closeclick: function(){
-					var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
-					if (infowindow){
-						infowindow.close();
-					}
-				},
-				mouseover: function(marker, event, data){
-					var map = jQuery(this).gmap3('get'),
-						infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
-					if (infowindow){
-						infowindow.open(map, marker);
-						infowindow.setContent(icsmap.createWindowsInfo(data));
-					} else {
-						jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: icsmap.createWindowsInfo(data)}});
-					}
-				},
-				mouseout: function(){
-					var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
-					if (infowindow){
-						infowindow.close();
-					}
-				}
-			}
+			events: this.markerEvents
 		}
 	});
 }; // Exécution l'action d'ajout des marqueurs, à surcharger si on veux effectuer des actions supplémentaires sur les données des marqueurs.
 
 ics.Map.prototype.initMarkerEvents = function() {
 	markerEvents = new Array();
-	// markerEvents.push(this.markerEventClick);
-	// markerEvents.push(this.markerEventMouseover(marker, event, data));
-	// markerEvents.push(this.markerEventCloseclick(marker, event, data));
-	// markerEvents.push(this.markerEventMouseout(marker, event, data));
+	markerEvents['click'] = this.markerEventClick;
+	markerEvents['mouseover'] = this.markerEventMouseover;
+	markerEvents['closeclick'] = this.markerEventCloseclick;
+	markerEvents['mouseout'] = this.markerEventMouseout;
+	
 	this.markerEvents = markerEvents;
 };
 
 ics.Map.prototype.markerEventClick = function(marker, event, data) {
-	var map = jQuery('#' + this.gmap3).gmap3('get'),
-		infowindow = jQuery('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	var map = jQuery(this).gmap3('get'),
+		infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
 	if (infowindow){
 		infowindow.open(map, marker);
-		infowindow.setContent(this.createWindowsInfo(data));
+		infowindow.setContent(ics.Map.prototype.createWindowsInfo(data));
 	} else {
-		jQuery('#' + this.gmap3).gmap3({action:'addinfowindow', anchor:marker, options:{content: this.createWindowsInfo(data)}});
+		jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: ics.Map.prototype.createWindowsInfo(data)}});
 	}
 };
 
 ics.Map.prototype.markerEventMouseover = function(marker, event, data) {
-	var map = jQuery('#' + this.gmap3).gmap3('get'),
-		infowindow = jQuery('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	var map = jQuery(this).gmap3('get'),
+		infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
 	if (infowindow){
 		infowindow.open(map, marker);
-		infowindow.setContent(this.createWindowsInfo(data));
+		infowindow.setContent(ics.Map.prototype.createWindowsInfo(data));
 	} else {
-		jQuery('#' + this.gmap3).gmap3({action:'addinfowindow', anchor:marker, options:{content: this.createWindowsInfo(data)}});
+		jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: ics.Map.prototype.createWindowsInfo(data)}});
 	}
 };
 
 ics.Map.prototype.markerEventCloseclick = function(marker, event, data) {
-	var infowindow = $('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
 	if (infowindow){
 		infowindow.close();
 	}
 };
 
 ics.Map.prototype.markerEventMouseout = function(marker, event, data) {
-	var infowindow = $('#' + this.gmap3).gmap3({action:'get', name:'infowindow'});
+	var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
 	if (infowindow){
 		infowindow.close();
 	}
@@ -137,7 +102,6 @@ ics.Map.prototype.markerEventMouseout = function(marker, event, data) {
 
 ics.Map.prototype.createWindowsInfo = function(row) {
 	var content = '';
-	
 	/*content = ics.createElement({
 		'tag': 'p', 
 		'children': 'test'
@@ -161,39 +125,6 @@ ics.Map.prototype.addBehaviourInit = function (func) {
 ics.Map.prototype.addBehaviours_ = function () {
 	this.func(this);
 }// Exécution les méthodes d'initialisation des comportements.
-
-ics.Map.prototype.eventFuncList = function() {
-	//this.eventFunc = ['click', 'closeclick', 'mouseover', 'mouseout'];
-	this.eventFunc = ['click', 'closeclick'];
-}
-
-
-/*ics.Map.prototype.eventFunc = function(event) {
-	return event:ics.Map.prototype.event;
-}
-						for(var event2 in this.eventFunc) {
-							alert(this.eventFunc[event2]);
-						}*/
-
-/*function click(marker, event, data) {
-	var map = jQuery(this).gmap3('get'),
-	infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
-	alert(infowindow);
-	
-	if (infowindow){
-		infowindow.open(map, marker);
-		infowindow.setContent(icsmap.createWindowsInfo(data));
-		//alert('a');
-	} else {
-		jQuery(this).gmap3({action:'addinfowindow', anchor:marker, options:{content: icsmap.createWindowsInfo(data)}});
-		//alert(infowindow);
-		//alert('b');
-	}
-}*/
-	
-ics.Map.prototype.closeclick = function(marker, event, data) {
-	alert('closeclick');
-}
 	
 /**
  * Get markers to correspond to tags array. If no specified tag, return all markers
