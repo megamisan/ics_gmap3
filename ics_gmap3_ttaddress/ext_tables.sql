@@ -10,5 +10,4 @@ CREATE TABLE tt_address (
 #
 CREATE TABLE tt_address_group (
     tx_icsgmap3ttaddress_picto text,
-    tx_icsgmap3ttaddress_pictothumb text
 );
