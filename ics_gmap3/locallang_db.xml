@@ -7,11 +7,9 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="tt_content.list_type_pi1">Google map (v3)</label>
-			<label index="tt_content.list_type_pi2">TagList</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="tt_content.list_type_pi1">Google map (v3)</label>
-			<label index="tt_content.list_type_pi2">Liste de tags</label>
 		</languageKey>
 	</data>
 </T3locallang>
