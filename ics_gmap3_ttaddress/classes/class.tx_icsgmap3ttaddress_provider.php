@@ -85,7 +85,12 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		
 		
 		$addresses = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-				'address.`uid` as uid, address.`name` as name, address.`tx_icsgmap3ttaddress_coordinates` as coordinates, address.`address` as address, addressgroup.`tx_icsgmap3ttaddress_picto` as picto , addressgroup.`tx_icsgmap3ttaddress_pictothumb` as thumb , addressgroup.`uid` as catid, addressgroup.`title` as catName ' . $fields,
+				'address.`uid` as uid, address.`name` as name,
+				address.`tx_icsgmap3ttaddress_coordinates` as coordinates,
+				address.`address` as address,
+				addressgroup.`tx_icsgmap3ttaddress_picto` as picto,
+				addressgroup.`uid` as catid,
+				addressgroup.`title` as catName ' . $fields,
 				$tables,
 				'1 ' . $whereClause . ' ' . $whereClauseCat,
 				'',
@@ -99,8 +104,6 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		}
 
 		return $this->initTagsListJSon($data, implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true)), 'tt_address');
-		//return $this->renderTagsListJSon($conf,$data);	
-		//return $data;
 	}
 	
 	function getDynamicDataUrl($conf) {
