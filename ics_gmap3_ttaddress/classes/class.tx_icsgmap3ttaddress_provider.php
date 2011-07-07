@@ -34,7 +34,6 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 	
 	function tx_icsgmap3ttaddress_provider() {
 		$this->uploadsPath = 'uploads/tx_icsgmap3ttaddress/';
-		$this->type = 'data';
 		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:ics_gmap3_ttaddress/flexform_ds.xml'));
 	}
 	
