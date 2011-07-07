@@ -93,25 +93,21 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 					}
 				}
 				
-				if($provider->type == 'data') {
-					if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
-						$this->data[] = null;
-						//$this->dataInit[] = $provider->data;
-					}
-					elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_STATIC) {
-						$this->data[] = $provider->getStaticData(array_merge($confProvider,array('prefixId' => $this->prefixId)));
-						//var_dump($this->data);
-						//$this->dataInit[] = $provider->data;
-					}
-					elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_DYNAMIC) {
-						$this->data[] = $provider->getDynamicDataUrl($confProvider);
-						//$this->dataInit[] = $provider->data;
-					}
+				if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
+					$this->data[] = null;
+					//$this->dataInit[] = $provider->data;
 				}
-				else {
-					if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
-						$this->behaviourFunc[] = $provider->getBehaviourInitFunction(array_merge($confProvider,array('prefixId' => $this->prefixId)));
-					}
+				elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_STATIC) {
+					$this->data[] = $provider->getStaticData(array_merge($confProvider,array('prefixId' => $this->prefixId)));
+					//var_dump($this->data);
+					//$this->dataInit[] = $provider->data;
+				}
+				elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_DYNAMIC) {
+					$this->data[] = $provider->getDynamicDataUrl($confProvider);
+					//$this->dataInit[] = $provider->data;
+				}
+				elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
+					$this->behaviourFunc[] = $provider->getBehaviourInitFunction(array_merge($confProvider,array('prefixId' => $this->prefixId)));
 				}
 			}
 		}
