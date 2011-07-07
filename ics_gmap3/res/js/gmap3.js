@@ -103,19 +103,24 @@ ics.Map.prototype.markerEventMouseout = function(marker, event, data) {
 };
 
 ics.Map.prototype.createWindowsInfo = function(row) {
-	var content = '';
-	/*content = ics.createElement({
-		'tag': 'p', 
-		'children': 'test'
-	});*/
+	var content = new Array();
 	
 	for(var name in row) {
 		if(name != '' && name != 'undefined' && row[name] != 'undefined' && row[name] != '') {
-			content += '<p>' + row[name] + '</p>'; // à modifier DOM
-			//content += row[name];
+			content.push({
+				'tag': 'p', 
+				'children': [{ 'tag': '', 'value': row[name] }]
+			});
 		}
 	}
-	return content;
+	
+	return ics.createElement({
+		'tag': 'div', 
+		'properties': {
+			'className': 'infoWindows'
+		},
+		'children': content
+	});
 };
 
 
