@@ -1,4 +1,5 @@
-ics = {}; 
+if (typeof ics != 'object')
+	ics = {};
 ics.Map = function() {};
 ics.Map.prototype.setConf = function(gmap3,mapLng,mapLat,mapZoom,mapTypeId,mapTypeControl,navigationControl,scrollwheel,streetViewControl) {
 	this.gmap3 = gmap3;

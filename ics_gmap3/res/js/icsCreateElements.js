@@ -1,3 +1,5 @@
+if (typeof ics != 'object')
+	ics = {};
 
 /**
  * Create html elements from description and returns the created elements.
