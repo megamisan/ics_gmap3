@@ -28,7 +28,7 @@
  */
 
 
-class tx_icsgmap3taglist_provider implements tx_icsgmap3_iprovider {
+class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 
 	var $extKey = 'ics_gmap3';
 	

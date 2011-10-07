@@ -1,3 +1,11 @@
+2011-10-07 Pierrick Caillon <pierrick@in-cite.net>
+	* Changed IProvider interface filename to begin with interface instead of class.
+	* Changed taglist_provider filename and classname to add an underscore after the extension classname prefix.
+	* Updated autoload and localconf accordingly.
+	* Changed casse of classes folder.
+
+... Missing changes ...
+
 2011-06-16 In Cité Solution  <technique@in-cite.net>
 
 	* initial code generated with kickstarter

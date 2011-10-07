@@ -3,11 +3,11 @@
 // This file was generated on 2011-06-22 10:07
 
 $extensionPath = t3lib_extMgm::extPath('ics_gmap3');
-$extensionClassesPath = t3lib_extMgm::extPath('ics_gmap3') . 'classes/';
+$extensionClassesPath = t3lib_extMgm::extPath('ics_gmap3') . 'Classes/';
 return array(
-	'tx_icsgmap3_iprovider' => $extensionClassesPath . 'class.tx_icsgmap3_iprovider.php',
+	'tx_icsgmap3_iprovider' => $extensionClassesPath . 'interface.tx_icsgmap3_iprovider.php',
 	'tx_icsgmap3_provider_manager' => $extensionClassesPath . 'class.tx_icsgmap3_provider_manager.php',
-	'tx_icsgmap3taglist_provider' => $extensionClassesPath . 'class.tx_icsgmap3taglist_provider.php',
+	'tx_icsgmap3_taglist_provider' => $extensionClassesPath . 'class.tx_icsgmap3_taglist_provider.php',
 	'tx_icsgmap3_dynflex' => $extensionClassesPath . 'helpers/class.tx_icsgmap3_dynflex.php',
 	'tx_icsgmap3_flexform_helper' => $extensionClassesPath . 'helpers/class.tx_icsgmap3_flexform_helper.php',
 	'tx_icsgmap3_pi1' => $extensionPath . 'pi1/class.tx_icsgmap3_pi1.php',
