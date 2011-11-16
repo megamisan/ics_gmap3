@@ -176,7 +176,7 @@ jQuery(function(){
 	gmap3.addStaticData(' . implode('',$this->data) . ');
 	gmap3.addBehaviourInit(' . implode(',',$this->behaviourFunc) . ');
 	gmap3.createMap();
-	
+	document.getElementById("' . $this->mapId . '").map = gmap3;
 });';
 		$this->incJsFile($jsCodeInitData, true, '_carto_init');
 	}
