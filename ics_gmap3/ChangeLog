@@ -1,3 +1,6 @@
+2011-11-30 Loïc Stéphan <loic@in-cite.net>
+	* Fixed bug in constructor name in class.tx_icsgmap3_taglist_provider.php.
+
 2011-10-07 Pierrick Caillon <pierrick@in-cite.net>
 	* Changed IProvider interface filename to begin with interface instead of class.
 	* Changed taglist_provider filename and classname to add an underscore after the extension classname prefix.

@@ -32,7 +32,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 
 	var $extKey = 'ics_gmap3';
 	
-	function tx_icsgmap3taglist_provider() {
+	function __construct() {
 		$this->uploadsPath = 'uploads/tx_icsgmap3/';
 		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:ics_gmap3/flexform_ds.xml'));
 	}
