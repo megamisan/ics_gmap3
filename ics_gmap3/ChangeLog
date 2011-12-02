@@ -1,3 +1,7 @@
+
+2011-12-02 Pierrick Caillon <pierrick@in-cite.net>
+	* Refactoring: Transformed tag list provider's JS functions to an object. (not tested)
+
 2011-12-02 Frederic Goyer <fgoyer@in-cite.net>
 	* Bug: Fixed case of "Classes" folder.
 

@@ -1,3 +1,5 @@
+if (typeof ics != 'object')
+	ics = {};
 // surcharge createMarkersStatic_
 (function() {
 	var oldfuncCreateMarkersStatic_ = ics.Map.prototype.createMarkersStatic_;
@@ -16,13 +18,15 @@
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
 	}
 })();
-
+ics.TagList = function() {};
+ics.TagList.nextId = 0;
 // generate tags list 
-function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags) {
+ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags) {
 	var conteneur = document.getElementById(map.gmap3);
 	if (!conteneur)
 		return false;
-		
+	this.listId = ics.TagList.nextId++;
+	
 	var content = '';
 	var list = new Array();
 	var tags = new Array();
@@ -53,33 +57,7 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 		tag = tags[i];
 		if (tag && jQuery.inArray(tag, map.hiddenTags) < 0) {
 			finalTags.push(tag);
-			list.push({
-				'tag': 'li', 
-				'children': [
-					{
-						'tag': 'img',
-						'attributes': { 
-							'src': map.iconsTags[tag]
-						}
-					},
-					{
-						'tag': 'input',
-						'properties': { 
-							'type': 'checkbox', 
-							'id': 'tx_icsgmap3_taglist_checkbox' + i, 
-							'value':  tag,
-							'checked': (jQuery.inArray(tag, defaultTags) >= 0) ? true : false
-						}
-					},
-					{ 	
-						'tag': 'label', 
-						'attributes': { 
-							'for': 'tx_icsgmap3_taglist_checkbox' + i
-						},
-						'children': [{ 'tag': '', 'value': tag }]					 
-					}						
-				]
-			});
+			list.push(this.makeTagNode_(tag, map.iconsTags[tag], (jQuery.inArray(tag, defaultTags) >= 0) ? true : false, i);
 		}
 	}
 	
@@ -88,7 +66,7 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 	// add tags list after map
 	content = ics.createElement({
 		'tag': 'ul', 
-		'properties': { 'className': 'tagList' },
+		'properties': { 'className': 'tagList tagListNum' + this.listId },
 		'children': list 
 	});
 	conteneur.parentNode.appendChild(content);
@@ -99,18 +77,43 @@ function tx_icsgmap3_taglist (map, exclusivesTags, hiddenTags, defaultTags, view
 	var markers = map.getMarkers(map.defaultTags);
 	map.displayMarkers(markers, true);
 	
-	// CENTER MAP
-	// map.centerMap();
-	
 	// add click event 
-	// jQuery('#' + map.gmap3 + ' + ul.tagList li input').click(function() {
-	jQuery('ul.tagList li input').click(function() {
-		tx_icsgmap3_taglist_clik(this, map);
+	var tagList = this;
+	jQuery('ul.tagListNum' + this.listId + ' li input').click(function() {
+		tagList.click_(this, map);
 	});
 	return true;
 }
-
-function tx_icsgmap3_taglist_clik(element, map) {	
+ics.TagList.prototype.makeTagNode_ = function(tag, icon, checked, index) {
+	return {
+			'tag': 'li', 
+			'children': [
+				{
+					'tag': 'img',
+					'attributes': { 
+						'src': icon
+					}
+				},
+				{
+					'tag': 'input',
+					'properties': { 
+						'type': 'checkbox', 
+						'id': 'tx_icsgmap3_taglist_checkbox' + index, 
+						'value':  tag,
+						'checked': checked
+					}
+				},
+				{ 	
+					'tag': 'label', 
+					'attributes': { 
+						'for': 'tx_icsgmap3_taglist_checkbox' + index
+					},
+					'children': [{ 'tag': '', 'value': tag }]					 
+				}						
+			]
+		};
+};
+ics.TagList.prototype.click_ = function(element, map) {
 	var allMarkers = map.getMarkers(map.listTags);
 	var rezise = true;
 	/* 
@@ -121,8 +124,7 @@ function tx_icsgmap3_taglist_clik(element, map) {
 	if (element.checked && jQuery.inArray(element.value, map.exclusivesTags) >= 0) {
 		map.displayMarkers(allMarkers, false);
 		// on décoche toutes les cases à cocher
-		// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
-		jQuery('ul.tagList li input').each(function() {
+		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
 			if (jQuery(this).attr('id') != element.id)
 				jQuery(this).attr('checked', false);
 		});
@@ -140,8 +142,7 @@ function tx_icsgmap3_taglist_clik(element, map) {
 				- si l'option: map.viewDefaultTags est à true: on affiche les tags par defaut
 				- si l'option: map.viewDefaultTags est à false: on centre la carte sur le point défini en BE
 	*/
-	// if (!element.checked && !jQuery('#' + map.gmap3 + ' + ul.tagList li input:checked').size()) {
-	if (!element.checked && !jQuery('ul.tagList li input:checked').size()) {
+	if (!element.checked && !jQuery('ul.tagListNum' + this.listId + ' li input:checked').size()) {
 		// remove all markers except default tags (include hidden tags)
 		var markers = map.getMarkers();
 		map.displayMarkers(markers, false);	
@@ -150,8 +151,7 @@ function tx_icsgmap3_taglist_clik(element, map) {
 			var markers = map.getMarkers(map.defaultTags);
 			map.displayMarkers(markers, true);
 			// on coche tous les tags par défaut
-			// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
-			jQuery('ul.tagList li input').each(function() {
+			jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
 				if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0)
 					jQuery(this).attr('checked', true);
 			});
@@ -170,7 +170,7 @@ function tx_icsgmap3_taglist_clik(element, map) {
 		map.displayMarkers(markers, false);	
 		// on décoche tous les tags exclusifs
 		// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
-		jQuery('ul.tagList li input').each(function() {
+		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
 			if (jQuery.inArray(jQuery(this).attr('value'), map.exclusivesTags) >= 0)
 				jQuery(this).attr('checked', false);
 		});
@@ -179,4 +179,4 @@ function tx_icsgmap3_taglist_clik(element, map) {
 	// CENTER MAP
 	if (rezise) 
 		map.centerMap();
-}
+};

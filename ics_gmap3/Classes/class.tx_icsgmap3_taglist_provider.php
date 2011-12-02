@@ -34,7 +34,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 	
 	function __construct() {
 		$this->uploadsPath = 'uploads/tx_icsgmap3/';
-		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:ics_gmap3/flexform_ds.xml'));
+		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:' . $this->extKey . '/flexform_ds.xml'));
 	}
 	
 	function getStaticData($conf) {
@@ -46,7 +46,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 	}
 	
 	function getBehaviourInitFunction($conf) {
-		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/js/gmap3_provider_taglist.js', false, '_gmap3_provider_taglist');
+		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_taglist.js', false, '_gmap3_provider_taglist');
 		
 		$jsCode = '';
 		$jsCode .= '
@@ -60,7 +60,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 			foreach ($exclusivesTags as $tag) {
 				if ($tag) 
 					$jsCode .= '
-				exclusivesTags.push(\'' . $tag . '\');';
+				exclusivesTags.push(\'' . addslashes($tag) . '\');';
 			}
 		}
 		$hiddenTags = explode(',', $conf['hiddenTags']);
@@ -68,7 +68,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 			foreach ($hiddenTags as $tag) {
 				if ($tag) 
 					$jsCode .= '
-				hiddenTags.push(\'' . $tag . '\');';
+				hiddenTags.push(\'' . addslashes($tag) . '\');';
 				
 			}
 		}
@@ -77,12 +77,12 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 			foreach ($defaultTags as $tag) {
 				if ($tag) 
 					$jsCode .= '
-				defaultTags.push(\'' . $tag . '\');';
+				defaultTags.push(\'' . addslashes($tag) . '\');';
 			}
 		}
 		
 		$jsCode .= '
-				tx_icsgmap3_taglist(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ');
+				(new ics.TagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ');
 			}
 		';
 		
@@ -99,30 +99,15 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 	* @param string $script Input the Script Name to insert JS
 	* @return
 	*/
-	function incJsFile($script,$jsCode = false, $suffix = '') {
-		if(!$jsCode)
-			$js = '<script src="'.$script.'" type="text/javascript"><!-- //--></script>';
-		else
-		{
+	function incJsFile($script, $jsCode = false, $suffix = '') {
+		if (!$jsCode)
+			$js = '<script src="' . $script . '" type="text/javascript"><!-- //--></script>';
+		else {
 			$js .= '<script type="text/javascript">
-				'.$script.'
+				' . $script . '
 			</script>';
 		}
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $js;
 	}
-	
-	/**
-	* Replace an HTML template with data
-	*
-	* @param	string		path to the html template file
-	* @param	string		zone to substitute
-	* @param	array		marker array
-	* @return	string		html code
-	*/	
-	/*function template2html($values, $subpart) {
-		$mySubpart = $this->cObj->getSubpart($this->template, $subpart);
-		return $this->cObj->substituteMarkerArray($mySubpart, $values);
-	}	*/
-	
 }
 ?>
