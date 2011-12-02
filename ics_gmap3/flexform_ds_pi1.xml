@@ -40,7 +40,7 @@
 							<onChange>reload</onChange>
 							<config>
 								<type>select</type>
-							    <itemsProcFunc>EXT:ics_gmap3/classes/helpers/class.tx_icsgmap3_flexform_helper.php:tx_icsgmap3_flexform_helper->renderProviderList</itemsProcFunc>
+							    <itemsProcFunc>EXT:ics_gmap3/Classes/helpers/class.tx_icsgmap3_flexform_helper.php:tx_icsgmap3_flexform_helper->renderProviderList</itemsProcFunc>
 								<maxitems>100</maxitems>
 								<size>4</size>
 								<multiple>1</multiple>

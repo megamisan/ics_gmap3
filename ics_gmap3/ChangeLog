@@ -1,3 +1,6 @@
+2011-12-02 Frederic Goyer <fgoyer@in-cite.net>
+	* Bug: Fixed case of "Classes" folder.
+
 2011-11-30 Loïc Stéphan <loic@in-cite.net>
 	* Fixed bug in constructor name in class.tx_icsgmap3_taglist_provider.php.
 
