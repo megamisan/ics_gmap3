@@ -57,7 +57,7 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 		tag = tags[i];
 		if (tag && jQuery.inArray(tag, map.hiddenTags) < 0) {
 			finalTags.push(tag);
-			list.push(this.makeTagNode_(tag, map.iconsTags[tag], (jQuery.inArray(tag, defaultTags) >= 0) ? true : false, i);
+			list.push(this.makeTagNode_(tag, map.iconsTags[tag], (jQuery.inArray(tag, defaultTags) >= 0) ? true : false, i));
 		}
 	}
 	
