@@ -29,6 +29,20 @@
 			</config>
 		</TCEforms>
 	</category>
+	<windowsInfoFields>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3_ttaddress/locallang.xml:provider.ttaddress.windowsInfoFields</label>
+			<config>
+				<type>select</type>
+				<itemsProcFunc>EXT:ics_gmap3_ttaddress/classes/helpers/class.tx_icsgmap3_tt_address_flexform_helper.php:tx_icsgmap3ttaddress_flexform_helper->renderFields</itemsProcFunc>
+				<maxitems>100</maxitems>
+				<size>4</size>
+				<multiple>1</multiple>
+				<selectedListStyle>width:250px</selectedListStyle>
+				<itemListStyle>width:250px</itemListStyle>
+			</config>
+		</TCEforms>
+	</windowsInfoFields>
 	<!--<templateFile>
 		<TCEforms>
 			<label>LLL:EXT:ics_gmap3_ttaddress/locallang.xml:provider.ttaddress.templateFile</label>	
