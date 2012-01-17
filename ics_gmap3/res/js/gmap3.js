@@ -11,21 +11,22 @@ ics.Map.prototype.setConf = function(gmap3,mapLng,mapLat,mapZoom,mapTypeId,mapTy
 	this.navigationControl = navigationControl;
 	this.scrollwheel = scrollwheel;
 	this.streetViewControl = streetViewControl;
+	this.behaviours = [];
 }; // ou le faire avec des propriétés.
 
 ics.Map.prototype.createMap = function() {
 	this.initGMap_();
 	this.initMarkerEvents();
 	this.createMarkersStatic_(this.data);
-	if(this.func != 'undefined' && this.func != undefined) {
-		this.addBehaviours_(this.func);
+	if (this.behaviours.length > 0) {
+		this.addBehaviours_();
 	}
 };// Créer la carte, appel les méthodes ci-dessous, pas forcément dans l'ordre de déclaration
 
 ics.Map.prototype.initGMap_ = function() {
 	jQuery('#' + this.gmap3).gmap3({
 		action: 'init',
-		options:{
+		options: {
 			center: [this.mapLng,this.mapLat],
 			zoom: this.mapZoom,
 			mapTypeId: this.mapTypeId,
@@ -126,12 +127,21 @@ ics.Map.prototype.createWindowsInfo = function(row) {
 
 
 ics.Map.prototype.addBehaviourInit = function (func) {
-	this.func = func;
+	if (typeof(func) == 'function') {
+		this.behaviours.push(func);
+	}
 }// Ajoute une fonction à appeler au stockage local
 
 
 ics.Map.prototype.addBehaviours_ = function () {
-	this.func(this);
+	for (var i = 0; i < this.behaviours.length; i++) {
+		try {
+			this.behaviours[i](this);
+		}
+		catch (e) {
+		}
+	}
+	this.behaviours = [];
 }// Exécution les méthodes d'initialisation des comportements.
 	
 /**
