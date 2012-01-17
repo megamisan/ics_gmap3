@@ -33,6 +33,7 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	this.separator = separator;
 	this.checkOnParent = checkOnParent;
 	this.hiera = {};
+	this.iconHiera = {};
 	
 	var content = '';
 	var list = new Array();
@@ -64,12 +65,22 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 		if (tag && jQuery.inArray(tag, map.hiddenTags) < 0)
 			finalTags.push(tag);
 		
+		// this.iconHiera[cat] = map.iconsTags[tags[i]];
+		 
 		this.parseCat(this.hiera, tags[i], separator);
+		
+		var cat = '';
+		var ls = tag.split(separator);
+		while (ls.length) {
+			var cat = ls.shift();
+		}
+		this.iconHiera[cat] = map.iconsTags[tag];
 	}
-	
+		
 	for (var cat in this.hiera) {
-		if(jQuery.inArray(cat, map.hiddenTags) < 0)
-			list.push(this.makeTagNode_(cat, map.iconsTags[cat], (jQuery.inArray(cat, map.defaultTags) >= 0) ? true : false, '', this.hiera[cat]));
+		if(jQuery.inArray(cat, map.hiddenTags) < 0) {
+			list.push(this.makeTagNode_(cat, (jQuery.inArray(cat, map.defaultTags) >= 0) ? true : false, '', this.hiera[cat]));
+		}
 	}
 		
 	map.listTags = finalTags;		// Array Visible tags
@@ -128,7 +139,7 @@ ics.HierarchicalTagList.prototype.makeTreeNode_ = function(tag, icon, checked, p
 	var list = [];
 	for (var child in children) {
 		if(jQuery.inArray(child, this.map.hiddenTags) < 0)
-			list.push(this.makeTagNode_(child, icon, (jQuery.inArray(tag, this.map.defaultTags) >= 0) ? true : false, path, children[child]));
+			list.push(this.makeTagNode_(child, (jQuery.inArray(tag, this.map.defaultTags) >= 0) ? true : false, path, children[child]));
 	}
 	
 	return {
@@ -138,8 +149,9 @@ ics.HierarchicalTagList.prototype.makeTreeNode_ = function(tag, icon, checked, p
 }
 ics.HierarchicalTagList.prototype.makeTreeNode_.nextId = 0;
 
-ics.HierarchicalTagList.prototype.makeTagNode_ = function(tag, icon, checked, path, children) {
+ics.HierarchicalTagList.prototype.makeTagNode_ = function(tag, checked, path, children) {
 	var index = arguments.callee.nextId++;
+	var icon = this.iconHiera[tag];
 	var curPath = path.length ? path + this.separator + tag : tag
 	var node = {
 			'tag': 'li', 
