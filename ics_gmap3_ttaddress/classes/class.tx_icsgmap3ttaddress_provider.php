@@ -38,6 +38,7 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 	}
 	
 	function getStaticData($conf) {
+		$this->delimiter = $conf['separator'];
 		$fields = '';
 		$whereClauseCat = array();
 		$tables = '`tt_address` address, `tt_address_group` addressgroup, `tt_address_group_mm` rel';
@@ -81,16 +82,19 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		if(!empty($conf['windowsInfoFields'])) {
 			 $fields = ',' . implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true));
 		}
-		
-		
+				
 		$addresses = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 				'address.`uid` as uid, address.`name` as name,
 				address.`tx_icsgmap3ttaddress_coordinates` as coordinates,
 				address.`address` as address,
 				addressgroup.`tx_icsgmap3ttaddress_picto` as picto,
-				addressgroup.`uid` as catid,
-				addressgroup.`title` as catName ' . $fields,
-				$tables,
+				addressgroup.`uid` as catId,
+				addressgroup.`title` as catName,
+				parentgroup.`uid` as catParent,
+				parentgroup.`title` as catParentName ' . $fields,
+				'(' . $tables . ') LEFT OUTER JOIN `tt_address_group` parentgroup ON
+					addressgroup.`parent_group` = parentgroup.`uid` 
+					AND parentgroup.`deleted` = 0 AND parentgroup.`hidden` = 0',
 				'1 ' . $whereClause . ' ' . $whereClauseCat,
 				'',
 				'addressgroup.`uid`'
@@ -98,11 +102,11 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		
 		if(is_array($addresses) && count($addresses)) {
 			foreach($addresses as $addresse) {
-				$data[$addresse['catid']][] = $addresse;
+				$data[$addresse['catId']][] = $addresse;
 			}
 		}
 
-		return $this->initTagsListJSon($data, implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true)), 'tt_address');
+		return $this->initTagsListJSon($data, implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true)), 'tt_address', $conf['withPath']);
 	}
 	
 	function getDynamicDataUrl($conf) {
@@ -145,7 +149,53 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		return $content;
 	}*/
 	
-	function initTagsListJSon($data, $fields, $table) {
+	private function checkPicto($row) {
+		$picto = $row['picto'];
+		if (empty($row['picto'])) {
+			$picto = $this->getParentPicto($row);
+		}
+		return $picto;
+	}
+	
+	private function getParentPicto($row) {
+		$parent = strtok($row['catParent'], ',');
+		$picto = '';
+		if (!empty($this->categories[$parent]['picto'])) {
+			$picto = $this->categories[$parent]['picto'];
+		}else{
+			if(!empty($this->categories[$parent]['catParent'])) {
+				$picto = $this->getParentPicto($this->categories[$parent]);
+			}
+		}
+		return $picto;
+	}
+	
+	function resolvPath($id, $name, $parent) {
+		if (empty($parent))
+			return $name;
+		$path = $name;
+		$parent = strtok($parent, ',');
+		if (!isset($this->categories[$parent])) {		
+			$select ='`tt_address_group`.`title` as catName,
+				`tt_address_group`.`uid` as catId,
+				`tt_address_group`.`parent_group` as catParent,
+				`tt_address_group`.`tx_icsgmap3ttaddress_picto` as picto';
+			$from = '`tt_address_group`';
+			$where = '`tt_address_group`.uid IN (' . $parent . ')';
+			$tmp = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($select,$from,$where);
+			if (!empty($tmp))
+				$this->categories[$parent] = $tmp[0];
+			else
+				$this->categories[$parent] = false;
+		}
+		if (!empty($this->categories[$parent])) {
+			$path = $this->categories[$parent]['catName'] . $this->delimiter . $path;
+			$path = $this->resolvPath($this->categories[$parent]['catId'], $path, $this->categories[$parent]['catParent']);
+		}
+		return $path;
+	}
+	
+	function initTagsListJSon($data, $fields, $table, $path) {
 		if(is_array($data) && count($data)) {
 			// t3lib_div::loadTCA('tx_icsgmap3ttaddress_picto');
 			tslib_fe::includeTCA();
@@ -158,7 +208,8 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 						$coordinates = t3lib_div::trimExplode(',',$row['coordinates'],true);
 						$address['lat'] = $coordinates[0];
 						$address['lng'] = $coordinates[1];
-						$address['tag'] = $row['catName'];
+						$address['tag'] = $path ? $this->resolvPath($row['catId'], $row['catName'], $row['catParent']) : $row['catName'];
+						$row['picto'] = $this->checkPicto($row);
 						$address['icon'] = $row['picto'] ? $uploadfolder. '/' . $row['picto'] : '';
 						/*$address['data'] = array(
 							'name' => $row['name'],

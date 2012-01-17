@@ -10,12 +10,16 @@
 			<label index="provider.ttaddress.storagePid">Storage Pid</label>
 			<label index="provider.ttaddress.category">Category</label>
 			<label index="provider.ttaddress.templateFile">Template file</label>
+			<label index="provider.ttaddress.separator">Separator</label>
+			<label index="provider.ttaddress.withPath">Parent path</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="provider.ttaddress">Fournisseur de données tt_address</label>
 			<label index="provider.ttaddress.storagePid">Dossier de stockage</label>
 			<label index="provider.ttaddress.category">Catégorie</label>
 			<label index="provider.ttaddress.templateFile">Fichier template</label>
+			<label index="provider.ttaddress.separator">Séparateur</label>
+			<label index="provider.ttaddress.withPath">Chemin parent</label>
 		</languageKey>
 	</data>
 </T3locallang>
