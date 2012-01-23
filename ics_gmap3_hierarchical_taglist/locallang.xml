@@ -9,11 +9,17 @@
 			<label index="provider.tagList">Hierarchic tags list</label>
 			<label index="provider.tagList.checkOnParent">Parent category with checkbox?</label>
 			<label index="provider.tagList.separator">Separator</label>
+			<label index="provider.tagList.viewLinkSelectAll">View select and unselect links</label>
+			<label index="selectTags">Select</label>
+			<label index="unselectTags">Unselect</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="provider.tagList">Liste de tags hiérarchique</label>
 			<label index="provider.tagList.checkOnParent">Des checkbox pour les parents?</label>
 			<label index="provider.tagList.separator">Séparateur</label>
+			<label index="provider.tagList.viewLinkSelectAll">Afficher les liens "Sélectionner" et "Désectionner" ?</label>
+			<label index="selectTags">Sélectionner</label>
+			<label index="unselectTags">Déselectionner</label>
 		</languageKey>
 	</data>
 </T3locallang>

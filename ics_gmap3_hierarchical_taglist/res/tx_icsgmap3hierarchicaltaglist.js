@@ -24,7 +24,7 @@ if (typeof ics != 'object')
 ics.HierarchicalTagList = function() {};
 ics.HierarchicalTagList.nextId = 0;
 // generate tags list 
-ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags, separator, checkOnParent) {
+ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags, separator, checkOnParent, viewLinkSelectAll, lang) {
 	var conteneur = document.getElementById(map.gmap3);
 	if (!conteneur)
 		return false;
@@ -32,6 +32,8 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	this.listId = ics.HierarchicalTagList.nextId++;
 	this.separator = separator;
 	this.checkOnParent = checkOnParent;
+	this.viewLinkSelectAll = viewLinkSelectAll;
+	this.lang = lang;
 	this.hiera = {};
 	this.iconHiera = {};
 	
@@ -114,6 +116,21 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	jQuery('ul.tagListNum' + this.listId + ' li').click(function() {
 		tagList.clickTab_(this, map);
 	});
+	// Select / unselect
+	jQuery('ul.tagListNum' + this.listId + ' li.all a.select').click(function() {
+		jQuery(this).parent('li').parent('ul').children('li').children('input').each(function() {
+			jQuery(this).attr('checked', true);
+			tagList.click_(this, map);
+		});
+		return false;
+	});
+	jQuery('ul.tagListNum' + this.listId + ' li.all a.unselect').click(function() {
+		jQuery(this).parent('li').parent('ul').children('li').children('input').each(function() {
+			jQuery(this).attr('checked', false);
+			tagList.click_(this, map);
+		});
+		return false;
+	});
 	return true;
 }
 
@@ -137,9 +154,38 @@ ics.HierarchicalTagList.prototype.parseCat = function(obj, tag, sep) {
 
 ics.HierarchicalTagList.prototype.makeTreeNode_ = function(tag, icon, checked, path, children, index) {
 	var list = [];
+	var hasChild = false;
 	for (var child in children) {
-		if(jQuery.inArray(child, this.map.hiddenTags) < 0)
+		if(jQuery.inArray(child, this.map.hiddenTags) < 0) {
+			hasChild = true;
 			list.push(this.makeTagNode_(child, (jQuery.inArray(tag, this.map.defaultTags) >= 0) ? true : false, path, children[child]));
+		}
+	}
+	
+	if (this.viewLinkSelectAll && hasChild) {
+		var oldList = list;
+		list = [];
+		list.push({
+			'tag': 'li',
+			'properties': { 'className': 'all'},
+			'children': [
+				{
+					'tag': 'a',
+					'properties': {'href': '#', 'className': 'select'},
+					'children': [{'tag': '', 'value': this.lang['select']}]
+				}, 
+				{
+					'tag': '',
+					'value': '/'
+				},
+				{
+					'tag': 'a',
+					'properties': {'href': '#', 'className': 'unselect'},
+					'children': [{'tag': '', 'value': this.lang['unselect']}]
+				}
+			]
+		});
+		list = list.concat(oldList);
 	}
 	
 	return {
@@ -219,12 +265,12 @@ ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 	var rezise = true;
 	/* 
 		S'il s'agit d'un tag exclusif : 
-			- Il doit être affiché seul
+			- Il doit Ãªtre affichÃ© seul
 			- On cache tous les autres markers
 	*/	
 	if (element.checked && jQuery.inArray(element.value, map.exclusivesTags) >= 0) {
 		map.displayMarkers(allMarkers, false);
-		// on décoche toutes les cases à cocher
+		// on dÃ©coche toutes les cases Ã  cocher
 		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
 			if (jQuery(this).attr('id') != element.id)
 				jQuery(this).attr('checked', false);
@@ -244,7 +290,7 @@ ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 	if (jQuery.inArray(element.value, map.exclusivesTags) < 0) {
 		var markers = map.getMarkers(map.exclusivesTags);
 		map.displayMarkers(markers, false);	
-		// on décoche tous les tags exclusifs
+		// on dÃ©coche tous les tags exclusifs
 		// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
 		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
 			if (jQuery.inArray(jQuery(this).attr('value'), map.exclusivesTags) >= 0)
@@ -252,26 +298,32 @@ ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 		});
 	}
 	/*
-		Si on décoche une case:
-			- On vérifie qu'il reste encore des cases cochées
+		Si on dÃ©coche une case:
+			- On vÃ©rifie qu'il reste encore des cases cochÃ©es
 			- Si non :
-				- si l'option: map.viewDefaultTags est à true: on affiche les tags par defaut
-				- si l'option: map.viewDefaultTags est à false: on centre la carte sur le point défini en BE
+				- si l'option: map.viewDefaultTags est Ã  true: on affiche les tags par defaut
+				- si l'option: map.viewDefaultTags est Ã  false: on centre la carte sur le point dÃ©fini en BE
 	*/
 	if (!element.checked && !jQuery('ul.tagListNum' + this.listId + ' li input:checked').size()) {
 		// remove all markers except default tags (include hidden tags)
 		var markers = map.getMarkers();
 		map.displayMarkers(markers, false);	
 		
+		var defaultChecked = false;
+			
 		if (map.viewDefaultTags) {
 			var markers = map.getMarkers(map.defaultTags);
 			map.displayMarkers(markers, true);
-			// on coche tous les tags par défaut
+			// on coche tous les tags par dÃ©faut
 			jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-				if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0)
+				if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0) {
 					jQuery(this).attr('checked', true);
+					defaultChecked = true;
+				}
 			});
-		} else {
+			
+		} 
+		if (!defaultChecked) {
 			map.centerMapDefault();
 			rezise = false;
 		}

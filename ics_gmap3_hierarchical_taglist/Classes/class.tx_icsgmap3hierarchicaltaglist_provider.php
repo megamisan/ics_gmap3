@@ -53,7 +53,11 @@ class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 			function (map) { 
 				var exclusivesTags = new Array();
 				var hiddenTags = new Array();
-				var defaultTags = new Array();';
+				var defaultTags = new Array();
+				var lang = new Array();
+				
+				lang[\'select\'] = \'' . $GLOBALS['TSFE']->sL('LLL:EXT:ics_gmap3_hierarchical_taglist/locallang.xml:selectTags') . '\';
+				lang[\'unselect\'] = \'' . $GLOBALS['TSFE']->sL('LLL:EXT:ics_gmap3_hierarchical_taglist/locallang.xml:unselectTags') . '\';';
 		
 		$exclusivesTags = explode(',', $conf['exclusivesTags']);
 		if (is_array($exclusivesTags) && !empty($exclusivesTags)) {
@@ -82,7 +86,7 @@ class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 		}
 		
 		$jsCode .= '
-				(new ics.HierarchicalTagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ', "' . $conf['separator'] . '", ' . $conf['checkOnParent'] . ');
+				(new ics.HierarchicalTagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ', "' . $conf['separator'] . '", ' . $conf['checkOnParent'] . ', ' . $conf['viewLinkSelectAll'] . ', lang);
 			}
 		';
 		
