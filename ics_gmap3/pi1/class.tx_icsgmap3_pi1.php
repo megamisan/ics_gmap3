@@ -80,33 +80,32 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		
 		$aProviders = t3lib_div::trimExplode(',',$this->lConf['providers']);
 		if(is_array($aProviders) && count($aProviders) && !empty($aProviders[0])) {
-			foreach($aProviders as $aProvider) {
+			foreach($aProviders as $sProvider) {
 
-				$provider = t3lib_div::makeInstance($aProvider);
+				$provider = t3lib_div::makeInstance($sProvider);
 				$subscribers = tx_icsgmap3_provider_manager::getSubscribers();
 
-				if(!empty($piFlexForm['data'][$aProvider])) {
-					foreach ($piFlexForm['data'][$aProvider] as $lang => $value) {
+				if(!empty($piFlexForm['data'][$sProvider])) {
+					foreach ($piFlexForm['data'][$sProvider] as $lang => $value) {
 						foreach ($value as $key => $val) {
-							$confProvider[$key] = $this->pi_getFFvalue($piFlexForm, $key, $aProvider);
+							$confProvider[$key] = $this->pi_getFFvalue($piFlexForm, $key, $sProvider);
 						}
 					}
 				}
 				
-				if($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
+				if($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
 					$this->data[] = null;
 					//$this->dataInit[] = $provider->data;
 				}
-				elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_STATIC) {
+				elseif($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_STATIC) {
 					$this->data[] = $provider->getStaticData(array_merge($confProvider,array('prefixId' => $this->prefixId)));
-					//var_dump($this->data);
 					//$this->dataInit[] = $provider->data;
 				}
-				elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::DATA_DYNAMIC) {
+				elseif($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_DYNAMIC) {
 					$this->data[] = $provider->getDynamicDataUrl($confProvider);
 					//$this->dataInit[] = $provider->data;
 				}
-				elseif($subscribers[$aProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
+				elseif($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
 					$this->behaviourFunc[] = $provider->getBehaviourInitFunction(array_merge($confProvider,array('prefixId' => $this->prefixId)));
 				}
 			}
@@ -173,8 +172,12 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 jQuery(function(){
 	var gmap3 = new ics.Map();
 	gmap3.setConf("' . $this->mapId . '",' . $this->mapLng . ',' . $this->mapLat . ',' . $this->mapZoom . ',' . $this->mapTypeId . ',' . $this->mapTypeControl . ',' . $this->navigationControl . ',' . $this->scrollwheel . ',' . $this->streetViewControl . ');
-	gmap3.addStaticData(' . implode('',$this->data) . ');
-	gmap3.addBehaviourInit(' . implode(',',$this->behaviourFunc) . ');
+	gmap3.addStaticData(' . implode('',$this->data) . ');';
+	foreach($this->behaviourFunc as $bFunc) {
+		$jsCodeInitData .= '
+	gmap3.addBehaviourInit(' . $bFunc . ');';
+	}
+		$jsCodeInitData .= '
 	gmap3.createMap();
 	document.getElementById("' . $this->mapId . '").map = gmap3;
 });';
