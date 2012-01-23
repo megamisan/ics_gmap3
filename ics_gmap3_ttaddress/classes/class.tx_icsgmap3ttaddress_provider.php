@@ -57,7 +57,11 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 				parentgroup.`title` as catParentName';
 		
 		if(!empty($conf['windowsInfoFields'])) {
-			$query['SELECT'] .= ',' . implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true));
+			$windowsInfoFields = t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true);
+			$windowsInfoFields = array_map(
+				create_function('$field', 'return \'address.\' . $field;'), 
+				$windowsInfoFields);
+			$query['SELECT'] .= ',' . implode(',', $windowsInfoFields);
 		}
 		
 		$query['FROM'] = '(`tt_address` address, 
