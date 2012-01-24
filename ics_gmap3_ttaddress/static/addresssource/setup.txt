@@ -1,3 +1,14 @@
 page.includeJS {
 	gmap3_ttaddress_createMarker= EXT:ics_gmap3_ttaddress/res/createMarker.js
 }
+
+plugin.tx_icsgmap3ttaddress {
+	tooltip {
+		image = IMG_RESSOURCE
+		image {
+			file {
+				maxW = 240
+			}
+		}
+	}
+}

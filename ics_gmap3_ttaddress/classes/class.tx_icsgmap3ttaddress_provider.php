@@ -32,10 +32,12 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 	
 	var $extKey = 'ics_gmap3_ttaddress';
 	var $data = array();
+	var $conf = array();
 	
 	function tx_icsgmap3ttaddress_provider() {
 		$this->uploadsPath = 'uploads/tx_icsgmap3ttaddress/';
 		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:ics_gmap3_ttaddress/flexform_ds.xml'));
+		$this->conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_icsgmap3ttaddress.'];
 	}
 	
 	function makeQuery($conf) {
@@ -55,30 +57,52 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 				addressgroup.`title` as catName,
 				parentgroup.`uid` as catParent,
 				parentgroup.`title` as catParentName';
-		
-		if(!empty($conf['windowsInfoFields'])) {
-			$windowsInfoFields = t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true);
-			$windowsInfoFields = array_map(
-				create_function('$field', 'return \'address.\' . $field;'), 
-				$windowsInfoFields);
-			$query['SELECT'] .= ',' . implode(',', $windowsInfoFields);
-		}
-		
-		$query['FROM'] = '(`tt_address` address, 
-			`tt_address_group` addressgroup, 
-			`tt_address_group_mm` rel
+				
+		$query['FROM'] = '(`tt_address` address
+			INNER JOIN `tt_address_group_mm` rel
+				ON address.`uid` = rel.`uid_local`
+			INNER JOIN `tt_address_group` addressgroup
+				ON addressgroup.`uid` = rel.`uid_foreign`
+				AND addressgroup.`deleted` = 0
+				AND addressgroup.`hidden` = 0
 			) LEFT OUTER JOIN `tt_address_group` parentgroup 
 				ON addressgroup.`parent_group` = parentgroup.`uid` 
 				AND parentgroup.`deleted` = 0 
 				AND parentgroup.`hidden` = 0';
-					
+		
 		$whereClause = array();
-		$whereClause[] = 'addressgroup.`uid` = rel.`uid_foreign`';
-		$whereClause[] = 'address.`uid` = rel.`uid_local`';
 		$whereClause[] = 'address.`deleted` = 0';
 		$whereClause[] = 'address.`hidden` = 0';
-		$whereClause[] = 'addressgroup.`deleted` = 0';
-		$whereClause[] = 'addressgroup.`hidden` = 0';
+		
+		if(!empty($conf['windowsInfoFields'])) {
+			$windowsInfoFields = t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true);
+			
+			if (in_array('tx_damttaddress_dam_image', $windowsInfoFields)) {
+				$query['FROM'] = '(
+					(' . $query['FROM'] . ')
+					LEFT OUTER JOIN `tx_dam_mm_ref`
+						ON `tx_dam_mm_ref`.`uid_foreign` = address.`uid`
+						AND `tx_dam_mm_ref`.`tablenames` = \'tt_address\'
+						AND `tx_dam_mm_ref`.`ident` = \'tx_damttaddress_dam_image\'
+					) LEFT OUTER JOIN `tx_dam`
+						ON `tx_dam`.`uid` = `tx_dam_mm_ref`.`uid_local`
+						AND `tx_dam`.`file_mime_type` = \'image\'
+						AND `tx_dam`.`deleted` = 0
+						AND `tx_dam`.`hidden` = 0';
+						
+				$query['SELECT'] .= ',
+					`tx_dam`.`file_path` as image_path,
+					`tx_dam`.`file_name` as image_name
+				';
+			}
+			
+			$windowsInfoFields = array_map(
+				create_function('$field', 'return \'address.`\' . $field . \'`\';'), 
+				$windowsInfoFields);
+			$query['SELECT'] .= ',' . implode(',', $windowsInfoFields);
+		}
+							
+		
 						
 		if(!empty($conf['storagePid'])) {
 			$aStorage = t3lib_div::trimExplode(',',$conf['storagePid'],true);
@@ -229,6 +253,8 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 			// t3lib_div::loadTCA('tx_icsgmap3ttaddress_picto');
 			tslib_fe::includeTCA();
 			$uploadfolder = $GLOBALS['TCA']['tt_address_group']['columns']['tx_icsgmap3ttaddress_picto']['config']['uploadfolder'];
+			$imgTS = $this->conf['tooltip.']['image.'];
+			$cObj = t3lib_div::makeInstance('tslib_cObj');
 			$jsCodeData = array();
 			$jsCode = '[' . "\r\n";
 			foreach($data as $cat => $tags) {
@@ -254,6 +280,15 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 							else {
 								$address['data'][$windowsInfoFields] = '';
 							}
+						}
+						$address['data']['tx_damttaddress_dam_image'] = '';
+						if (in_array('tx_damttaddress_dam_image', $aFields) && $row['image_path']) {
+							$imgTS['file'] = $row['image_path'] . $row['image_name'];
+							$image = $cObj->IMG_RESOURCE( $imgTS );
+							if ($image) 
+								$address['data']['tx_damttaddress_dam_image'] = $image;
+							else
+								$address['data']['tx_damttaddress_dam_image'] = $imgTS['file'];
 						}
 						
 						$jsCodeData[] = json_encode($address);
