@@ -6,11 +6,15 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="tt_address.tx_icsgmap3ttaddress_coordinates">Coordinates</label>
+			<label index="tt_address.tx_icsgmap3ttaddress_coord">Coordinates</label>
+			<label index="tt_address.tx_icsgmap3ttaddress_lat">Latitude</label>
+			<label index="tt_address.tx_icsgmap3ttaddress_lng">Longitude</label>
             <label index="tt_address_group.tx_icsgmap3ttaddress_picto">Picto</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
-			<label index="tt_address.tx_icsgmap3ttaddress_coordinates">Coordonnées</label>
+			<label index="tt_address.tx_icsgmap3ttaddress_coord">Coordonnées</label>
+			<label index="tt_address.tx_icsgmap3ttaddress_lat">Latitude</label>
+			<label index="tt_address.tx_icsgmap3ttaddress_lng">Longitude</label>
             <label index="tt_address_group.tx_icsgmap3ttaddress_picto">Picto</label>
 		</languageKey>
 	</data>

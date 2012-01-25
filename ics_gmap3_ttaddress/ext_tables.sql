@@ -2,7 +2,8 @@
 # Table structure for table 'tt_address'
 #
 CREATE TABLE tt_address (
-	tx_icsgmap3ttaddress_coordinates tinytext
+	tx_icsgmap3ttaddress_lat decimal(10,8),
+	tx_icsgmap3ttaddress_lng decimal(12,9) 
 );
 
 #

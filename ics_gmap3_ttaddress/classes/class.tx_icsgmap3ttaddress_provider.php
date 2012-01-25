@@ -50,7 +50,8 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 			'LIMIT' => '',
 		);
 		$query['SELECT'] = 'address.`uid` as uid, address.`name` as name,
-				address.`tx_icsgmap3ttaddress_coordinates` as coordinates,
+				address.`tx_icsgmap3ttaddress_lat` as lat,
+				address.`tx_icsgmap3ttaddress_lng` as lng,
 				address.`address` as address,
 				addressgroup.`tx_icsgmap3ttaddress_picto` as picto,
 				addressgroup.`uid` as catId,
@@ -259,10 +260,11 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 			$jsCode = '[' . "\r\n";
 			foreach($data as $cat => $tags) {
 				foreach($tags as $row) {
-					if(!empty($row['coordinates'])) {
-						$coordinates = t3lib_div::trimExplode(',',$row['coordinates'],true);
-						$address['lat'] = $coordinates[0];
-						$address['lng'] = $coordinates[1];
+					if($row['lat'] && $row['lng']
+						&& $row['lng'] != '0.000000000'
+						&& $row['lat'] != '0.00000000') {
+						$address['lat'] = $row['lat'];
+						$address['lng'] = $row['lng'];
 						$address['tag'] = $path ? $this->resolvPath($row['catId'], $row['catName'], $row['catParent']) : $row['catName'];
 						$row['picto'] = $this->checkPicto($row);
 						$address['icon'] = $row['picto'] ? $uploadfolder. '/' . $row['picto'] : '';
