@@ -22,8 +22,8 @@ ics.TagList = function() {};
 ics.TagList.nextId = 0;
 // generate tags list 
 ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags) {
-	var conteneur = document.getElementById(map.gmap3);
-	if (!conteneur)
+	var container = document.getElementById(map.gmap3);
+	if (!container)
 		return false;
 	this.listId = ics.TagList.nextId++;
 	
@@ -69,7 +69,7 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 		'properties': { 'className': 'tagList tagListNum' + this.listId },
 		'children': list 
 	});
-	conteneur.parentNode.appendChild(content);
+	this.addToContainer(container, content);
 	
 	// remove all markers except default tags (include hidden tags)
 	var markers = map.getMarkers();
@@ -83,7 +83,12 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 		tagList.click_(this, map);
 	});
 	return true;
-}
+};
+
+ics.TagList.prototype.addToContainer = function(container, content) {
+	container.parentNode.appendChild(content);
+};
+
 ics.TagList.prototype.makeTagNode_ = function(tag, icon, checked, index) {
 	return {
 			'tag': 'li', 

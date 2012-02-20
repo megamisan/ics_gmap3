@@ -27,7 +27,7 @@ class tx_icsgmap3_dynflex {
 							//$classNameSubcriber = t3lib_div::trimExplode('|',$classe);
 							if(strpos($providerClassName[0],$classe) !== false) {
 								$providerObj = new $classe();
-								$flexform = $providerObj->getFlexform();
+								$flexform = $providerObj->getFlexform($providerObj->conf);
 								
 								$flex.= '
 <' . $classe . '>

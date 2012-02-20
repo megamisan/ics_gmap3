@@ -74,10 +74,13 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		$piFlexForm = $this->cObj->data['pi_flexform'];
 		foreach ($piFlexForm['data']['sDEF'] as $lang => $value) {
 			foreach ($value as $key => $val) {
-				$this->lConf[$key] = $this->pi_getFFvalue($piFlexForm, $key, 'sDEF');
+				if(!is_null($this->pi_getFFvalue($piFlexForm, $key, 'sDEF')) && $this->pi_getFFvalue($piFlexForm, $key, 'sDEF') != '') {
+					$this->lConf[$key] = $this->pi_getFFvalue($piFlexForm, $key, 'sDEF');
+				}
 			}
 		}
 		
+		$this->lConf = array_merge($this->conf, $this->lConf);
 		$aProviders = t3lib_div::trimExplode(',',$this->lConf['providers']);
 		if(is_array($aProviders) && count($aProviders) && !empty($aProviders[0])) {
 			foreach($aProviders as $sProvider) {
@@ -93,6 +96,8 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 					}
 				}
 				
+				if (is_array($provider->conf) && !empty($provider->conf))
+					$confProvider = array_merge($provider->conf, $confProvider);
 				if($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
 					$this->data[] = null;
 					//$this->dataInit[] = $provider->data;

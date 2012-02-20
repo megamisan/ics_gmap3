@@ -12,7 +12,5 @@ return array(
 	'tx_icsgmap3_flexform_helper' => $extensionClassesPath . 'helpers/class.tx_icsgmap3_flexform_helper.php',
 	'tx_icsgmap3_pi1' => $extensionPath . 'pi1/class.tx_icsgmap3_pi1.php',
 	'tx_icsgmap3_pi1_wizicon' => $extensionPath . 'pi1/class.tx_icsgmap3_pi1_wizicon.php',
-	'tx_icsgmap3_pi2' => $extensionPath . 'pi2/class.tx_icsgmap3_pi2.php',
-	'tx_icsgmap3_pi2_wizicon' => $extensionPath . 'pi2/class.tx_icsgmap3_pi2_wizicon.php',
 );
 ?>
