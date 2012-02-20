@@ -11,4 +11,10 @@ plugin.tx_icsgmap3ttaddress {
 			}
 		}
 	}
+	
+	storagePid = {$plugin.tx_icsgmap3ttaddress.storagePid}
+	category = {$plugin.tx_icsgmap3ttaddress.category}
+	windowsInfoFields = {$plugin.tx_icsgmap3ttaddress.windowsInfoFields}
+	separator = {$plugin.tx_icsgmap3ttaddress.separator}
+	withPath = {$plugin.tx_icsgmap3ttaddress.withPath}
 }
