@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'ics_gmap3_hierarchical_taglist'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="provider.dataList">Data List</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="provider.dataList">Liste des données</label>
+		</languageKey>
+	</data>
+</T3locallang>
