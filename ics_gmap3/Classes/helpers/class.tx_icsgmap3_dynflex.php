@@ -2,7 +2,7 @@
 
 class tx_icsgmap3_dynflex {
 
-	function getSingleField_preProcess($table, $field, & $row, $altName, $palette, $extra, $pal, &$tce)
+	function getSingleField_preProcess($table, $field, array &$row, $altName, $palette, $extra, $pal, t3lib_TCEforms $tce)
 	{
 		if (($table != 'tt_content') || ($field != 'pi_flexform') || ($row['CType'] != 'list') || ($row['list_type'] != 'ics_gmap3_pi1'))
 			return;
@@ -20,26 +20,24 @@ class tx_icsgmap3_dynflex {
 			$aProviders = t3lib_div::trimExplode(',',$flexData['data']['sDEF']['lDEF']['providers']['vDEF']);
 			if(is_array($aProviders) && count($aProviders)) {
 				foreach($aProviders as $aProvider) {
-					//$provider = t3lib_div::trimExplode('|',$aProvider);
 					if(!empty($aProvider)) {
 						$providerClassName = t3lib_div::trimExplode('%23',$aProvider); //%23 = séparateur #
-						foreach($classes as $classe) {
-							//$classNameSubcriber = t3lib_div::trimExplode('|',$classe);
-							if(strpos($providerClassName[0],$classe) !== false) {
-								$providerObj = new $classe();
+						foreach($classes as $class) {
+							if(strpos($providerClassName[0],$class) !== false) {
+								$providerObj = new $class();
 								$flexform = $providerObj->getFlexform($providerObj->conf);
 								
 								$flex.= '
-<' . $classe . '>
+<' . $class . '>
 	<ROOT>
 		<TCEforms>
-			<sheetTitle>' . $subscribers[$classe]['name'] . '</sheetTitle>
+			<sheetTitle>' . $subscribers[$class]['name'] . '</sheetTitle>
 		</TCEforms>
 		<type>array</type>';
 								$flex .= $flexform;
 								$flex .= '
 	</ROOT>
-</' . $classe . '>';
+</' . $class . '>';
 							}
 						}
 					}
@@ -47,6 +45,10 @@ class tx_icsgmap3_dynflex {
 			}
 			$conf['config']['ds']['ics_gmap3_pi1,list'] = str_replace('<!-- ###ADDITIONAL FLEX DATA PROVIDER### -->', $flex, file_get_contents(t3lib_div::getFileAbsFileName('EXT:ics_gmap3/flexform_ds_pi1.xml')));
 		}
+	}
+	
+	function emptyControl() {
+		return '';
 	}
 }
 

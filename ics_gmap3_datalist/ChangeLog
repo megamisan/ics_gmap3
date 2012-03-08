@@ -1,3 +1,6 @@
+2012-03-08 Pierrick Caillon <pierrick@in-cite.net>
+	* Bug fix: No ROOT element in an added flexform sheet.
+
 2012-01-17 In Cite Solution  <technique@in-cite.net>
 
 	* initial code generated with kickstarter

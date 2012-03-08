@@ -34,7 +34,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 	
 	function __construct() {
 		$this->uploadsPath = 'uploads/tx_icsgmap3/';
-		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:' . $this->extKey . '/flexform_ds.xml'));
+		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:' . $this->extKey . '/flexform_ds_taglist.xml'));
 	}
 	
 	function getStaticData($conf) {

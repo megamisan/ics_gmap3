@@ -18,7 +18,6 @@ t3lib_extMgm::addPlugin(array(
 $TCA["tt_content"]["types"]["list"]["subtypes_addlist"][$_EXTKEY."_pi1"]="pi_flexform";
 t3lib_extMgm::addPiFlexFormValue($_EXTKEY.'_pi1', 'FILE:EXT:'.$_EXTKEY.'/flexform_ds_pi1.xml');
 
-//$TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'EXT:'.$_EXTKEY.'/Classes/helpers/class.tx_icsgmap3_dynflex.php:&tx_icsgmap3_dynflex';
 $TYPO3_CONF_VARS['SC_OPTIONS']['t3lib/class.t3lib_tceforms.php']['getSingleFieldClass'][] = 'tx_icsgmap3_dynflex';
 
 if (TYPO3_MODE == 'BE') {

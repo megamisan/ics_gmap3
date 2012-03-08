@@ -1,3 +1,6 @@
+2012-03-08 Pierrick Caillon <pierrick@in-cite.net>
+	* Bug fix: No ROOT element in an added flexform sheet.
+
 2012-02-20 Emilie Sagniez <emilie@in-cite.net>
 	* Add Typoscript Configuration
 	* Merge TS Configuration with Flexform Configuration
