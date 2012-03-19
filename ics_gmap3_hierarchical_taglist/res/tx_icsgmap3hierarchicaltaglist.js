@@ -15,8 +15,9 @@ if (typeof ics != 'object')
 				icons[data[index].tag] = data[index].icon;
 			}
 		}
-		this.markersTags = tags;
-		this.iconsTags = icons;
+		this.htl = {};
+		this.htl.markersTags = tags;
+		this.htl.iconsTags = icons;
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
 	}
 })();
@@ -41,14 +42,14 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	var list = new Array();
 	var tags = new Array();
 	var finalTags = new Array();
-	if (map.markersTags)
-		tags = map.markersTags;
+	if (map.htl.markersTags)
+		tags = map.htl.markersTags;
 	
 	// save tags list
-	map.exclusivesTags = exclusivesTags; 	// Array Exclusives tags
-	map.hiddenTags = hiddenTags;			// Array Hidden tags
-	map.defaultTags = defaultTags;			// Array Default tags
-	map.viewDefaultTags = viewDefaultTags;	// Boolean View default tags if selected tags are empty
+	this.exclusivesTags = exclusivesTags; 	// Array Exclusives tags
+	this.hiddenTags = hiddenTags;			// Array Hidden tags
+	this.defaultTags = defaultTags;			// Array Default tags
+	this.viewDefaultTags = viewDefaultTags;	// Boolean View default tags if selected tags are empty
 	
 	// add exclusivesTags to tags list
 	for (var i = 0; i < exclusivesTags.length; i++)
@@ -64,10 +65,10 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	// create item list for each tag
 	for (var i = 0; i < tags.length; i++) {
 		tag = tags[i];
-		if (tag && jQuery.inArray(tag, map.hiddenTags) < 0)
+		if (tag && jQuery.inArray(tag, hiddenTags) < 0)
 			finalTags.push(tag);
 		
-		// this.iconHiera[cat] = map.iconsTags[tags[i]];
+		// this.iconHiera[cat] = map.htl.iconsTags[tags[i]];
 		 
 		this.parseCat(this.hiera, tags[i], separator);
 		
@@ -76,12 +77,12 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 		while (ls.length) {
 			var cat = ls.shift();
 		}
-		this.iconHiera[cat] = map.iconsTags[tag];
+		this.iconHiera[cat] = map.htl.iconsTags[tag];
 	}
 		
 	for (var cat in this.hiera) {
-		if(jQuery.inArray(cat, map.hiddenTags) < 0) {
-			list.push(this.makeTagNode_(cat, (jQuery.inArray(cat, map.defaultTags) >= 0) ? true : false, '', this.hiera[cat]));
+		if(jQuery.inArray(cat, hiddenTags) < 0) {
+			list.push(this.makeTagNode_(cat, (jQuery.inArray(cat, defaultTags) >= 0) ? true : false, '', this.hiera[cat]));
 		}
 	}
 		
@@ -104,7 +105,7 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	// remove all markers except default tags (include hidden tags)
 	var markers = map.getMarkers();
 	map.displayMarkers(markers, false);	
-	var markers = map.getMarkers(map.defaultTags);
+	var markers = map.getMarkers(defaultTags);
 	map.displayMarkers(markers, true);
 	
 	// add click event 
@@ -156,9 +157,9 @@ ics.HierarchicalTagList.prototype.makeTreeNode_ = function(tag, icon, checked, p
 	var list = [];
 	var hasChild = false;
 	for (var child in children) {
-		if(jQuery.inArray(child, this.map.hiddenTags) < 0) {
+		if(jQuery.inArray(child, this..hiddenTags) < 0) {
 			hasChild = true;
-			list.push(this.makeTagNode_(child, (jQuery.inArray(tag, this.map.defaultTags) >= 0) ? true : false, path, children[child]));
+			list.push(this.makeTagNode_(child, (jQuery.inArray(tag, this.defaultTags) >= 0) ? true : false, path, children[child]));
 		}
 	}
 	
@@ -268,7 +269,7 @@ ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 			- Il doit être affiché seul
 			- On cache tous les autres markers
 	*/	
-	if (element.checked && jQuery.inArray(element.value, map.exclusivesTags) >= 0) {
+	if (element.checked && jQuery.inArray(element.value, this.exclusivesTags) >= 0) {
 		map.displayMarkers(allMarkers, false);
 		// on décoche toutes les cases à cocher
 		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
@@ -287,13 +288,13 @@ ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 		Au clic d'un tag autre qu'un tag exclusif: 
 			- On efface les tags exclusifs
 	*/
-	if (jQuery.inArray(element.value, map.exclusivesTags) < 0) {
-		var markers = map.getMarkers(map.exclusivesTags);
+	if (jQuery.inArray(element.value, this.exclusivesTags) < 0) {
+		var markers = map.getMarkers(this.exclusivesTags);
 		map.displayMarkers(markers, false);	
 		// on décoche tous les tags exclusifs
 		// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
 		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-			if (jQuery.inArray(jQuery(this).attr('value'), map.exclusivesTags) >= 0)
+			if (jQuery.inArray(jQuery(this).attr('value'), this.exclusivesTags) >= 0)
 				jQuery(this).attr('checked', false);
 		});
 	}
@@ -301,8 +302,8 @@ ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 		Si on décoche une case:
 			- On vérifie qu'il reste encore des cases cochées
 			- Si non :
-				- si l'option: map.viewDefaultTags est à true: on affiche les tags par defaut
-				- si l'option: map.viewDefaultTags est à false: on centre la carte sur le point défini en BE
+				- si l'option: this.viewDefaultTags est à true: on affiche les tags par defaut
+				- si l'option: this.viewDefaultTags est à false: on centre la carte sur le point défini en BE
 	*/
 	if (!element.checked && !jQuery('ul.tagListNum' + this.listId + ' li input:checked').size()) {
 		// remove all markers except default tags (include hidden tags)
@@ -311,12 +312,12 @@ ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 		
 		var defaultChecked = false;
 			
-		if (map.viewDefaultTags) {
-			var markers = map.getMarkers(map.defaultTags);
+		if (this.viewDefaultTags) {
+			var markers = map.getMarkers(this.defaultTags);
 			map.displayMarkers(markers, true);
 			// on coche tous les tags par défaut
 			jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-				if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0) {
+				if (jQuery.inArray(jQuery(this).attr('value'), this.defaultTags) >= 0) {
 					jQuery(this).attr('checked', true);
 					defaultChecked = true;
 				}
