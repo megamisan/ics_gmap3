@@ -258,6 +258,7 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 			$cObj = t3lib_div::makeInstance('tslib_cObj');
 			$jsCodeData = array();
 			$jsCode = '[' . "\r\n";
+			$aFields = t3lib_div::trimExplode(',',$fields);
 			foreach($data as $cat => $tags) {
 				foreach($tags as $row) {
 					if($row['lat'] && $row['lng']
@@ -274,7 +275,6 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 						);*/
 						
 						// à continuer
-						$aFields = t3lib_div::trimExplode(',',$fields);
 						foreach($aFields as $windowsInfoFields) {
 							if(!is_null($row[$windowsInfoFields])) {
 								$address['data'][$windowsInfoFields] = $row[$windowsInfoFields];

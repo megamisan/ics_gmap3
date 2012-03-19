@@ -44,19 +44,28 @@ ics.Map.prototype.addStaticData = function(data) {
 
 ics.Map.prototype.createMarkersStatic_ = function(data) {
 	var icsmap = this;
-	var markersData = new Array();
-	for (index in data) {
-		markersData.push(data[index]);
-	}
-	
-	jQuery('#' + this.gmap3).gmap3({
-		action: 'addMarkers',
-		markers: markersData,
-		marker: {
-			events: this.markerEvents
-		}
+	var gmap3 = jQuery('#' + this.gmap3);
+	jQuery.each(data, function(index, point) {
+		gmap3.gmap3({
+			action: 'addMarkers',
+			markers: [point],
+			marker: {
+				events: this.markerEvents
+			},
+			callback: function(markers) {
+				icsmap.createMarkerCallback_(markers[0], point);
+			}
+		});
 	});
 }; // Exécution l'action d'ajout des marqueurs, à surcharger si on veux effectuer des actions supplémentaires sur les données des marqueurs.
+
+ics.Map.prototype.createMarkerCallback_ = function(marker, data) {
+	if (data.data.recId == null) {
+		data.data.recId = 'rec:' + (++arguments.callee.counter);
+	}
+	marker.recId = data.data.recId;
+}; // Rappel de l'action d'ajout des marqueurs, à surcharger si on veux effectuer des actions supplémentaires sur les marqueurs créés.
+ics.Map.prototype.createMarkerCallback_.counter = 0;
 
 ics.Map.prototype.initMarkerEvents = function() {
 	markerEvents = new Array();

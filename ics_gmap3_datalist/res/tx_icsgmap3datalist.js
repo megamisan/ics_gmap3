@@ -4,27 +4,10 @@ if (typeof ics != 'object')
 (function() {
 	var oldfuncCreateMarkersStatic_ = ics.Map.prototype.createMarkersStatic_;
 	ics.Map.prototype.createMarkersStatic_ = function(data) {
-		var icsmap = this;
-		var tagData = new Array();
-		var markerData = new Array();
-		
 		for (var index in data) {
-			tagData[index] = data[index].tag;
-			markerData[index] = data[index];
-		}
-		
-		for (var index in tagData) {
-			jQuery('#' + this.gmap3).gmap3({
-				action: 'addMarkers',
-				markers: [markerData[index]],
-				marker: {
-		             options:{
-						icon: (markerData[index].icon ? new google.maps.MarkerImage(markerData[index].icon) : ''),
-						title: markerData[index].data.name
-					},
-		            events: this.markerEvents
-				}
-			});
+			if (data[index].options == null)
+				data[index].options = {};
+			data[index].options.title = data[index].data.name;
 		}
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
 	}
@@ -41,10 +24,39 @@ ics.DataList.prototype.init = function(map) {
 		return false;
 	this.map = map;
 	this.listId = ics.DataList.nextId++;
-	var content = '';
+	var dataList = this;
 	var list = [];
+	var content = [];
 	
-	list.push({
+	list.push(this.makeHeadRow_());
+	content.push(this.makeHead_(list));
+	list = [];
+	jQuery.each(map.data, function (index, row) {
+		list.push(dataList.makeDataRow_(row));
+	});
+	content.push(this.makeBody_(list));
+	content = ics.createElement(this.makeAllWrap_(content));
+	conteneur.parentNode.appendChild(content);
+	return true;
+};
+
+ics.DataList.prototype.makeAllWrap_ = function(content) {
+	return {
+		'tag': 'table',
+		'properties': {'className': 'datalist datalist' + this.listId},
+		'children': content
+	};
+};
+
+ics.DataList.prototype.makeHead_ = function(headRows) {
+	return {
+		'tag': 'thead',
+		'children': headRows
+	};
+};
+
+ics.DataList.prototype.makeHeadRow_ = function() {
+	return {
 		'tag': 'tr',
 		'children': [
 			{
@@ -68,82 +80,68 @@ ics.DataList.prototype.init = function(map) {
 				'children': [{ 'tag': '', 'value': 'Situer' }]
 			}
 		]
-	});
-	//On affiche les données dans sheetContainer en fonction de ce qui est coché
-	for(var index in map.data) {
-		data = map.data[index].data;
-
-		list.push({
-			'tag': 'tr',
-			'children': [
-				{
-					'tag': 'td',
-					'children': [{ 'tag': '', 'value': data.name }]
-				},
-				{
-					'tag': 'td',
-					'children': [{ 'tag': '', 'value': data.address }]
-				},
-				{
-					'tag': 'td',
-					'children': [{ 'tag': '', 'value': data.zip }]
-				},
-				{
-					'tag': 'td',
-					'children': [{ 'tag': '', 'value': data.city }]
-				},
-				{
-					'tag': 'td',
-					'children': [
-						{ 
-							'tag': 'a',
-							'properties': { 
-								'href': '#',
-								'className': 'locate'
-							},
-							'children': [
-								{
-									'tag': '', 
-									'value': 'Situer'
-								},
-								{
-									'tag': 'span',
-									'properties': { 
-										'className': 'tag hide'
-									},
-									'children': [{ 'tag': '', 'value': map.data[index].tag }]
-								},
-								{
-									'tag': 'span',
-									'properties': { 
-										'className': 'title hide'
-									},
-									'children': [{ 'tag': '', 'value': data.name }]
-								}
-							]
-						}
-					]
-				}
-			]
-		});
-	}
-	// add tags list after map	
-	content = ics.createElement({
-		'tag': 'table',
-		'properties': {'className': 'datalist datalist' + this.listId},
-		'children': list
-	});
-	conteneur.parentNode.appendChild(content);
-	
-	var dataList = this;
-	jQuery('table.datalist td a.locate').click(function() {
-		dataList.locate(jQuery(this).children('span.tag').html(), jQuery(this).children('span.title').html());
-		return false;
-	});	
-	
-	return true;
+	};
 };
-ics.DataList.prototype.locate = function(tag, title) {
+
+ics.DataList.prototype.makeBody_ = function(bodyRows) {
+	return {
+		'tag': 'tbody',
+		'children': bodyRows
+	};
+};
+
+ics.DataList.prototype.createLocateClickEvent_ = function(data) {
+	var dataList = this;
+	return function() {
+		dataList.locate(data.tag, data.data.recId);
+		return false;
+	};
+};
+
+ics.DataList.prototype.makeDataRow_ = function(data) {
+	return {
+		'tag': 'tr',
+		'children': [
+			{
+				'tag': 'td',
+				'children': [{ 'tag': '', 'value': data.data.name }]
+			},
+			{
+				'tag': 'td',
+				'children': [{ 'tag': '', 'value': data.data.address }]
+			},
+			{
+				'tag': 'td',
+				'children': [{ 'tag': '', 'value': data.data.zip }]
+			},
+			{
+				'tag': 'td',
+				'children': [{ 'tag': '', 'value': data.data.city }]
+			},
+			{
+				'tag': 'td',
+				'children': [
+					{ 
+						'tag': 'a',
+						'properties': { 
+							'href': '#',
+							'className': 'locate',
+							'onclick': this.createLocateClickEvent_(data)
+						},
+						'children': [
+							{
+								'tag': '', 
+								'value': 'Situer'
+							}
+						]
+					}
+				]
+			}
+		]
+	};
+};
+
+ics.DataList.prototype.locate = function(tag, recId) {
 	var allMarkers = this.map.getMarkers();
 	this.map.displayMarkers(allMarkers, false);
 	jQuery('div.tx-icsgmap3-pi1 ul.tagList input').attr('checked', false);
@@ -151,8 +149,8 @@ ics.DataList.prototype.locate = function(tag, title) {
 	var markers = this.map.getMarkers([tag]);
 	var marker = [];
 
-	for(var index in markers) {
-		if (markers[index].getTitle() == title) {
+	for (var index in markers) {
+		if (markers[index].recId == recId) {
 			marker.push(markers[index]);
 			break;
 		}
