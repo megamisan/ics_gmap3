@@ -1,3 +1,13 @@
+2012-03-20 Emilie Sagniez <emilie@in-cite.net>
+	* Change to version 1.0.0
+
+2012-03-20 Emilie Sagniez <emilie@in-cite.net>
+	* Add Provider taglist hook (flexform additionnal fields) and xclass declaration 
+	* Dynamic flex class: replace new $ class by makeInstance (for xclass implementation)
+	* gmap3.js: correct centerMapDefault function
+	* Change TagList variables names in conflict with hierarchical tag list, and correct rezise to resize
+	* Exploded TagList viewDefaultsTags and hideExclusivesTags functions 
+
 2012-03-08 Pierrick Caillon <pierrick@in-cite.net>
 	* Bug fix: No ROOT element in an added flexform sheet.
 
