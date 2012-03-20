@@ -1,0 +1,20 @@
+page.includeJS {
+	gmap3_ttaddress_createMarker= EXT:ics_gmap3_ttaddress/res/createMarker.js
+}
+
+plugin.tx_icsgmap3ttaddress {
+	tooltip {
+		image = IMG_RESSOURCE
+		image {
+			file {
+				maxW = 240
+			}
+		}
+	}
+	
+	storagePid = {$plugin.tx_icsgmap3ttaddress.storagePid}
+	category = {$plugin.tx_icsgmap3ttaddress.category}
+	windowsInfoFields = {$plugin.tx_icsgmap3ttaddress.windowsInfoFields}
+	separator = {$plugin.tx_icsgmap3ttaddress.separator}
+	withPath = {$plugin.tx_icsgmap3ttaddress.withPath}
+}
