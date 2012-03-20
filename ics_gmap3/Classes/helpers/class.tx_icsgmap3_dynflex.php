@@ -24,7 +24,7 @@ class tx_icsgmap3_dynflex {
 						$providerClassName = t3lib_div::trimExplode('%23',$aProvider); //%23 = séparateur #
 						foreach($classes as $class) {
 							if(strpos($providerClassName[0],$class) !== false) {
-								$providerObj = new $class();
+								$providerObj = t3lib_div::makeInstance($class);
 								$flexform = $providerObj->getFlexform($providerObj->conf);
 								
 								$flex.= '

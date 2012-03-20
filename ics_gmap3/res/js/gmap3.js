@@ -233,9 +233,8 @@ ics.Map.prototype.centerMap = function(tags) {
 ics.Map.prototype.centerMapDefault = function() {
 	var map = jQuery('#' + this.gmap3).gmap3('get');
 	
-	var center = new google.maps.LatLng(this.mapLng, this.mapLat);
-	var bounds = new google.maps.LatLngBounds(center);
-	map.fitBounds(bounds);
+	var center = new google.maps.LatLng(this.mapLat, this.mapLng);
+	map.setCenter(center);
 	map.setZoom(this.mapZoom);
 }
 	

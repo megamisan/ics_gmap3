@@ -13,8 +13,10 @@ if (typeof ics != 'object')
 				icons[data[index].tag] = data[index].icon;
 			}
 		}
-		this.markersTags = tags;
-		this.iconsTags = icons;
+		
+		this.tl = {};
+		this.tl.markersTags = tags;
+		this.tl.iconsTags = icons;
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
 	}
 })();
@@ -31,14 +33,14 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 	var list = new Array();
 	var tags = new Array();
 	var finalTags = new Array();
-	if (map.markersTags)
-		tags = map.markersTags;
+	if (map.tl.markersTags)
+		tags = map.tl.markersTags;
 	
 	// save tags list
-	map.exclusivesTags = exclusivesTags; 	// Array Exclusives tags
-	map.hiddenTags = hiddenTags;			// Array Hidden tags
-	map.defaultTags = defaultTags;			// Array Default tags
-	map.viewDefaultTags = viewDefaultTags;	// Boolean View default tags if selected tags are empty
+	this.exclusivesTags = exclusivesTags; 	// Array Exclusives tags
+	this.hiddenTags = hiddenTags;			// Array Hidden tags
+	this.defaultTags = defaultTags;			// Array Default tags
+	this.viewDefaultTags = viewDefaultTags;	// Boolean View default tags if selected tags are empty
 	
 	// add exclusivesTags to tags list
 	for (var i = 0; i < exclusivesTags.length; i++)
@@ -55,9 +57,9 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 	for (var i = 0; i < tags.length; i++)
 	{
 		tag = tags[i];
-		if (tag && jQuery.inArray(tag, map.hiddenTags) < 0) {
+		if (tag && jQuery.inArray(tag, this.hiddenTags) < 0) {
 			finalTags.push(tag);
-			list.push(this.makeTagNode_(tag, map.iconsTags[tag], (jQuery.inArray(tag, defaultTags) >= 0) ? true : false, i));
+			list.push(this.makeTagNode_(tag, map.tl.iconsTags[tag], (jQuery.inArray(tag, defaultTags) >= 0) ? true : false, i));
 		}
 	}
 	
@@ -72,10 +74,10 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 	this.addToContainer(container, content);
 	
 	// remove all markers except default tags (include hidden tags)
-	var markers = map.getMarkers();
-	map.displayMarkers(markers, false);	
-	var markers = map.getMarkers(map.defaultTags);
-	map.displayMarkers(markers, true);
+	if (this.defaultTags.length) 
+		this.viewDefaultsTags(map, true);
+	else
+		this.viewDefaultsTags(map, false);
 	
 	// add click event 
 	var tagList = this;
@@ -85,6 +87,36 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 	return true;
 };
 
+ics.TagList.prototype.viewDefaultsTags = function(map, forceDefautTags) {
+	var markers = map.getMarkers();
+	map.displayMarkers(markers, false);	
+			
+	if (forceDefautTags || this.viewDefaultTags) {
+		var markers = map.getMarkers(this.defaultTags);
+		map.displayMarkers(markers, true);
+		map.centerMap();
+	} else {
+		map.centerMapDefault();
+	}
+	
+	// on coche tous les tags par défaut
+	jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
+		if (jQuery.inArray(jQuery(this).attr('value'), this.defaultTags) >= 0)
+			jQuery(this).attr('checked', true);
+	});
+};
+
+ics.TagList.prototype.hideExclusivesTags = function(map) {
+	var markers = map.getMarkers(this.exclusivesTags);
+	map.displayMarkers(markers, false);	
+	// on décoche tous les tags exclusifs
+	var exclusivesTags = this.exclusivesTags;
+	jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
+		if (jQuery.inArray(jQuery(this).attr('value'), exclusivesTags) >= 0)
+			jQuery(this).attr('checked', false);
+	});
+};
+	
 ics.TagList.prototype.addToContainer = function(container, content) {
 	container.parentNode.appendChild(content);
 };
@@ -119,18 +151,19 @@ ics.TagList.prototype.makeTagNode_ = function(tag, icon, checked, index) {
 		};
 };
 ics.TagList.prototype.click_ = function(element, map) {
-	var allMarkers = map.getMarkers(map.listTags);
-	var rezise = true;
+	var resize = true;
 	/* 
 		S'il s'agit d'un tag exclusif : 
 			- Il doit être affiché seul
 			- On cache tous les autres markers
 	*/	
-	if (element.checked && jQuery.inArray(element.value, map.exclusivesTags) >= 0) {
+	if (element.checked && jQuery.inArray(element.value, this.exclusivesTags) >= 0) {
+		var allMarkers = map.getMarkers(map.listTags);
 		map.displayMarkers(allMarkers, false);
 		// on décoche toutes les cases à cocher
+		var exclusiveTag = element.value;
 		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-			if (jQuery(this).attr('id') != element.id)
+			if (jQuery(this).attr('value') != exclusiveTag) 
 				jQuery(this).attr('checked', false);
 		});
 	}
@@ -144,25 +177,14 @@ ics.TagList.prototype.click_ = function(element, map) {
 		Si on décoche une case:
 			- On vérifie qu'il reste encore des cases cochées
 			- Si non :
-				- si l'option: map.viewDefaultTags est à true: on affiche les tags par defaut
-				- si l'option: map.viewDefaultTags est à false: on centre la carte sur le point défini en BE
+				- si l'option: this.viewDefaultTags est à true: on affiche les tags par defaut
+				- si l'option: this.viewDefaultTags est à false: on centre la carte sur le point défini en BE
 	*/
 	if (!element.checked && !jQuery('ul.tagListNum' + this.listId + ' li input:checked').size()) {
 		// remove all markers except default tags (include hidden tags)
-		var markers = map.getMarkers();
-		map.displayMarkers(markers, false);	
-		
-		if (map.viewDefaultTags) {
-			var markers = map.getMarkers(map.defaultTags);
-			map.displayMarkers(markers, true);
-			// on coche tous les tags par défaut
-			jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-				if (jQuery.inArray(jQuery(this).attr('value'), map.defaultTags) >= 0)
-					jQuery(this).attr('checked', true);
-			});
-		} else {
-			map.centerMapDefault();
-			rezise = false;
+		this.viewDefaultsTags(map, false);
+		if (!this.viewDefaultTags) {
+			resize = false;
 		}
 	}
 	
@@ -170,18 +192,11 @@ ics.TagList.prototype.click_ = function(element, map) {
 		Au clic d'un tag autre qu'un tag exclusif: 
 			- On efface les tags exclusifs
 	*/
-	if (jQuery.inArray(element.value, map.exclusivesTags) < 0) {
-		var markers = map.getMarkers(map.exclusivesTags);
-		map.displayMarkers(markers, false);	
-		// on décoche tous les tags exclusifs
-		// jQuery('#' + map.gmap3 + ' + ul.tagList li input').each(function() {
-		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-			if (jQuery.inArray(jQuery(this).attr('value'), map.exclusivesTags) >= 0)
-				jQuery(this).attr('checked', false);
-		});
+	if (jQuery.inArray(element.value, this.exclusivesTags) < 0) {
+		this.hideExclusivesTags(map);
 	}
 	
 	// CENTER MAP
-	if (rezise) 
+	if (resize) 
 		map.centerMap();
 };

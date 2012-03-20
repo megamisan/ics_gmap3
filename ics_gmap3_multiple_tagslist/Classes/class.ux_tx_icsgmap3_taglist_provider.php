@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 In Cité Solution <technique@in-cite.net>
+*  (c) 2012 In Cité Solution <technique@in-cite.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -26,34 +26,9 @@
  *
  * Hint: use extdeveval to insert/update function index above.
  */
-
-
-class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
-
-	var $extKey = 'ics_gmap3';
-	
-	function __construct() {
-		$this->uploadsPath = 'uploads/tx_icsgmap3/';
-		
-		// Hook additional_flex
-		$additional_flex = '';
-		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_icsgmap3_taglist_provider']['additionalFlex'])) {
-			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_icsgmap3_taglist_provider']['additionalFlex'] as $_classRef) {
-				$_procObj = & t3lib_div::getUserObj($_classRef);
-				$_procObj->additionalFlex($additional_flex);
-			}
-		}
-		
-		$this->flexform = str_replace('<!-- ###ADDITIONAL FLEX### -->', $additional_flex, file_get_contents(t3lib_div::getFileAbsFileName('EXT:' . $this->extKey . '/flexform_ds_taglist.xml')));
-	}
-	
-	function getStaticData($conf) {
-		return null;	
-	}
-	
-	function getDynamicDataUrl($conf) {
-		return null;
-	}
+ 
+ class ux_tx_icsgmap3_taglist_provider extends tx_icsgmap3_taglist_provider {
+	var $extKey_xclass = 'ics_gmap3_multiple_tagslist';
 	
 	function getBehaviourInitFunction($conf) {
 		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_taglist.js', false, '_gmap3_provider_taglist');
@@ -91,25 +66,25 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 			}
 		}
 		
+		if ($conf['fieldSecondList']) {
+			$jsCode .= '
+				var secondListFieldName = \'' . $conf['fieldSecondList'] . '\';';
+		} else {
+				$jsCode .= '
+				var secondListFieldName = \'\';';
+		}
+		
 		$jsCode .= '
-				(new ics.TagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ');
+				(new ics.TagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ', secondListFieldName);
 			}
 		';
 		
 		return $jsCode;
 	}
 	
-	function getFlexform($conf) {
-		return $this->flexform;
-	}
-	
-	/**
-	* Function to insert Javascript at Ext. Runtime
-	*
-	* @param string $script Input the Script Name to insert JS
-	* @return
-	*/
 	function incJsFile($script, $jsCode = false, $suffix = '') {
+		parent::incJsFile($script, $jsCode, $suffix);
+		$script = 'typo3conf/ext/' . $this->extKey_xclass . '/res/gmap3_multiple_taglist.js';
 		if (!$jsCode)
 			$js = '<script src="' . $script . '" type="text/javascript"><!-- //--></script>';
 		else {
@@ -117,12 +92,10 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 				' . $script . '
 			</script>';
 		}
-		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $js;
+		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey_xclass . $suffix . $this->cObj->data['uid']] .= $js;
 	}
-}
-
-if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ics_gmap3/Classes/class.tx_icsgmap3_taglist_provider.php'])	{
-	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ics_gmap3/Classes/class.tx_icsgmap3_taglist_provider.php']);
-}
-
+	
+	
+ }
+ 
 ?>
