@@ -1,5 +1,14 @@
+2012-03-22 Pierrick Caillon <pierrick@in-cite.net>
+	* Bug fix: inverted latitude and longitude usage in jmap3 init call.
+	* Bug fix: invalid context using ics.Map property markerEvents.
+	* Bug fix: jQuery compatibility ($ was used in some places).
+	* Bug fix: missing variable in closure.
+	* Fix: script cleanup (missing semicolon, json syntax...).
+	* Fix: jQuery.each usage instead of for-loop on arrays.
+	* Fix: remove tag icon when not defined.
+
 2012-03-20 Emilie Sagniez <emilie@in-cite.net>
-	* Change to version 1.0.0
+	* Version changed to 1.0.0
 
 2012-03-20 Emilie Sagniez <emilie@in-cite.net>
 	* Add Provider taglist hook (flexform additionnal fields) and xclass declaration 
@@ -42,5 +51,4 @@ WARNING: En cas de mise à jour, il faut remplir les 2 nouveaux champs par l'anc
 ... Missing changes ...
 
 2011-06-16 In Cité Solution  <technique@in-cite.net>
-
 	* initial code generated with kickstarter

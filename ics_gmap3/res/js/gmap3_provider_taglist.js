@@ -3,23 +3,23 @@ if (typeof ics != 'object')
 // surcharge createMarkersStatic_
 (function() {
 	var oldfuncCreateMarkersStatic_ = ics.Map.prototype.createMarkersStatic_;
-	
 	ics.Map.prototype.createMarkersStatic_ = function(data) {
-		var tags = new Array();
-		var icons = new Array();
-		for (var index in data) {
-			if (data[index].tag && jQuery.inArray(data[index].tag, tags) < 0) {
-				tags.push(data[index].tag);
-				icons[data[index].tag] = data[index].icon;
+		var tags = [];
+		var icons = [];
+		jQuery.each(data, function(index, row) {
+			if (row.tag && jQuery.inArray(row.tag, tags) < 0) {
+				tags.push(row.tag);
+				icons[row.tag] = row.icon;
 			}
-		}
+		});
 		
 		this.tl = {};
 		this.tl.markersTags = tags;
 		this.tl.iconsTags = icons;
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
-	}
+	};
 })();
+
 ics.TagList = function() {};
 ics.TagList.nextId = 0;
 // generate tags list 
@@ -30,9 +30,9 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 	this.listId = ics.TagList.nextId++;
 	
 	var content = '';
-	var list = new Array();
-	var tags = new Array();
-	var finalTags = new Array();
+	var list = [];
+	var tags = [];
+	var finalTags = [];
 	if (map.tl.markersTags)
 		tags = map.tl.markersTags;
 	
@@ -99,9 +99,10 @@ ics.TagList.prototype.viewDefaultsTags = function(map, forceDefautTags) {
 		map.centerMapDefault();
 	}
 	
+	var defaultTags = this.defaultTags;
 	// on coche tous les tags par défaut
 	jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-		if (jQuery.inArray(jQuery(this).attr('value'), this.defaultTags) >= 0)
+		if (jQuery.inArray(jQuery(this).attr('value'), defaultTags) >= 0)
 			jQuery(this).attr('checked', true);
 	});
 };
@@ -122,34 +123,39 @@ ics.TagList.prototype.addToContainer = function(container, content) {
 };
 
 ics.TagList.prototype.makeTagNode_ = function(tag, icon, checked, index) {
-	return {
-			'tag': 'li', 
-			'children': [
-				{
-					'tag': 'img',
-					'attributes': { 
-						'src': icon
-					}
+	var node = {
+		'tag': 'li', 
+		'children': [
+			{
+				'tag': 'img',
+				'attributes': { 
+					'src': icon
+				}
+			},
+			{
+				'tag': 'input',
+				'properties': { 
+					'type': 'checkbox', 
+					'id': 'tx_icsgmap3_taglist_checkbox' + index, 
+					'value':  tag,
+					'checked': checked
+				}
+			},
+			{ 	
+				'tag': 'label', 
+				'attributes': { 
+					'for': 'tx_icsgmap3_taglist_checkbox' + index
 				},
-				{
-					'tag': 'input',
-					'properties': { 
-						'type': 'checkbox', 
-						'id': 'tx_icsgmap3_taglist_checkbox' + index, 
-						'value':  tag,
-						'checked': checked
-					}
-				},
-				{ 	
-					'tag': 'label', 
-					'attributes': { 
-						'for': 'tx_icsgmap3_taglist_checkbox' + index
-					},
-					'children': [{ 'tag': '', 'value': tag }]					 
-				}						
-			]
-		};
+				'children': [{ 'tag': '', 'value': tag }]					 
+			}						
+		]
+	};
+	if (icon == null) {
+		node.children.shift();
+	}
+	return node;
 };
+
 ics.TagList.prototype.click_ = function(element, map) {
 	var resize = true;
 	/* 

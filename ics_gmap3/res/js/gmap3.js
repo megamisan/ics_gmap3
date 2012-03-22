@@ -27,7 +27,7 @@ ics.Map.prototype.initGMap_ = function() {
 	jQuery('#' + this.gmap3).gmap3({
 		action: 'init',
 		options: {
-			center: [this.mapLng,this.mapLat],
+			center: [this.mapLat, this.mapLng],
 			zoom: this.mapZoom,
 			mapTypeId: this.mapTypeId,
 			mapTypeControl: this.mapTypeControl,
@@ -50,7 +50,7 @@ ics.Map.prototype.createMarkersStatic_ = function(data) {
 			action: 'addMarkers',
 			markers: [point],
 			marker: {
-				events: this.markerEvents
+				events: icsmap.markerEvents
 			},
 			callback: function(markers) {
 				icsmap.createMarkerCallback_(markers[0], point);
@@ -100,14 +100,14 @@ ics.Map.prototype.markerEventMouseover = function(marker, event, data) {
 };
 
 ics.Map.prototype.markerEventCloseclick = function(marker, event, data) {
-	var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
+	var infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
 	if (infowindow){
 		infowindow.close();
 	}
 };
 
 ics.Map.prototype.markerEventMouseout = function(marker, event, data) {
-	var infowindow = $(this).gmap3({action:'get', name:'infowindow'});
+	var infowindow = jQuery(this).gmap3({action:'get', name:'infowindow'});
 	if (infowindow){
 		infowindow.close();
 	}
@@ -134,13 +134,11 @@ ics.Map.prototype.createWindowsInfo = function(row) {
 	});
 };
 
-
 ics.Map.prototype.addBehaviourInit = function (func) {
 	if (typeof(func) == 'function') {
 		this.behaviours.push(func);
 	}
-}// Ajoute une fonction à appeler au stockage local
-
+};// Ajoute une fonction à appeler au stockage local
 
 ics.Map.prototype.addBehaviours_ = function () {
 	for (var i = 0; i < this.behaviours.length; i++) {
@@ -151,7 +149,7 @@ ics.Map.prototype.addBehaviours_ = function () {
 		}
 	}
 	this.behaviours = [];
-}// Exécution les méthodes d'initialisation des comportements.
+};// Exécution les méthodes d'initialisation des comportements.
 	
 /**
  * Get markers to correspond to tags array. If no specified tag, return all markers
@@ -185,7 +183,7 @@ ics.Map.prototype.getMarkers = function(tags) {
 		});
 	}
 	return markers;
-}
+};
 
 /**
  * Display Marker
@@ -199,7 +197,7 @@ ics.Map.prototype.displayMarker = function(marker, visible) {
 		marker.setMap(map);
 	else
 		marker.setMap(null);
-}
+};
 
 /**
  * Display Markers
@@ -212,7 +210,7 @@ ics.Map.prototype.displayMarkers = function(markers, visible) {
 	{
 		this.displayMarker(markers[i], visible);
 	}
-}
+};
 
 /**
  * Center map depending on visibles markers
@@ -222,21 +220,21 @@ ics.Map.prototype.centerMap = function(tags) {
 	var allMarkers = this.getMarkers();
 	bounds = new google.maps.LatLngBounds();
 	jQuery.each(allMarkers, function(key, value) {
-		if(value.getMap()) 
+		if (value.getMap()) 
 			bounds.extend(value.getPosition());
 	});
 	map.fitBounds(bounds);
-}
+};
+
 /**
  * Center map depending on default latitude/longitude
  */
 ics.Map.prototype.centerMapDefault = function() {
 	var map = jQuery('#' + this.gmap3).gmap3('get');
-	
 	var center = new google.maps.LatLng(this.mapLat, this.mapLng);
 	map.setCenter(center);
 	map.setZoom(this.mapZoom);
-}
+};
 	
 //ics.Map.prototype.addDynamicData = function(url) { ... }; // Ajoute une url de données dynamique au stockage local
 //ics.Map.prototype.createMarkersDynamic_ = function(url) { ... }; // Exécute la requête de données pour l'url indiquée.

@@ -4,14 +4,13 @@ if (typeof ics != 'object')
 (function() {
 	var oldfuncCreateMarkersStatic_ = ics.Map.prototype.createMarkersStatic_;
 	ics.Map.prototype.createMarkersStatic_ = function(data) {
-		for (var index in data) {
-			if (data[index].options == null)
-				data[index].options = {};
-			data[index].options.title = data[index].data.name;
-		}
+		jQuery.each(data, function(index, row) {
+			if (row.options == null)
+				row.options = {};
+			row.options.title = row.data.name;
+		});
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
 	}
-		
 })();
 	
 ics.DataList = function() {};
