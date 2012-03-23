@@ -19,13 +19,13 @@ if (typeof ics != 'object')
 		var container = document.getElementById(map.gmap3);
 		this.secondListFieldName = secondListFieldName;
 		var content = '';
-		var list = new Array();
-		var tags = new Array();
-		var finalTags = new Array();
+		var list = [];
+		var tags = [];
+		var finalTags = [];
 		
 		// On récupére toutes les données et on construit notre tableau de tags
-		jQuery.each(map.data, function(key, value) {
-			tag = value.data[secondListFieldName];
+		jQuery.each(map.data, function() {
+			tag = this.data[secondListFieldName];
 			if (tag && jQuery.inArray(tag, tags) < 0) 
 				tags.push(tag);
 		});
@@ -113,10 +113,10 @@ if (typeof ics != 'object')
 			var allMarkers = map.getMarkers();
 			var defaultTags = this.defaultTags;
 			var secondListFieldName = this.secondListFieldName;
-			jQuery.each(allMarkers, function(key, value) {
-				if (jQuery.inArray(value.tag, defaultTags) >= 0
-					|| jQuery.inArray(value.data[secondListFieldName], defaultTags) >= 0) {
-					markers.push(value);
+			jQuery.each(allMarkers, function() {
+				if (jQuery.inArray(this.tag, defaultTags) >= 0
+					|| jQuery.inArray(this.data[secondListFieldName], defaultTags) >= 0) {
+					markers.push(this);
 				}
 			});
 			map.displayMarkers(markers, true);
@@ -137,10 +137,10 @@ if (typeof ics != 'object')
 		var allMarkers = map.getMarkers();
 		var exclusivesTags = this.exclusivesTags;
 		var secondListFieldName = this.secondListFieldName;
-		jQuery.each(allMarkers, function(key, value) {
-			if (jQuery.inArray(value.tag, exclusivesTags) >= 0
-				|| jQuery.inArray(value.data[secondListFieldName], exclusivesTags) >= 0) {
-				markers.push(value);
+		jQuery.each(allMarkers, function() {
+			if (jQuery.inArray(this.tag, exclusivesTags) >= 0
+				|| jQuery.inArray(this.data[secondListFieldName], exclusivesTags) >= 0) {
+				markers.push(this);
 			}
 		});
 		map.displayMarkers(markers, false);	
@@ -196,10 +196,10 @@ if (typeof ics != 'object')
 			var markersHidden = [];
 			// on vérifie que cela soit compatible aussi avec l'autre liste
 			var secondListFieldName = this.secondListFieldName;
-			jQuery.each(allMarkers, function(key, value) {
-				if (jQuery.inArray(value.tag, tagsChecked) >= 0
-					&& (jQuery.isEmptyObject(tagsCityChecked) || jQuery.inArray(value.data[secondListFieldName], tagsCityChecked) >= 0)) {
-					markers.push(value);
+			jQuery.each(allMarkers, function() {
+				if (jQuery.inArray(this.tag, tagsChecked) >= 0
+					&& (jQuery.isEmptyObject(tagsCityChecked) || jQuery.inArray(this.data[secondListFieldName], tagsCityChecked) >= 0)) {
+					markers.push(this);
 				} else {
 					markersHidden.push(value);
 				}
@@ -207,9 +207,9 @@ if (typeof ics != 'object')
 			map.displayMarkers(markersHidden, false);
 		} else {
 			// retire les marqueurs affichés correspondant à ce tag
-			jQuery.each(allMarkers, function(key, value) {
-				if (value.tag == element.value) {
-					markers.push(value);
+			jQuery.each(allMarkers, function() {
+				if (this.tag == element.value) {
+					markers.push(this);
 				}
 			});
 		}
@@ -289,10 +289,10 @@ if (typeof ics != 'object')
 		if (element.checked) {
 			var markersHidden = [];
 			// on affiche les marqueurs correspondant aux 2 critères
-			jQuery.each(allMarkers, function(key, value) {
-				if (jQuery.inArray(value.data[secondListFieldName], tagsCityChecked) >= 0
-					&& (jQuery.isEmptyObject(tagsChecked) || jQuery.inArray(value.tag, tagsChecked) >= 0)) {
-					markers.push(value);
+			jQuery.each(allMarkers, function() {
+				if (jQuery.inArray(this.data[secondListFieldName], tagsCityChecked) >= 0
+					&& (jQuery.isEmptyObject(tagsChecked) || jQuery.inArray(this.tag, tagsChecked) >= 0)) {
+					markers.push(this);
 				} else {
 					markersHidden.push(value);
 				}
@@ -300,9 +300,9 @@ if (typeof ics != 'object')
 			map.displayMarkers(markersHidden, false);
 		} else {
 			// retire les marqueurs affichés correspondant à ce tag
-			jQuery.each(allMarkers, function(key, value) {
-				if (value.data[secondListFieldName] == element.value) {
-					markers.push(value);
+			jQuery.each(allMarkers, function() {
+				if (this.data[secondListFieldName] == element.this) {
+					markers.push(this);
 				}
 			});
 		}

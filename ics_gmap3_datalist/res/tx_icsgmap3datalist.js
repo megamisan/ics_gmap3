@@ -4,10 +4,10 @@ if (typeof ics != 'object')
 (function() {
 	var oldfuncCreateMarkersStatic_ = ics.Map.prototype.createMarkersStatic_;
 	ics.Map.prototype.createMarkersStatic_ = function(data) {
-		jQuery.each(data, function(index, row) {
-			if (row.options == null)
-				row.options = {};
-			row.options.title = row.data.name;
+		jQuery.each(data, function() {
+			if (this.options == null)
+				this.options = {};
+			this.options.title = this.data.name;
 		});
 		oldfuncCreateMarkersStatic_.apply(this, arguments);
 	}
@@ -30,8 +30,8 @@ ics.DataList.prototype.init = function(map) {
 	list.push(this.makeHeadRow_());
 	content.push(this.makeHead_(list));
 	list = [];
-	jQuery.each(map.data, function (index, row) {
-		list.push(dataList.makeDataRow_(row));
+	jQuery.each(map.data, function () {
+		list.push(dataList.makeDataRow_(this));
 	});
 	content.push(this.makeBody_(list));
 	content = ics.createElement(this.makeAllWrap_(content));

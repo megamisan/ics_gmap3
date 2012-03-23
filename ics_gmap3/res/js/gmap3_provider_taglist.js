@@ -6,10 +6,10 @@ if (typeof ics != 'object')
 	ics.Map.prototype.createMarkersStatic_ = function(data) {
 		var tags = [];
 		var icons = [];
-		jQuery.each(data, function(index, row) {
-			if (row.tag && jQuery.inArray(row.tag, tags) < 0) {
-				tags.push(row.tag);
-				icons[row.tag] = row.icon;
+		jQuery.each(data, function() {
+			if (this.tag && jQuery.inArray(this.tag, tags) < 0) {
+				tags.push(this.tag);
+				icons[this.tag] = this.icon;
 			}
 		});
 		

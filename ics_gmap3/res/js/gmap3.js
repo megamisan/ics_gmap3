@@ -45,7 +45,8 @@ ics.Map.prototype.addStaticData = function(data) {
 ics.Map.prototype.createMarkersStatic_ = function(data) {
 	var icsmap = this;
 	var gmap3 = jQuery('#' + this.gmap3);
-	jQuery.each(data, function(index, point) {
+	jQuery.each(data, function() {
+		var point = this;
 		gmap3.gmap3({
 			action: 'addMarkers',
 			markers: [point],
@@ -168,8 +169,8 @@ ics.Map.prototype.getMarkers = function(tags) {
 				tag:	tags[i], 
 				all:	true
 			});
-			jQuery.each(markersTags, function(key, value) {
-				markers.push(value);
+			jQuery.each(markersTags, function() {
+				markers.push(this);
 			});
 		}
 	} else {
@@ -178,8 +179,8 @@ ics.Map.prototype.getMarkers = function(tags) {
 			name:	'marker',  
 			all:	true
 		});
-		jQuery.each(markersTags, function(key, value) {
-			markers.push(value);
+		jQuery.each(markersTags, function() {
+			markers.push(this);
 		});
 	}
 	return markers;
@@ -215,13 +216,13 @@ ics.Map.prototype.displayMarkers = function(markers, visible) {
 /**
  * Center map depending on visibles markers
  */
-ics.Map.prototype.centerMap = function(tags) {
+ics.Map.prototype.centerMap = function() {
 	var map = jQuery('#' + this.gmap3).gmap3('get');
 	var allMarkers = this.getMarkers();
 	bounds = new google.maps.LatLngBounds();
-	jQuery.each(allMarkers, function(key, value) {
-		if (value.getMap()) 
-			bounds.extend(value.getPosition());
+	jQuery.each(allMarkers, function() {
+		if (this.getMap()) 
+			bounds.extend(this.getPosition());
 	});
 	map.fitBounds(bounds);
 };

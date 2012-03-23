@@ -1,0 +1,14 @@
+<el>
+	<search_fields>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3_searchbox/locallang.xml:provider.searchBox.searchFields</label>
+			<config>
+				<type>text</type>
+				<cols>30</cols>
+				<rows>5</rows>
+				<wrap>off</wrap>
+				<default>name</default>
+			</config>
+		</TCEforms>
+	</search_fields>
+</el>
