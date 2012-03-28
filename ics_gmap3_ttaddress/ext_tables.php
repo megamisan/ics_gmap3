@@ -30,27 +30,19 @@ $tempColumns = array (
 );
 
 t3lib_div::loadTCA('tt_address');
-if (t3lib_extMgm::isLoaded('rggooglemap')) {
+if (t3lib_extMgm::isLoaded('ics_coordinates_wizard')) {
 	$tempColumns['tx_icsgmap3ttaddress_lng']['config']['wizards'] = array(
 		'_POSITION' => 'right',
 		'googlemap' => array(
-			'title' => 'LLL:EXT:rggooglemap/locallang_db.xml:wizard.title',
-			'icon' =>  'EXT:rggooglemap/mod1/moduleicon.gif',
+			'title' => 'LLL:EXT:ics_coordinates_wizard/locallang_db.xml:wizard.title',
+			'icon' =>  'EXT:ics_coordinates_wizard/geo_popup.gif',
 			'type' => 'popup',
-			'script' => 'EXT:rggooglemap/class.tx_rggooglemap_wizard.php',
+			'script' => 'EXT:ics_coordinates_wizard/class.tx_icscoordinateswizard_wizard.php',
 			'JSopenParams' => 'height=630,width=800,status=0,menubar=0,scrollbars=0',
 			'lat_field' => 'tx_icsgmap3ttaddress_lat',
 			'lng_field' => 'tx_icsgmap3ttaddress_lng',
 		),
 	);
-	
-	$TCA['tt_address']['types']['1']['showitem'] = str_replace(
-		array('tx_rggooglemap_lng;;;;1-1-1, tx_rggooglemap_lat,',
-			'tx_rggooglemap_display,',
-			'tx_rggooglemap_cat2,',
-			'tx_rggooglemap_ce'
-		), '', $TCA['tt_address']['types']['1']['showitem']);
-	
 }
 
 t3lib_extMgm::addTCAcolumns('tt_address',$tempColumns,1);

@@ -1,3 +1,6 @@
+2012-03-20 Loïc Stéphan <loic@in-cite.net>
+	* Moved rggooglemap call to ics_coordinates_wizard in ext_tables.php
+
 2012-03-20 Emilie Sagniez <emilie@in-cite.net>
 	* Change to version 1.0.0
 
