@@ -1,2 +1,6 @@
+2012-03-29 Pierrick Caillon <pierrick@in-cite.net>
+	* Feature: Added ability to cleanup text for search (both user input and records).
+	* Fix: Centering map on the only found marker.
+
 2012-03-23 Pierrick Caillon <pierrick@in-cite.net>
 	* Extension creation.

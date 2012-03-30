@@ -8,7 +8,7 @@ if (typeof ics != 'object')
 		marker.data = data.data;
 	}
 })();
-	
+
 ics.SearchBox = function() {};
 ics.SearchBox.nextId = 0;
 
@@ -143,16 +143,17 @@ ics.SearchBox.prototype.lookUp = function(searchText) {
 	var markers = [];
 	var textSegments = searchText.split(' ');
 	var searchElements = [];
+	var cleanText = this.cleanText;
 	jQuery.each(textSegments, function() {
 		var v = jQuery.trim(this);
 		if (v.length > 0) {
-			searchElements.push(RegExp.escape(v));
+			searchElements.push(RegExp.escape(cleanText(v)));
 		}
 	});
 	var testRegEx = new RegExp('\\W((' + searchElements.join(')|(') + '))\\W', 'gi');
 	var textBuilder = this.textBuilder;
 	jQuery.each(allMarkers, function() {
-		if (testRegEx.test(textBuilder(this.data))) {
+		if (testRegEx.test(cleanText(textBuilder(this.data)))) {
 			markers.push(this);
 		}
 	});
@@ -162,12 +163,17 @@ ics.SearchBox.prototype.lookUp = function(searchText) {
 			this.map.centerMapDefault();
 			break;
 		case 1:
-			var map = jQuery('#' + this.gmap3).gmap3('get');
+			var map = jQuery('#' + this.map.gmap3).gmap3('get');
+			map.setCenter(markers[0].getPosition());
 			map.setZoom(17);
 			break;
 		default:
 			this.map.centerMap();
 	}
+};
+
+ics.SearchBox.prototype.cleanText = function(text) {
+	return text;
 };
 
 if (!RegExp.escape) {
