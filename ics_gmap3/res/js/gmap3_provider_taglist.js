@@ -23,7 +23,7 @@ if (typeof ics != 'object')
 ics.TagList = function() {};
 ics.TagList.nextId = 0;
 // generate tags list 
-ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags) {
+ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags, tagsSelector) {
 	var container = document.getElementById(map.gmap3);
 	if (!container)
 		return false;
@@ -41,7 +41,10 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 	this.hiddenTags = hiddenTags;			// Array Hidden tags
 	this.defaultTags = defaultTags;			// Array Default tags
 	this.viewDefaultTags = viewDefaultTags;	// Boolean View default tags if selected tags are empty
-	
+	this.tagsSelector = tagsSelector;	// Checkbox or Select
+	if (!this.tagsSelector)
+		this.tagsSelector = 'checkbox';
+			
 	// add exclusivesTags to tags list
 	for (var i = 0; i < exclusivesTags.length; i++)
 	{
@@ -66,12 +69,9 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 	map.listTags = finalTags;		// Array Visible tags
 	
 	// add tags list after map
-	content = ics.createElement({
-		'tag': 'ul', 
-		'properties': { 'className': 'tagList tagListNum' + this.listId },
-		'children': list 
-	});
-	this.addToContainer(container, content);
+	this.createForm(container);
+	content = this.makeTagParentNode_(list);
+	this.addToForm(content);
 	
 	// remove all markers except default tags (include hidden tags)
 	if (this.defaultTags.length) 
@@ -80,10 +80,7 @@ ics.TagList.prototype.init = function(map, exclusivesTags, hiddenTags, defaultTa
 		this.viewDefaultsTags(map, false);
 	
 	// add click event 
-	var tagList = this;
-	jQuery('ul.tagListNum' + this.listId + ' li input').click(function() {
-		tagList.click_(this, map);
-	});
+	this.initEvent_(map);
 	return true;
 };
 
@@ -99,71 +96,165 @@ ics.TagList.prototype.viewDefaultsTags = function(map, forceDefautTags) {
 		map.centerMapDefault();
 	}
 	
-	var defaultTags = this.defaultTags;
-	// on coche tous les tags par défaut
-	jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-		if (jQuery.inArray(jQuery(this).attr('value'), defaultTags) >= 0)
-			jQuery(this).attr('checked', true);
-	});
+	if (forceDefautTags || this.viewDefaultTags) {
+		var defaultTags = this.defaultTags;
+		// on coche tous les tags par défaut
+		if (this.tagsSelector == 'select') {
+			jQuery('select.tagListNum' + this.listId + ' option').each(function() {
+				if (jQuery.inArray(jQuery(this).attr('value'), defaultTags) >= 0)
+					jQuery(this).attr('selected', true);
+			});
+		} else {
+			jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
+				if (jQuery.inArray(jQuery(this).attr('value'), defaultTags) >= 0)
+					jQuery(this).attr('checked', true);
+			});
+		}
+	}
 };
 
 ics.TagList.prototype.hideExclusivesTags = function(map) {
-	var markers = map.getMarkers(this.exclusivesTags);
-	map.displayMarkers(markers, false);	
-	// on décoche tous les tags exclusifs
-	var exclusivesTags = this.exclusivesTags;
-	jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
-		if (jQuery.inArray(jQuery(this).attr('value'), exclusivesTags) >= 0)
-			jQuery(this).attr('checked', false);
-	});
+	if (this.tagsSelector == 'checkbox') {
+		var markers = map.getMarkers(this.exclusivesTags);
+		map.displayMarkers(markers, false);	
+		// on décoche tous les tags exclusifs
+		var exclusivesTags = this.exclusivesTags;
+		jQuery('ul.tagListNum' + this.listId + ' li input').each(function() {
+			if (jQuery.inArray(jQuery(this).attr('value'), exclusivesTags) >= 0)
+				jQuery(this).attr('checked', false);
+		});
+	}
 };
 	
 ics.TagList.prototype.addToContainer = function(container, content) {
 	container.parentNode.appendChild(content);
 };
 
+ics.TagList.prototype.createForm = function(container) {
+	var form = ics.createElement({
+		'tag': 'form',
+		'properties': { 
+			'action':  '', 
+			'id':  'tagListForm' + this.listId
+		},
+		'children': [{
+			'tag': 'fieldset'
+		}]
+	});
+	this.addToContainer(container, form);
+};
+
+ics.TagList.prototype.addToForm = function(content) {
+	container = document.getElementById('tagListForm' + this.listId);
+	container = container.getElementsByTagName('fieldset')[0];
+	container.appendChild(content);
+};
+
+ics.TagList.prototype.makeTagParentNode_ = function(list) {
+	if (this.tagsSelector == 'select') {
+		var listWithOptionEmpty = [{
+			'tag': 'option', 
+			'properties': { 
+				'value':  '', 
+				'id': 'tx_icsgmap3_taglist_checkbox_empty'
+			}
+		}];
+		listWithOptionEmpty = listWithOptionEmpty.concat(list);
+		var content = ics.createElement({
+			'tag': 'select', 
+			'properties': { 
+				'className': 'tagList tagListNum' + this.listId,
+				'name': 'tagListNum' + this.listId
+			},
+			'children': listWithOptionEmpty 
+		});
+	} else {
+		var content = ics.createElement({
+			'tag': 'ul', 
+			'properties': { 'className': 'tagList tagListNum' + this.listId },
+			'children': list 
+		});
+	}
+	return content;
+};
+
 ics.TagList.prototype.makeTagNode_ = function(tag, icon, checked, index) {
-	var node = {
-		'tag': 'li', 
-		'children': [
-			{
-				'tag': 'img',
-				'attributes': { 
-					'src': icon
-				}
+	if (this.tagsSelector == 'select') {
+		var node = {
+			'tag': 'option', 
+			'properties': { 
+				'value':  tag, 
+				'id': 'tx_icsgmap3_taglist_checkbox' + index
 			},
-			{
-				'tag': 'input',
-				'properties': { 
-					'type': 'checkbox', 
-					'id': 'tx_icsgmap3_taglist_checkbox' + index, 
-					'value':  tag,
-					'checked': checked
-				}
-			},
-			{ 	
-				'tag': 'label', 
-				'attributes': { 
-					'for': 'tx_icsgmap3_taglist_checkbox' + index
+			'children': [{ 'tag': '', 'value': tag }]
+		};
+	} else {
+		var node = {
+			'tag': 'li', 
+			'children': [
+				{
+					'tag': 'img',
+					'attributes': { 
+						'src': icon
+					}
 				},
-				'children': [{ 'tag': '', 'value': tag }]					 
-			}						
-		]
-	};
-	if (icon == null) {
-		node.children.shift();
+				{
+					'tag': 'input',
+					'properties': { 
+						'type': 'checkbox', 
+						'id': 'tx_icsgmap3_taglist_checkbox' + index, 
+						'value':  tag,
+						'checked': checked
+					}
+				},
+				{ 	
+					'tag': 'label', 
+					'attributes': { 
+						'for': 'tx_icsgmap3_taglist_checkbox' + index
+					},
+					'children': [{ 'tag': '', 'value': tag }]					 
+				}						
+			]
+		};
+		if (icon == null) {
+			node.children.shift();
+		}
 	}
 	return node;
 };
 
+ics.TagList.prototype.initEvent_ = function(map) {
+	if (this.tagsSelector == 'select') {
+		var tagList = this;
+		jQuery('select.tagListNum' + this.listId).change(function() {
+			tagList.click_(this, map);
+		});
+	} else {
+		var tagList = this;
+		jQuery('ul.tagListNum' + this.listId + ' li input').click(function() {
+			tagList.click_(this, map);
+		});
+	}
+};
+
 ics.TagList.prototype.click_ = function(element, map) {
 	var resize = true;
+	var checked = '';
+	if (this.tagsSelector == 'select') {
+		checked = true;
+		if (!element.value)
+			checked = false;
+	} else {
+		checked = element.checked;
+	}
+	
 	/* 
 		S'il s'agit d'un tag exclusif : 
+			- Seulement dans le cas de cases à cocher (liste déroulante = toujours seul)
 			- Il doit être affiché seul
 			- On cache tous les autres markers
 	*/	
-	if (element.checked && jQuery.inArray(element.value, this.exclusivesTags) >= 0) {
+	if (this.tagsSelector == 'checkbox' && checked && jQuery.inArray(element.value, this.exclusivesTags) >= 0) {
 		var allMarkers = map.getMarkers(map.listTags);
 		map.displayMarkers(allMarkers, false);
 		// on décoche toutes les cases à cocher
@@ -176,17 +267,25 @@ ics.TagList.prototype.click_ = function(element, map) {
 	
 	// ADD OR REMOVE MARKERS
 	// get markers checked tag
+	if (this.tagsSelector == 'select') {
+		// on enlève tous les marqueurs 
+		var allMarkers = map.getMarkers(map.listTags);
+		map.displayMarkers(allMarkers, false);
+	}
+	
 	var markers = map.getMarkers([element.value]);
-	map.displayMarkers(markers, element.checked ? true : false);
+	map.displayMarkers(markers, checked ? true : false);
 	
 	/*
 		Si on décoche une case:
-			- On vérifie qu'il reste encore des cases cochées
+			- Dans le cas de cases à cocher: On vérifie qu'il reste encore des cases cochées
+			- Dans le cas d'une liste déroulante: On vérifie que la valeur n'est pas nulle
 			- Si non :
 				- si l'option: this.viewDefaultTags est à true: on affiche les tags par defaut
 				- si l'option: this.viewDefaultTags est à false: on centre la carte sur le point défini en BE
 	*/
-	if (!element.checked && !jQuery('ul.tagListNum' + this.listId + ' li input:checked').size()) {
+	if ((this.tagsSelector == 'checkbox'  && !checked && !jQuery('ul.tagListNum' + this.listId + ' li input:checked').size())
+		|| (this.tagsSelector == 'select' && !element.value)) {
 		// remove all markers except default tags (include hidden tags)
 		this.viewDefaultsTags(map, false);
 		if (!this.viewDefaultTags) {

@@ -60,12 +60,18 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		$this->init();
 
 		$markers = array(
-			'###MAP###' => $this->displayMap()
+			'###MAP###' => $this->displayMap(),
+			'###ACCESSIBILITY###' => $this->displayAccessibility()
 		);
 		$content = $this->template2html($markers, '###TEMPLATE_CONTENT###');
 		return $this->pi_wrapInBaseClass($content);
 	}
 	
+	/**
+	 * Init configuration
+	 *
+	 * @return
+	 */
 	function init() {
 		$this->pi_initPIflexForm();
 		
@@ -91,7 +97,8 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 				if(!empty($piFlexForm['data'][$sProvider])) {
 					foreach ($piFlexForm['data'][$sProvider] as $lang => $value) {
 						foreach ($value as $key => $val) {
-							$confProvider[$key] = $this->pi_getFFvalue($piFlexForm, $key, $sProvider);
+							if(trim($this->pi_getFFvalue($piFlexForm, $key, $sProvider))!='')
+								$confProvider[$key] = $this->pi_getFFvalue($piFlexForm, $key, $sProvider);
 						}
 					}
 				}
@@ -154,7 +161,6 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 				break;
 			}
 		}
-		
 		if(!empty($this->lConf['templateFile'])) {
 			$this->template = $this->cObj->fileResource($this->lConf['templateFile']);
 		}
@@ -166,12 +172,14 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 
 	}
 	
+	/**
+	 *	Initialize javascript functions
+	 *
+	 * @return
+	 */
 	function initJSData() {
 		$marker= array();
 
-		//$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3.js"></script>';
-		//$GLOBALS['TSFE']->additionalHeaderData[] = '<script type="text/javascript" src="' . t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_data.js"></script>';
-		
 		$jsCodeInitData = '
 
 jQuery(function(){
@@ -189,6 +197,11 @@ jQuery(function(){
 		$this->incJsFile($jsCodeInitData, true, '_carto_init');
 	}
 	
+	/**
+	 *	Render map html
+	 *
+	 * @return	string	html code
+	 */
 	function displayMap() {	
 
 		$zoom = "";
@@ -219,6 +232,54 @@ jQuery(function(){
 		$map = $this->template2html($marker, '###DISPLAY_MAP###');
 	
 		return $map;
+	}
+	
+	/**
+	 *	Render data list accessibility html
+	 *
+	 * @return	string	html code
+	 */
+	function displayAccessibility() {
+		$template = $this->cObj->getSubpart($this->template, '###ACCESSIBILITY_LIST###');
+		$templateList = '';
+		$outputList = '';
+		$markersArray = array(
+			'###PREFIXID###' => $this->prefixId,
+		);
+		
+		$aData = json_decode(implode('', $this->data));
+
+		if(is_array($aData) && count($aData)) {
+			$templateListBase = $this->cObj->getSubpart($this->template, '###DATA_ITEM###');
+			$fieldTemplate = $this->cObj->getSubpart($templateListBase, '###FIELDS###');
+			foreach($aData as $data) {				
+				$outputData = '';
+				foreach((array) $data->data as $name => $value) {
+					$markerArrayField = array(
+						'###FIELD_NAME###' => $name,
+						'###FIELD_VALUE###' => $value,
+					);
+					$outputData .= $this->cObj->substituteMarkerArray($fieldTemplate, $markerArrayField);
+				}
+				
+				$templateList = $this->cObj->substituteSubpart($templateListBase, '###FIELDS###', $outputData);
+				$outputList .= $this->cObj->substituteMarkerArray($templateList, $markersArray);
+			}
+		}
+		$subpartsArray = array(
+			'###DATA_ITEM###' => $outputList,
+		);
+		
+		// Hook 
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['additionalAccessibilityMarkers'])) {
+			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['additionalAccessibilityMarkers'] as $_classRef) {
+				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj->additionalAccessibilityMarkers($template, $markersArray, $subpartsArray, $this);
+			}
+		}
+		
+		$content = $this->cObj->substituteMarkerArrayCached($template, $markersArray, $subpartsArray);
+		return $content;
 	}
 	
 	/**

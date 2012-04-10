@@ -7,9 +7,11 @@
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="provider.tagList.fieldSecondList">Second list field name</label>
+			<label index="provider.tagList.tagsSelectorSecondList">Second list selector tags type</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="provider.tagList.fieldSecondList">Nom du champs pour construire la seconde liste</label>
+			<label index="provider.tagList.tagsSelectorSecondList">Type de sélection des tags pour la seconde liste</label>
 		</languageKey>
 	</data>
 </T3locallang>

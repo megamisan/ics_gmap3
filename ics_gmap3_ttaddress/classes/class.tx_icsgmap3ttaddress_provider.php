@@ -111,7 +111,10 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 				foreach($aStorage as $storage) {
 					$storage = t3lib_div::trimExplode('_',$storage,true);
 					if($storage[0] == 'pages') {
-						$whereClause[] = 'address.`pid` = ' . $storage[1];
+						$whereClause[] = 'address.`pid` = ' . intval($storage[1]);
+					}
+					else {
+						$whereClause[] = 'address.`pid` = ' . intval($storage[0]);
 					}
 				}
 			}

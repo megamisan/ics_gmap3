@@ -38,5 +38,27 @@
 			</config>
 		</TCEforms>
 	</defaultMapEmpty>
+	<tagsSelector>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.tagsSelector</label>	
+			<config>
+				<type>select</type>
+				<items type="array">
+					<numIndex index="0" type="array">
+						<numIndex index="0"></numIndex>
+						<numIndex index="1"></numIndex>
+					</numIndex>
+					<numIndex index="1" type="array">
+						<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.tagsSelector.checkbox</numIndex>
+						<numIndex index="1">checkbox</numIndex>
+					</numIndex>
+					<numIndex index="2" type="array">
+						<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.tagsSelector.select</numIndex>
+						<numIndex index="1">select</numIndex>
+					</numIndex>
+				</items>
+			</config>
+		</TCEforms>
+	</tagsSelector>
 	<!-- ###ADDITIONAL FLEX### -->
 </el>

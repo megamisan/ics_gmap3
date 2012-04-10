@@ -47,6 +47,9 @@
 			<label index="provider.tagList.defaultTags">Default tags</label>
 			<label index="provider.tagList.defaultMapEmpty">View defaut tags if selected tags are empty</label>
 			<label index="provider.tagList.title">Behaviour provider (tags list)</label>
+			<label index="provider.tagList.tagsSelector">Selector tags type</label>
+			<label index="provider.tagList.tagsSelector.checkbox">Checkbox</label>
+			<label index="provider.tagList.tagsSelector.select">Select</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="pi1_title">Google map (v3)</label>
@@ -90,6 +93,9 @@
 			<label index="provider.tagList.defaultTags">Tags affichés par défaut</label>
 			<label index="provider.tagList.defaultMapEmpty">Afficher les tags par défaut si aucun tag n'est coché</label>
 			<label index="provider.tagList.title">Fournisseur de comportement (Liste de tags)</label>
+			<label index="provider.tagList.tagsSelector">Type de sélection des tags</label>
+			<label index="provider.tagList.tagsSelector.checkbox">Cases à cocher</label>
+			<label index="provider.tagList.tagsSelector.select">Liste déroulante</label>
 		</languageKey>
 	</data>
 </T3locallang>

@@ -1,3 +1,10 @@
+2012-04-02 Emilie Sagniez <emilie@in-cite.net>
+	* Feature: Add possibility to choose between checkbox or selector box for tags list
+
+2012-04-02 Loïc Stéphan <loic@in-cite.net>
+2012-04-02 Emilie Sagniez <emilie@in-cite.net>
+	* Feature: add data list accessibility
+
 2012-03-22 Pierrick Caillon <pierrick@in-cite.net>
 	* Bug fix: inverted latitude and longitude usage in jmap3 init call.
 	* Bug fix: invalid context using ics.Map property markerEvents.

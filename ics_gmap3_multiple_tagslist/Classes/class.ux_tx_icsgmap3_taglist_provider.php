@@ -31,6 +31,7 @@
 	var $extKey_xclass = 'ics_gmap3_multiple_tagslist';
 	
 	function getBehaviourInitFunction($conf) {
+		$conf = $this->initConf($conf);
 		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_taglist.js', false, '_gmap3_provider_taglist');
 		
 		$jsCode = '';
@@ -74,8 +75,16 @@
 				var secondListFieldName = \'\';';
 		}
 		
+		if ($conf['tagsSelectorSecondList']) {
+			$jsCode .= '
+				var secondTagsSelector = \'' . $conf['tagsSelectorSecondList'] . '\';';
+		} else {
+				$jsCode .= '
+				var secondTagsSelector = \'\';';
+		}
+		
 		$jsCode .= '
-				(new ics.TagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ', secondListFieldName);
+				(new ics.TagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ', \'' . $conf['tagsSelector'] . '\', secondListFieldName, secondTagsSelector);
 			}
 		';
 		

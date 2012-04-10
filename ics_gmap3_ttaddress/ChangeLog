@@ -1,3 +1,7 @@
+2012-04-02 Loïc Stéphan <loic@in-cite.net>
+2012-04-02 Emilie Sagniez <emilie@in-cite.net>
+	* Fix: Correct query if storage pid is defined to typoscript
+
 2012-03-20 Loïc Stéphan <loic@in-cite.net>
 	* Moved rggooglemap call to ics_coordinates_wizard in ext_tables.php
 

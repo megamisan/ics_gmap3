@@ -47,6 +47,26 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 		$this->flexform = str_replace('<!-- ###ADDITIONAL FLEX### -->', $additional_flex, file_get_contents(t3lib_div::getFileAbsFileName('EXT:' . $this->extKey . '/flexform_ds_taglist.xml')));
 	}
 	
+	function initConf($conf) {
+		$confTS = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_icsgmap3_pi1.']['tagList.'];
+		if (is_array($confTS)) {
+			foreach ($confTS as $key => $value) {
+				if (!$conf[$key] && $value) {
+					$conf[$key] = $value;
+				}
+			}
+		}
+		// Hook change configuration
+		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_icsgmap3_taglist_provider']['initConf'])) {
+			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tx_icsgmap3_taglist_provider']['initConf'] as $_classRef) {
+				$_procObj = & t3lib_div::getUserObj($_classRef);
+				$_procObj->initConf($conf);
+			}
+		}
+		
+		return $conf;
+	}
+	
 	function getStaticData($conf) {
 		return null;	
 	}
@@ -56,6 +76,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 	}
 	
 	function getBehaviourInitFunction($conf) {
+		$conf = $this->initConf($conf);
 		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey) . 'res/js/gmap3_provider_taglist.js', false, '_gmap3_provider_taglist');
 		
 		$jsCode = '';
@@ -92,7 +113,7 @@ class tx_icsgmap3_taglist_provider implements tx_icsgmap3_iprovider {
 		}
 		
 		$jsCode .= '
-				(new ics.TagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ');
+				(new ics.TagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ', \'' . $conf['tagsSelector'] . '\');
 			}
 		';
 		
