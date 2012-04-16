@@ -1,0 +1,25 @@
+plugin.tx_icsgmap3_pi1 {
+	templateFile = {$plugin.tx_icsgmap3_pi1.templateFile}
+	providers = {$plugin.tx_icsgmap3_pi1.providers}
+	includeLibJS = {$plugin.tx_icsgmap3_pi1.includeLibJS}
+	mapId = {$plugin.tx_icsgmap3_pi1.mapId}
+	width = {$plugin.tx_icsgmap3_pi1.width}
+	height = {$plugin.tx_icsgmap3_pi1.height}
+	lat = {$plugin.tx_icsgmap3_pi1.lat}
+	lng = {$plugin.tx_icsgmap3_pi1.lng}
+	zoom = {$plugin.tx_icsgmap3_pi1.zoom}
+	type = {$plugin.tx_icsgmap3_pi1.type}
+	type_controls = {$plugin.tx_icsgmap3_pi1.type_controls}
+	nav_controls = {$plugin.tx_icsgmap3_pi1.nav_controls}
+	scrollwheel = {$plugin.tx_icsgmap3_pi1.scrollwheel}
+	streetview_control = {$plugin.tx_icsgmap3_pi1.streetview_control}
+	
+	tagList {
+		# Flexform configuration
+	}
+}
+
+page.includeJS {
+	gmap3 = EXT:ics_gmap3/res/js/gmap3.js
+	gmap3_icsCreateElements = EXT:ics_gmap3/res/js/icsCreateElements.js
+}

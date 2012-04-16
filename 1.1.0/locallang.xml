@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'ics_gmap3'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="pi1_title">Google map (v3)</label>
+			<label index="pi2_title">TagList</label>
+			<label index="tt_content.pi_flexform.sheet_general">Configuration</label>
+			<label index="flexform.sheets.general.templateFile">Template file</label>
+			<label index="flexform.sheets.general.providers">Providers</label>
+			<label index="flexform.sheets.general.startingpoint">Storage page</label>
+			<label index="flexform.sheets.general.mapId">Map id</label>
+			<label index="flexform.sheets.general.width">Map width</label>
+			<label index="flexform.sheets.general.height">Map height</label>
+			<label index="flexform.sheets.general.zoom">Map zoom</label>
+			<label index="flexform.sheets.general.lng">Longitude</label>
+			<label index="flexform.sheets.general.lat">Latitude</label>
+			<label index="flexform.sheets.general.type">Type of map</label>
+			<label index="flexform.sheets.general.type.map">Roadmap</label>
+			<label index="flexform.sheets.general.type.satellite">Satellite</label>
+			<label index="flexform.sheets.general.type.hybrid">Hybrid</label>
+			<label index="flexform.sheets.general.type.terrain">Terrain</label>
+			<label index="flexform.sheets.general.type_controls">Show type controls</label>
+			<label index="flexform.sheets.general.type_controls.1">Show</label>
+			<label index="flexform.sheets.general.type_controls.2">Hide</label>
+			<label index="flexform.sheets.general.nav_controls">Navigation controls</label>
+			<label index="flexform.sheets.general.nav_controls.1">Small</label>
+			<label index="flexform.sheets.general.nav_controls.2">Large</label>
+			<label index="flexform.sheets.general.nav_controls.3">Hide</label>
+			<label index="flexform.sheets.general.scrollwheel">Scrollwheel</label>
+			<label index="flexform.sheets.general.scrollwheel.1">Enable</label>
+			<label index="flexform.sheets.general.scrollwheel.2">Disable</label>
+			<label index="flexform.sheets.general.streetview_control">StreetView Control</label>
+			<label index="flexform.sheets.general.streetview_control.1">Enable</label>
+			<label index="flexform.sheets.general.streetview_control.2">Disable</label>
+			<label index="flexform.sheets.general.includeLibJS">Include following librairies</label>
+			<label index="flexform.sheets.general.includeLibJS.gmap_api">API Google Map</label>
+			<label index="flexform.sheets.general.includeLibJS.jquery_ui">jQuery UI</label>
+			<label index="flexform.sheets.general.includeLibJS.gmap3">GMap 3</label>
+			<label index="flexform.sheets.general.includeLibJS.jquery_lib">jQuery lib</label>
+			<label index="provider.tagList">Tags list</label>
+			<label index="provider.tagList.exclusivesTags">Exclusives tags</label>
+			<label index="provider.tagList.hiddenTags">Hidden tags</label>
+			<label index="provider.tagList.defaultTags">Default tags</label>
+			<label index="provider.tagList.defaultMapEmpty">View defaut tags if selected tags are empty</label>
+			<label index="provider.tagList.title">Behaviour provider (tags list)</label>
+			<label index="provider.tagList.tagsSelector">Selector tags type</label>
+			<label index="provider.tagList.tagsSelector.checkbox">Checkbox</label>
+			<label index="provider.tagList.tagsSelector.select">Select</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="pi1_title">Google map (v3)</label>
+			<label index="pi2_title">TagList</label>
+			<label index="tt_content.pi_flexform.sheet_general">Configuration de la carte</label>
+			<label index="flexform.sheets.general.templateFile">Fichier template</label>
+			<label index="flexform.sheets.general.providers">Fournisseurs</label>
+			<label index="flexform.sheets.general.startingpoint">Dossier de stockage</label>
+			<label index="flexform.sheets.general.mapId">Identifiant de la Carte</label>
+			<label index="flexform.sheets.general.width">Largeur de la Carte</label>
+			<label index="flexform.sheets.general.height">Hauteur de la Carte</label>
+			<label index="flexform.sheets.general.zoom">Niveau de zoom de la Carte</label>
+			<label index="flexform.sheets.general.lng">Longitude</label>
+			<label index="flexform.sheets.general.lat">Latitude</label>
+			<label index="flexform.sheets.general.type">Type de la Carte</label>
+			<label index="flexform.sheets.general.type.map">Carte</label>
+			<label index="flexform.sheets.general.type.satellite">Satellite</label>
+			<label index="flexform.sheets.general.type.hybrid">Hybride</label>
+			<label index="flexform.sheets.general.type.terrain">Terrain</label>
+			<label index="flexform.sheets.general.type_controls">Afficher les types de Carte</label>
+			<label index="flexform.sheets.general.type_controls.1">Afficher</label>
+			<label index="flexform.sheets.general.type_controls.2">Cacher</label>
+			<label index="flexform.sheets.general.nav_controls">Afficher la navigation</label>
+			<label index="flexform.sheets.general.nav_controls.1">Petite</label>
+			<label index="flexform.sheets.general.nav_controls.2">Grande</label>
+			<label index="flexform.sheets.general.nav_controls.3">Cacher</label>
+			<label index="flexform.sheets.general.scrollwheel">Activer le zoom molette</label>
+			<label index="flexform.sheets.general.scrollwheel.1">Activer</label>
+			<label index="flexform.sheets.general.scrollwheel.2">Desactiver</label>
+			<label index="flexform.sheets.general.streetview_control">Activer StreetView</label>
+			<label index="flexform.sheets.general.streetview_control.1">Activer</label>
+			<label index="flexform.sheets.general.streetview_control.2">Désactiver</label>
+			<label index="flexform.sheets.general.includeLibJS">Inclure les bibliothèques suivantes</label>
+			<label index="flexform.sheets.general.includeLibJS.gmap_api">API Google Map</label>
+			<label index="flexform.sheets.general.includeLibJS.jquery_ui">jQuery UI</label>
+			<label index="flexform.sheets.general.includeLibJS.gmap3">GMap 3</label>
+			<label index="flexform.sheets.general.includeLibJS.jquery_lib">Bibliothèque jQuery </label>
+			<label index="provider.tagList">Liste de tags</label>
+			<label index="provider.tagList.exclusivesTags">Tags exclusifs</label>
+			<label index="provider.tagList.hiddenTags">Tags cachés</label>
+			<label index="provider.tagList.defaultTags">Tags affichés par défaut</label>
+			<label index="provider.tagList.defaultMapEmpty">Afficher les tags par défaut si aucun tag n'est coché</label>
+			<label index="provider.tagList.title">Fournisseur de comportement (Liste de tags)</label>
+			<label index="provider.tagList.tagsSelector">Type de sélection des tags</label>
+			<label index="provider.tagList.tagsSelector.checkbox">Cases à cocher</label>
+			<label index="provider.tagList.tagsSelector.select">Liste déroulante</label>
+		</languageKey>
+	</data>
+</T3locallang>

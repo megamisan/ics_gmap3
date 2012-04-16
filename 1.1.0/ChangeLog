@@ -1,0 +1,64 @@
+2012-04-16 Emilie Sagniez <emilie@in-cite.net>
+	* Version changed to 1.1.0
+
+2012-04-02 Emilie Sagniez <emilie@in-cite.net>
+	* Feature: Add possibility to choose between checkbox or selector box for tags list
+
+2012-04-02 Loïc Stéphan <loic@in-cite.net>
+2012-04-02 Emilie Sagniez <emilie@in-cite.net>
+	* Feature: add data list accessibility
+
+2012-03-22 Pierrick Caillon <pierrick@in-cite.net>
+	* Bug fix: inverted latitude and longitude usage in jmap3 init call.
+	* Bug fix: invalid context using ics.Map property markerEvents.
+	* Bug fix: jQuery compatibility ($ was used in some places).
+	* Bug fix: missing variable in closure.
+	* Fix: script cleanup (missing semicolon, json syntax...).
+	* Fix: jQuery.each usage instead of for-loop on arrays.
+	* Fix: remove tag icon when not defined.
+
+2012-03-20 Emilie Sagniez <emilie@in-cite.net>
+	* Version changed to 1.0.0
+
+2012-03-20 Emilie Sagniez <emilie@in-cite.net>
+	* Add Provider taglist hook (flexform additionnal fields) and xclass declaration 
+	* Dynamic flex class: replace new $ class by makeInstance (for xclass implementation)
+	* gmap3.js: correct centerMapDefault function
+	* Change TagList variables names in conflict with hierarchical tag list, and correct rezise to resize
+	* Exploded TagList viewDefaultsTags and hideExclusivesTags functions 
+
+2012-03-08 Pierrick Caillon <pierrick@in-cite.net>
+	* Bug fix: No ROOT element in an added flexform sheet.
+
+2012-02-20 Emilie Sagniez <emilie@in-cite.net>
+	* Add Typoscript Configuration
+	* Merge TS Configuration with Flexform Configuration
+	* Create new javascript function to ics.TagList: addToContainer
+	* Move static/gmap3/ to pi1/static/
+
+2012-01-25 Emilie Sagniez <emilie@in-cite.net>
+	* Change tt_address coordinates field to two fields: latitude and longitude
+WARNING: En cas de mise à jour, il faut remplir les 2 nouveaux champs par l'ancien
+	* Add rggooglemap wizard in tt_address edition BE if extension is loaded
+
+... Missing changes ...
+
+2011-12-02 Pierrick Caillon <pierrick@in-cite.net>
+	* Refactoring: Transformed tag list provider's JS functions to an object. (not tested)
+
+2011-12-02 Frederic Goyer <fgoyer@in-cite.net>
+	* Bug: Fixed case of "Classes" folder.
+
+2011-11-30 Loïc Stéphan <loic@in-cite.net>
+	* Fixed bug in constructor name in class.tx_icsgmap3_taglist_provider.php.
+
+2011-10-07 Pierrick Caillon <pierrick@in-cite.net>
+	* Changed IProvider interface filename to begin with interface instead of class.
+	* Changed taglist_provider filename and classname to add an underscore after the extension classname prefix.
+	* Updated autoload and localconf accordingly.
+	* Changed casse of classes folder.
+
+... Missing changes ...
+
+2011-06-16 In Cité Solution  <technique@in-cite.net>
+	* initial code generated with kickstarter
