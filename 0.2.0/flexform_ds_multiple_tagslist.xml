@@ -1,0 +1,31 @@
+<fieldSecondList>
+	<TCEforms>
+		<label>LLL:EXT:ics_gmap3_multiple_tagslist/locallang.xml:provider.tagList.fieldSecondList</label>	
+		<config>
+			 <type>input</type>
+             <size>15</size>
+		</config>
+	</TCEforms>
+</fieldSecondList>
+<tagsSelectorSecondList>
+	<TCEforms>
+		<label>LLL:EXT:ics_gmap3_multiple_tagslist/locallang.xml:provider.tagList.tagsSelectorSecondList</label>	
+		<config>
+			<type>select</type>
+			<items type="array">
+				<numIndex index="0" type="array">
+					<numIndex index="0"></numIndex>
+					<numIndex index="1"></numIndex>
+				</numIndex>
+				<numIndex index="1" type="array">
+					<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.tagsSelector.checkbox</numIndex>
+					<numIndex index="1">checkbox</numIndex>
+				</numIndex>
+				<numIndex index="2" type="array">
+					<numIndex index="0">LLL:EXT:ics_gmap3/locallang.xml:provider.tagList.tagsSelector.select</numIndex>
+					<numIndex index="1">select</numIndex>
+				</numIndex>
+			</items>
+		</config>
+	</TCEforms>
+</tagsSelectorSecondList>
