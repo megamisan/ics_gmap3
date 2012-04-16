@@ -1,0 +1,11 @@
+<el>
+	<nodata>
+		<TCEforms>
+			<label>No data</label>
+			<config>
+				<type>user</type>
+				<userFunc>tx_icsgmap3_dynflex->emptyControl</userFunc>
+			</config>
+		</TCEforms>
+	</nodata>
+</el>
