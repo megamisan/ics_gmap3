@@ -1,0 +1,16 @@
+plugin.tx_icsgmap3ttaddress {
+	# cat=plugin.tx_icsgmap3_pi1/configuration/a; type=int; label=Storage PID: Storage folder PID.
+	storagePid =
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/b; type=string; label=Category: Category.
+	category =
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/c; type=string; label=tt_address fields visibles into tooltip: tt_address fields visibles into tooltip.
+	windowsInfoFields = first_name,last_name,address,city,zip
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/d; type=string; label=Data separator: Data separator, use for separate data child and data parent.
+	separator =
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/e; type=string; label=Parent path: Parent path.
+	withPath =
+}
