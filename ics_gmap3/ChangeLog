@@ -1,11 +1,11 @@
+2012-04-30 Pierrick Caillon <pierrick@in-cite.net>
+	* Fix: Corrected provider property in pi1 constants to providers as expected by setup.
+
 2012-04-16 Emilie Sagniez <emilie@in-cite.net>
 	* Version changed to 1.1.0
 
 2012-04-02 Emilie Sagniez <emilie@in-cite.net>
 	* Feature: Add possibility to choose between checkbox or selector box for tags list
-
-2012-04-02 Loïc Stéphan <loic@in-cite.net>
-2012-04-02 Emilie Sagniez <emilie@in-cite.net>
 	* Feature: add data list accessibility
 
 2012-03-22 Pierrick Caillon <pierrick@in-cite.net>
@@ -37,8 +37,8 @@
 	* Move static/gmap3/ to pi1/static/
 
 2012-01-25 Emilie Sagniez <emilie@in-cite.net>
-	* Change tt_address coordinates field to two fields: latitude and longitude
-WARNING: En cas de mise à jour, il faut remplir les 2 nouveaux champs par l'ancien
+	* Changed tt_address coordinates field to two fields: latitude and longitude
+WARNING: In case of update, the two new fields must be filled my the corresponding value for the old field.
 	* Add rggooglemap wizard in tt_address edition BE if extension is loaded
 
 ... Missing changes ...
