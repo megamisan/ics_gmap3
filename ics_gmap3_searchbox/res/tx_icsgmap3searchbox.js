@@ -61,7 +61,7 @@ ics.SearchBox.prototype.makeSearchBox = function() {
 								{
 									'tag': 'input',
 									'properties': {
-										'type': 'input',
+										'type': 'text',
 										'id': 'searchBox' + this.boxId + '_text',
 										'name': 'search_text',
 										'size': arguments.callee.inputSize

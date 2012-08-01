@@ -1,3 +1,6 @@
+2012-08-01 Pierrick Caillon <pierrick@in-cite.net>
+	* Fix: search text input type was input instead of text.
+
 2012-04-16 Emilie Sagniez <emilie@in-cite.net>
 	* Version changed to 0.1.0
 
