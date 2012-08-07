@@ -1,3 +1,7 @@
+2012-08-07 Frederic Goyer <fgoyer@in-cite.net>
+	* Features: Added multiple storage folder in class.tx_icsgmap3ttaddress_provider.php
+	* Features: Modified $optionList to fe_admin_fieldList in class.tx_icsgmap3_tt_address_flexform_helper.php
+	
 2012-04-16 Emilie Sagniez <emilie@in-cite.net>
 	* Version changed to 1.1.0
 

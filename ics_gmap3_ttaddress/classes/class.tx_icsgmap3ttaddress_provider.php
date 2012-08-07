@@ -108,15 +108,18 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		if(!empty($conf['storagePid'])) {
 			$aStorage = t3lib_div::trimExplode(',',$conf['storagePid'],true);
 			if(is_array($aStorage) && count($aStorage)) {
+				$storagePid = array();
 				foreach($aStorage as $storage) {
 					$storage = t3lib_div::trimExplode('_',$storage,true);
 					if($storage[0] == 'pages') {
-						$whereClause[] = 'address.`pid` = ' . intval($storage[1]);
+						$storagePid[] = intval($storage[1]);
 					}
 					else {
-						$whereClause[] = 'address.`pid` = ' . intval($storage[0]);
+						$storagePid[] = intval($storage[0]);
 					}
 				}
+				/* Multiple storage folder */
+				$whereClause[] = 'address.`pid` IN (' . implode(',', $storagePid) . ')';				
 			}
 		}
 		
