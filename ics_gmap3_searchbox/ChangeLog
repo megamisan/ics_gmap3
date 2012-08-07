@@ -1,3 +1,6 @@
+2012-08-07 Frederic Goyer <fgoyer@in-cite.net>
+	* Features: Added lookUp_init function in tx_icsgmap3searchbox.js
+
 2012-08-01 Pierrick Caillon <pierrick@in-cite.net>
 	* Fix: search text input type was input instead of text.
 

@@ -17,6 +17,7 @@ ics.SearchBox.prototype.init = function(map, fields) {
 	if (!container || fields.length == 0)
 		return false;
 	this.map = map;
+	this.map.searchBox = this;
 	this.textBuilder = this.buildTextBuilder_(fields);
 	this.boxId = ics.SearchBox.nextId++;
 	var content = this.makeSearchBox();
@@ -135,11 +136,15 @@ ics.SearchBox.prototype.buildTextBuilder_.makeConcat = function(calls) {
 	};
 };
 
-ics.SearchBox.prototype.lookUp = function(searchText) {
+ics.SearchBox.prototype.lookUp_init = function() {
 	var allMarkers = this.map.getMarkers();
 	this.map.displayMarkers(allMarkers, false);
 	jQuery('div.tx-icsgmap3-pi1 ul.tagList input').attr('checked', false);
-	
+	return allMarkers;
+}
+
+ics.SearchBox.prototype.lookUp = function(searchText) {
+	var allMarkers = this.lookUp_init();
 	var markers = [];
 	var textSegments = searchText.split(' ');
 	var searchElements = [];
@@ -150,6 +155,7 @@ ics.SearchBox.prototype.lookUp = function(searchText) {
 			searchElements.push(RegExp.escape(cleanText(v)));
 		}
 	});
+
 	var testRegEx = new RegExp('\\W((' + searchElements.join(')|(') + '))\\W', 'gi');
 	var textBuilder = this.textBuilder;
 	jQuery.each(allMarkers, function() {
@@ -157,6 +163,7 @@ ics.SearchBox.prototype.lookUp = function(searchText) {
 			markers.push(this);
 		}
 	});
+	this.map.displayMarkers(allMarkers, false);	
 	this.map.displayMarkers(markers, true);
 	switch (markers.length) {
 		case 0:
