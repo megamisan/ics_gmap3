@@ -2,14 +2,16 @@
 <T3locallang>
 	<meta type="array">
 		<type>module</type>
-		<description>Language labels for extension 'ics_gmap3_hierarchical_taglist'</description>
+		<description>Language labels for extension 'ics_gmap3_datalist'</description>
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
 			<label index="provider.dataList">Data List</label>
+			<label index="pagebrowser_markerperpage">Number of marker per page</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="provider.dataList">Liste des données</label>
+			<label index="pagebrowser_markerperpage">Nombre de marker par page</label>
 		</languageKey>
 	</data>
 </T3locallang>

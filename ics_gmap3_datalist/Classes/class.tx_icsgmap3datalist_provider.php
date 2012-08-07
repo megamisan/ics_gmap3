@@ -47,11 +47,11 @@ class tx_icsgmap3datalist_provider implements tx_icsgmap3_iprovider {
 	
 	function getBehaviourInitFunction($conf) {
 		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/tx_icsgmap3datalist.js', false, '_gmap3datalist_provider');
-		
+		$markerPerPage = $conf['markerperpage'] ? $conf['markerperpage'] : 0;
 		$jsCode = '';		
 		$jsCode .= '
 			function (map) {
-				(new ics.DataList()).init(map);
+				(new ics.DataList()).init(map, '.$markerPerPage.');
 			}
 		';
 		
