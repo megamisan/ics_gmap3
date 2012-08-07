@@ -65,7 +65,7 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	// create item list for each tag
 	for (var i = 0; i < tags.length; i++) {
 		tag = tags[i];
-		if (tag && jQuery.inArray(tag, hiddenTags) < 0)
+		if (tag && jQuery.inArray(tag, this.hiddenTags) < 0)
 			finalTags.push(tag);
 		
 		// this.iconHiera[cat] = map.htl.iconsTags[tags[i]];
@@ -81,8 +81,8 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	}
 		
 	for (var cat in this.hiera) {
-		if(jQuery.inArray(cat, hiddenTags) < 0) {
-			list.push(this.makeTagNode_(cat, (jQuery.inArray(cat, defaultTags) >= 0) ? true : false, '', this.hiera[cat]));
+		if(jQuery.inArray(cat, this.hiddenTags) < 0) {
+			list.push(this.makeTagNode_(cat, (jQuery.inArray(cat, this.defaultTags) >= 0) ? true : false, '', this.hiera[cat]));
 		}
 	}
 		
@@ -105,7 +105,7 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	// remove all markers except default tags (include hidden tags)
 	var markers = map.getMarkers();
 	map.displayMarkers(markers, false);	
-	var markers = map.getMarkers(defaultTags);
+	var markers = map.getMarkers(this.defaultTags);
 	map.displayMarkers(markers, true);
 	
 	// add click event 
@@ -134,6 +134,9 @@ ics.HierarchicalTagList.prototype.init = function(map, exclusivesTags, hiddenTag
 	});
 	return true;
 }
+ics.HierarchicalTagList.prototype.addToContainer = function(content, container) {
+	container.parentNode.appendChild(content);
+};
 
 ics.HierarchicalTagList.prototype.checkH = function() {
 		var myListH = jQuery('ul.tagListNum' + this.listId+' li.selected').height();
@@ -157,7 +160,7 @@ ics.HierarchicalTagList.prototype.makeTreeNode_ = function(tag, icon, checked, p
 	var list = [];
 	var hasChild = false;
 	for (var child in children) {
-		if(jQuery.inArray(child, this..hiddenTags) < 0) {
+		if(jQuery.inArray(child, this.hiddenTags) < 0) {
 			hasChild = true;
 			list.push(this.makeTagNode_(child, (jQuery.inArray(tag, this.defaultTags) >= 0) ? true : false, path, children[child]));
 		}

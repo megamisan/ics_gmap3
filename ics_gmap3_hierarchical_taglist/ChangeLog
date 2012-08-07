@@ -1,3 +1,7 @@
+2012-08-07 Frederic Goyer <fgoyer@in-cite.net>
+	* Features: Added addToContainer function in tx_icsgmap3hierarchicaltaglist.js
+	* Fix: Double point after this in function makeTreeNode_ in tx_icsgmap3hierarchicaltaglist.js
+
 2012-03-20 Emilie Sagniez <emilie@in-cite.net>
 	* Version changed to 1.0.0
 
