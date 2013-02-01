@@ -1,3 +1,6 @@
+2013-02-01 Guillaume Germain <guillaume.germain@plan-net.fr>
+	* Fix: W3C error in script code added by the function incJsFile.
+
 2012-04-30 Pierrick Caillon <pierrick@in-cite.net>
 	* Fix: Corrected provider property in pi1 constants to providers as expected by setup.
 

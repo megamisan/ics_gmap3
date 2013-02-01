@@ -295,9 +295,11 @@ jQuery(function(){
 		}
 		else
 		{
-			$js .= '<script type="text/javascript">
-				'.$script.'
-			</script>';
+			if(!empty($script)) {
+				$js .= '<script type="text/javascript">//<![CDATA[
+					'.$script.'
+				//]]></script>';
+			}
 		}
 		
 		
