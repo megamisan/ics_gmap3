@@ -12,6 +12,7 @@ ics.Map.prototype.setConf = function(gmap3,mapLng,mapLat,mapZoom,mapTypeId,mapTy
 	this.scrollwheel = scrollwheel;
 	this.streetViewControl = streetViewControl;
 	this.behaviours = [];
+	this.data = [];
 }; // ou le faire avec des propriétés.
 
 ics.Map.prototype.createMap = function() {
@@ -39,7 +40,7 @@ ics.Map.prototype.initGMap_ = function() {
 }; // Initialise jQuery.gmap3
 	
 ics.Map.prototype.addStaticData = function(data) {
-	this.data = data;
+	for (var i = 0; i < data.length; i++) this.data.push(data[i]);
 }; // Ajoute une liste de marqueur statique au stockage local
 
 ics.Map.prototype.createMarkersStatic_ = function(data) {

@@ -1,3 +1,10 @@
+2013-02-22 Pierrick Caillon <pierrick@in-cite.net>
+	* Fix: Support of providers with multiple roles.
+	* Fix: Support for multiple data sources.
+	* Cleaning: Removed code comments.
+	* Feature: Additional parameters when including gmaps api.
+	* Fix: Usage of PHP short open tags.
+
 2013-02-01 Guillaume Germain <guillaume.germain@plan-net.fr>
 	* Fix: W3C error in script code added by the function incJsFile.
 

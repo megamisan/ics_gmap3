@@ -43,7 +43,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 	var $extKey        = 'ics_gmap3';	// The extension key.
 	var $data          = array();
 	var $dataInit      = array();
-	
+
 	/**
 	 * The main method of the PlugIn
 	 *
@@ -56,7 +56,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		$this->pi_setPiVarDefaults();
 		$this->pi_loadLL();
 		$this->pi_USER_INT_obj = 1;	// Configuring so caching is not expected. This value means that no cHash params are ever set. We do this, because it's a USER_INT object!
-	
+
 		$this->init();
 
 		$markers = array(
@@ -66,7 +66,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		$content = $this->template2html($markers, '###TEMPLATE_CONTENT###');
 		return $this->pi_wrapInBaseClass($content);
 	}
-	
+
 	/**
 	 * Init configuration
 	 *
@@ -74,7 +74,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 	 */
 	function init() {
 		$this->pi_initPIflexForm();
-		
+
 		$this->lConf = array(); // Setup our storage array...
 		$this->providers = array();
 		$piFlexForm = $this->cObj->data['pi_flexform'];
@@ -85,7 +85,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 				}
 			}
 		}
-		
+
 		$this->lConf = array_merge($this->conf, $this->lConf);
 		$aProviders = t3lib_div::trimExplode(',',$this->lConf['providers']);
 		if(is_array($aProviders) && count($aProviders) && !empty($aProviders[0])) {
@@ -102,31 +102,25 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 						}
 					}
 				}
-				
+
 				if (is_array($provider->conf) && !empty($provider->conf))
 					$confProvider = array_merge($provider->conf, $confProvider);
-				if($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_NONE) {
-					$this->data[] = null;
-					//$this->dataInit[] = $provider->data;
-				}
-				elseif($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_STATIC) {
+				if($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_STATIC) {
 					$this->data[] = $provider->getStaticData(array_merge($confProvider,array('prefixId' => $this->prefixId)));
-					//$this->dataInit[] = $provider->data;
 				}
-				elseif($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_DYNAMIC) {
+				if($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::DATA_DYNAMIC) {
 					$this->data[] = $provider->getDynamicDataUrl($confProvider);
-					//$this->dataInit[] = $provider->data;
 				}
-				elseif($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
+				if($subscribers[$sProvider]['data'] & tx_icsgmap3_provider_manager::BEHAVIOUR_ADD) {
 					$this->behaviourFunc[] = $provider->getBehaviourInitFunction(array_merge($confProvider,array('prefixId' => $this->prefixId)));
 				}
 			}
 		}
-		
+
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_scale' . $this->cObj->data['uid']] = '<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>';
-		
+
 		$this->incJsFile($jsCode, true, '_carto');
-		
+
 		$this->storage = $this->lConf['pages'];
 		$this->mapId = $this->lConf['mapId'];
 		$this->mapWidth = $this->lConf['width'];
@@ -141,13 +135,13 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		$this->scrollwheel = $this->lConf['scrollwheel'] == "show"?"true":"false";
 		$this->streetViewControl = $this->lConf['streetview_control'] == "show"?"true":"false";
 		$this->windowsInfoFields = $this->lConf['windowsInfoFields'];
-		
+
 		$includeLibJS = t3lib_div::trimExplode(',', $this->lConf['includeLibJS'], 1);
 		while (list(, $lib) = each($includeLibJS)) {
 			$lib = (string)strtoupper(trim($lib));
 			switch ($lib) {
 				case 'GMAP_API':
-					$this->incJsFile('http://maps.google.com/maps/api/js?sensor=false', false, '_gmap_api');
+					$this->incJsFile('http://maps.google.com/maps/api/js?sensor=false' . $this->conf['gmapParams'], false, '_gmap_api');
 				break;
 				case 'JQUERY_UI':
 					$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/js/jquery-ui-1.8.12.custom.min.js', false, '_jquery_ui_js');
@@ -167,11 +161,11 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		else {
 			$this->template = $this->cObj->fileResource($this->conf['template']);
 		}
-		
+
 		$this->initJSData();
 
 	}
-	
+
 	/**
 	 *	Initialize javascript functions
 	 *
@@ -184,8 +178,11 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 
 jQuery(function(){
 	var gmap3 = new ics.Map();
-	gmap3.setConf("' . $this->mapId . '",' . $this->mapLng . ',' . $this->mapLat . ',' . $this->mapZoom . ',' . $this->mapTypeId . ',' . $this->mapTypeControl . ',' . $this->navigationControl . ',' . $this->scrollwheel . ',' . $this->streetViewControl . ');
-	gmap3.addStaticData(' . implode('',$this->data) . ');';
+	gmap3.setConf("' . $this->mapId . '",' . $this->mapLng . ',' . $this->mapLat . ',' . $this->mapZoom . ',' . $this->mapTypeId . ',' . $this->mapTypeControl . ',' . $this->navigationControl . ',' . $this->scrollwheel . ',' . $this->streetViewControl . ');';
+	foreach ($this->data as $data) {
+		$jsCodeInitData .= '
+	gmap3.addStaticData(' . $data . ');';
+	};
 	foreach($this->behaviourFunc as $bFunc) {
 		$jsCodeInitData .= '
 	gmap3.addBehaviourInit(' . $bFunc . ');';
@@ -196,13 +193,13 @@ jQuery(function(){
 });';
 		$this->incJsFile($jsCodeInitData, true, '_carto_init');
 	}
-	
+
 	/**
 	 *	Render map html
 	 *
 	 * @return	string	html code
 	 */
-	function displayMap() {	
+	function displayMap() {
 
 		$zoom = "";
 		if($this->navigationControl_id != "hide") {
@@ -211,7 +208,7 @@ jQuery(function(){
 							style: " . $this->navigationControl_id . "
 						},";
 		}
-		
+
 		$marker = array(
 			'###MAP_ID###' => $this->mapId,
 			'###MAP_HEIGHT###' => $this->mapHeight,
@@ -228,12 +225,12 @@ jQuery(function(){
 			'###ID###' => $this->cObj->data['uid'],
 			'###JSON_DATA###' => implode('',$this->data),
 		);
-		
+
 		$map = $this->template2html($marker, '###DISPLAY_MAP###');
-	
+
 		return $map;
 	}
-	
+
 	/**
 	 *	Render data list accessibility html
 	 *
@@ -246,42 +243,45 @@ jQuery(function(){
 		$markersArray = array(
 			'###PREFIXID###' => $this->prefixId,
 		);
-		
-		$aData = json_decode(implode('', $this->data));
 
-		if(is_array($aData) && count($aData)) {
-			$templateListBase = $this->cObj->getSubpart($this->template, '###DATA_ITEM###');
-			$fieldTemplate = $this->cObj->getSubpart($templateListBase, '###FIELDS###');
-			foreach($aData as $data) {				
-				$outputData = '';
-				foreach((array) $data->data as $name => $value) {
-					$markerArrayField = array(
-						'###FIELD_NAME###' => $name,
-						'###FIELD_VALUE###' => $value,
-					);
-					$outputData .= $this->cObj->substituteMarkerArray($fieldTemplate, $markerArrayField);
+		$templateListBase = $this->cObj->getSubpart($this->template, '###DATA_ITEM###');
+		$fieldTemplate = $this->cObj->getSubpart($templateListBase, '###FIELDS###');
+
+		foreach ($this->data as $data) {
+			$data = json_decode($data);
+			if (is_array($data) && count($data)) {
+				foreach($data as $marker) {
+					$outputData = '';
+					foreach((array) $marker->data as $name => $value) {
+						if (is_object($value)) continue;
+						$markerArrayField = array(
+							'###FIELD_NAME###' => (string)$name,
+							'###FIELD_VALUE###' => (string)$value,
+						);
+						$outputData .= $this->cObj->substituteMarkerArray($fieldTemplate, $markerArrayField);
+					}
+
+					$templateList = $this->cObj->substituteSubpart($templateListBase, '###FIELDS###', $outputData);
+					$outputList .= $this->cObj->substituteMarkerArray($templateList, $markersArray);
 				}
-				
-				$templateList = $this->cObj->substituteSubpart($templateListBase, '###FIELDS###', $outputData);
-				$outputList .= $this->cObj->substituteMarkerArray($templateList, $markersArray);
 			}
 		}
 		$subpartsArray = array(
 			'###DATA_ITEM###' => $outputList,
 		);
-		
-		// Hook 
+
+		// Hook
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['additionalAccessibilityMarkers'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$this->extKey]['additionalAccessibilityMarkers'] as $_classRef) {
 				$_procObj = & t3lib_div::getUserObj($_classRef);
 				$_procObj->additionalAccessibilityMarkers($template, $markersArray, $subpartsArray, $this);
 			}
 		}
-		
+
 		$content = $this->cObj->substituteMarkerArrayCached($template, $markersArray, $subpartsArray);
 		return $content;
 	}
-	
+
 	/**
 	* Function to insert Javascript at Ext. Runtime
 	*
@@ -301,12 +301,12 @@ jQuery(function(){
 				//]]></script>';
 			}
 		}
-		
-		
-		
+
+
+
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $js;
 	}
-	
+
 	/**
 	* Function to insert CSS
 	*
@@ -317,7 +317,7 @@ jQuery(function(){
 		$css = '<link type="text/css" href="' . $cssFile . '" rel="stylesheet" />';
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $css;
 	}
-	
+
 	/**
 	* Replace an HTML template with data
 	*
@@ -325,12 +325,12 @@ jQuery(function(){
 	* @param	string		zone to substitute
 	* @param	array		marker array
 	* @return	string		html code
-	*/	
+	*/
 	function template2html($values, $subpart) {
 		$mySubpart = $this->cObj->getSubpart($this->template, $subpart);
 		return $this->cObj->substituteMarkerArray($mySubpart, $values);
-	}	
-	
+	}
+
 }
 
 
