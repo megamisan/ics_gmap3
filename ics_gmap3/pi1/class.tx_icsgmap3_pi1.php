@@ -117,7 +117,8 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 			}
 		}
 
-		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_scale' . $this->cObj->data['uid']] = '<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>';
+		if($this->lConf['disableUserScaling'])
+			$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . '_scale' . $this->cObj->data['uid']] = '<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>';
 
 		$this->incJsFile($jsCode, true, '_carto');
 

@@ -40,4 +40,7 @@ plugin.tx_icsgmap3_pi1 {
 	
 	# cat=plugin.tx_icsgmap3_pi1/configuration/k; type=string; label=Map streetview control: Map streetview control.
 	streetview_control = show
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/l; type=boolean; label= Disable user scaling: Disable ?
+	disableUserScaling = 0
 }
