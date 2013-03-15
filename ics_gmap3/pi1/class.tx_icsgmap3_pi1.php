@@ -93,7 +93,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 
 				$provider = t3lib_div::makeInstance($sProvider);
 				$subscribers = tx_icsgmap3_provider_manager::getSubscribers();
-
+				$confProvider = array();
 				if(!empty($piFlexForm['data'][$sProvider])) {
 					foreach ($piFlexForm['data'][$sProvider] as $lang => $value) {
 						foreach ($value as $key => $val) {
