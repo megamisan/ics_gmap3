@@ -1,0 +1,30 @@
+2013-03-15 Emilie SAGNIEZ  <emilie.sagniez@plan-net.fr>
+	* Add picto for marker hover to tt_address_group records
+	* Add picto tags list to tt_address_group records  (only for default taglist)
+	* Change extension dependency
+	* Version changed to 1.1.1
+
+2012-08-07 Frederic Goyer <fgoyer@in-cite.net>
+	* Features: Added multiple storage folder in class.tx_icsgmap3ttaddress_provider.php
+	* Features: Modified $optionList to fe_admin_fieldList in class.tx_icsgmap3_tt_address_flexform_helper.php
+	
+2012-04-16 Emilie Sagniez <emilie@in-cite.net>
+	* Version changed to 1.1.0
+
+2012-04-02 Loïc Stéphan <loic@in-cite.net>
+2012-04-02 Emilie Sagniez <emilie@in-cite.net>
+	* Fix: Correct query if storage pid is defined to typoscript
+
+2012-03-20 Loïc Stéphan <loic@in-cite.net>
+	* Moved rggooglemap call to ics_coordinates_wizard in ext_tables.php
+
+2012-03-20 Emilie Sagniez <emilie@in-cite.net>
+	* Change to version 1.0.0
+
+2012-02-20 Emilie Sagniez <emilie@in-cite.net>
+	* Add Typoscript Configuration
+
+... Missing changes ...
+
+2011-06-20 In Cité Solution  <technique@in-cite.net>
+	* initial code generated with kickstarter
