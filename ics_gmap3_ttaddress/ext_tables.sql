@@ -11,4 +11,7 @@ CREATE TABLE tt_address (
 #
 CREATE TABLE tt_address_group (
     tx_icsgmap3ttaddress_picto text,
+    tx_icsgmap3ttaddress_picto_hover text,
+    tx_icsgmap3ttaddress_picto_list text,
+    tx_icsgmap3ttaddress_picto_list_hover text,
 );

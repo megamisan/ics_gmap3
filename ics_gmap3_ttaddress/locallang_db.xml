@@ -9,13 +9,23 @@
 			<label index="tt_address.tx_icsgmap3ttaddress_coord">Coordinates</label>
 			<label index="tt_address.tx_icsgmap3ttaddress_lat">Latitude</label>
 			<label index="tt_address.tx_icsgmap3ttaddress_lng">Longitude</label>
-            <label index="tt_address_group.tx_icsgmap3ttaddress_picto">Picto</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_pictos">Pictogramme pour la cartographie</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto">Pictogramme</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto_hover">Pictogramme au survol</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_pictos_list">Pictogramme pour la liste des catégories sous la cartographie</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto_list">Pictogramme</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto_list_hover">Pictogramme au survol</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="tt_address.tx_icsgmap3ttaddress_coord">Coordonnées</label>
 			<label index="tt_address.tx_icsgmap3ttaddress_lat">Latitude</label>
 			<label index="tt_address.tx_icsgmap3ttaddress_lng">Longitude</label>
-            <label index="tt_address_group.tx_icsgmap3ttaddress_picto">Picto</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_pictos">Pictogramme pour la cartographie</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto">Pictogramme</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto_hover">Pictogramme au survol</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_pictos_list">Pictogramme pour la liste des catégories sous la cartographie</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto_list">Pictogramme</label>
+            <label index="tt_address_group.tx_icsgmap3ttaddress_picto_list_hover">Pictogramme au survol</label>
 		</languageKey>
 	</data>
 </T3locallang>

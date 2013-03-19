@@ -54,6 +54,9 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 				address.`tx_icsgmap3ttaddress_lng` as lng,
 				address.`address` as address,
 				addressgroup.`tx_icsgmap3ttaddress_picto` as picto,
+				addressgroup.`tx_icsgmap3ttaddress_picto_hover` as picto_hover,
+				addressgroup.`tx_icsgmap3ttaddress_picto_list` as picto_list,
+				addressgroup.`tx_icsgmap3ttaddress_picto_list_hover` as picto_list_hover,
 				addressgroup.`uid` as catId,
 				addressgroup.`title` as catName,
 				parentgroup.`uid` as catParent,
@@ -209,19 +212,19 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		return $content;
 	}*/
 	
-	private function checkPicto($row) {
-		$picto = $row['picto'];
-		if (empty($row['picto'])) {
-			$picto = $this->getParentPicto($row);
+	private function checkPicto($row, $field = 'picto') {
+		$picto = $row[$field];
+		if (empty($row[$field])) {
+			$picto = $this->getParentPicto($row, $field);
 		}
 		return $picto;
 	}
 	
-	private function getParentPicto($row) {
+	private function getParentPicto($row, $field = 'picto') {
 		$parent = strtok($row['catParent'], ',');
 		$picto = '';
-		if (!empty($this->categories[$parent]['picto'])) {
-			$picto = $this->categories[$parent]['picto'];
+		if (!empty($this->categories[$parent][$field])) {
+			$picto = $this->categories[$parent][$field];
 		}else{
 			if(!empty($this->categories[$parent]['catParent'])) {
 				$picto = $this->getParentPicto($this->categories[$parent]);
@@ -239,7 +242,10 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 			$select ='`tt_address_group`.`title` as catName,
 				`tt_address_group`.`uid` as catId,
 				`tt_address_group`.`parent_group` as catParent,
-				`tt_address_group`.`tx_icsgmap3ttaddress_picto` as picto';
+				`tt_address_group`.`tx_icsgmap3ttaddress_picto` as picto,
+				`tt_address_group`.`tx_icsgmap3ttaddress_picto_hover` as picto_hover,
+				`tt_address_group`.`tx_icsgmap3ttaddress_picto_list` as picto_list,
+				`tt_address_group`.`tx_icsgmap3ttaddress_picto_list_hover` as picto_list_hover';
 			$from = '`tt_address_group`';
 			$where = '`tt_address_group`.uid IN (' . $parent . ')';
 			$tmp = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows($select,$from,$where);
@@ -260,6 +266,9 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 			// t3lib_div::loadTCA('tx_icsgmap3ttaddress_picto');
 			tslib_fe::includeTCA();
 			$uploadfolder = $GLOBALS['TCA']['tt_address_group']['columns']['tx_icsgmap3ttaddress_picto']['config']['uploadfolder'];
+			$uploadfolder_hover = $GLOBALS['TCA']['tt_address_group']['columns']['tx_icsgmap3ttaddress_picto_hover']['config']['uploadfolder'];
+			$uploadfolder_list = $GLOBALS['TCA']['tt_address_group']['columns']['tx_icsgmap3ttaddress_picto_list']['config']['uploadfolder'];
+			$uploadfolder_list_hover = $GLOBALS['TCA']['tt_address_group']['columns']['tx_icsgmap3ttaddress_picto_list_hover']['config']['uploadfolder'];
 			$imgTS = $this->conf['tooltip.']['image.'];
 			$cObj = t3lib_div::makeInstance('tslib_cObj');
 			$jsCodeData = array();
@@ -274,7 +283,13 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 						$address['lng'] = $row['lng'];
 						$address['tag'] = $path ? $this->resolvPath($row['catId'], $row['catName'], $row['catParent']) : $row['catName'];
 						$row['picto'] = $this->checkPicto($row);
+						$row['picto_hover'] = $this->checkPicto($row, 'picto_hover');
+						$row['picto_list'] = $this->checkPicto($row, 'picto_list');
+						$row['picto_list_hover'] = $this->checkPicto($row, 'picto_list_hover');
 						$address['icon'] = $row['picto'] ? $uploadfolder. '/' . $row['picto'] : '';
+						$address['icon_hover'] = $row['picto_hover'] ? $uploadfolder_hover. '/' . $row['picto_hover'] : '';
+						$address['icon_list'] = $row['picto_list'] ? $uploadfolder_list. '/' . $row['picto_list'] : '';
+						$address['icon_list_hover'] = $row['picto_list_hover'] ? $uploadfolder_list_hover. '/' . $row['picto_list_hover'] : '';
 						/*$address['data'] = array(
 							'name' => $row['name'],
 							'address' => $row['address'],
