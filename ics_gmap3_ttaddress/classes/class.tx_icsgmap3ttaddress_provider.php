@@ -164,11 +164,13 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 			}
 		}
 		
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECT_queryArray($queryArray);			
-		while ($addresse = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				$data[$addresse['catId']][] = $addresse;
+		$addresses = $this->getLanguageRecords($queryArray);
+		if (is_array($addresses)) {			
+			foreach ($addresses as $address) {
+				$data[$address['catId']][] = $address;
+			}
 		}
-
+		
 		return $this->initTagsListJSon($data, implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true)), 'tt_address', $conf['withPath']);
 	}
 	
@@ -361,5 +363,81 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 		return $this->cObj->substituteMarkerArray($mySubpart, $values);
 	}	*/
 	
+	/**
+	 * get translate record, if exist, each field are merged
+	 *
+	 * @param	string	$table: database tablename
+	 * @param	array	$rows: records to translate
+	 * @return 	array
+	 */	
+	function getLanguageRecords($queryArray, $table = 'address', $record = null) {	
+		if (!$record) {
+			$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				$queryArray['SELECT'], 
+				$queryArray['FROM'],
+				$queryArray['WHERE'] . ' AND ' . $table . '.`sys_language_uid` = 0',
+				$queryArray['GROUPBY'],
+				$queryArray['ORDER'],
+				$queryArray['LIMIT']
+			);
+		} else {
+			$rows = array(0 => $record);
+		}
+		
+		if ($GLOBALS['TSFE']->sys_language_content && is_array($rows)) {
+			foreach ($rows as &$row) {
+				// $OLmode = ($this->sys_language_mode == 'strict' ? 'hideNonTranslated' : '');
+				// $row = $GLOBALS['TSFE']->sys_page->getRecordOverlay($table, $row, $GLOBALS['TSFE']->sys_language_content, '');
+				$where = $queryArray['WHERE'] . ' AND ' . $table . '.`l18n_parent` = ' . $row['uid'] . '  AND ' . $table . '.`sys_language_uid` = ' . $GLOBALS['TSFE']->sys_language_content;
+				$records = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+					$queryArray['SELECT'], 
+					$queryArray['FROM'], 
+					$where,
+					'',
+					'',
+					1
+				);
+				if (is_array($records) && !empty($records)) {
+					$translate = $records[0];
+					foreach ($row as $field => &$value) {
+						switch ($field) {
+							case 'uid':
+							case 'catId':
+							case 'catName':
+							case 'catParent':
+							case 'catParentName':
+								// Nothing
+							break;
+							default: 
+								if ($translate[$field])
+									$row[$field] = $translate[$field];
+							break;
+						}
+					}
+				}
+				// Control tt_address_group
+				$groupFields = array();
+				$groupFields[] = array('uid' => 'catId', 'title' => 'catName');
+				$groupFields[] = array('uid' => 'catParent', 'title' => 'catParentName');
+				foreach ($groupFields as $group) {
+					if ($row[$group['uid']]) { 
+						$cat = $this->getLanguageRecords(array(
+							'SELECT' => '`tt_address_group`.`uid`, `tt_address_group`.`title`',
+							'FROM' => '`tt_address_group`',
+							'WHERE' => '1 AND `tt_address_group`.`deleted` = 0 AND `tt_address_group`.`hidden` = 0',
+							'GROUPBY' => '',
+							'ORDERBY' => '',
+							'LIMIT' => '1',
+						), 'tt_address_group', array('uid' => $row[$group['uid']], 'title' => $row[$group['title']]));
+						if (is_array($cat) && !empty($cat)) {
+							$row[$group['uid']] = $cat[0]['uid'];
+							$row[$group['title']] = $cat[0]['title'];
+						}
+					}
+				}
+			}
+		} 
+		return $rows;
+	}
 }
 ?>

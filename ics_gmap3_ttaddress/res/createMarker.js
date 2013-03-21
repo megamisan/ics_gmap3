@@ -22,7 +22,7 @@ if (typeof ics != 'object')
 		var content = new Array();
 	
 		for(var name in row) {
-			if(name != '' && name != 'undefined' && row[name] != 'undefined' && row[name] != '') {
+			if(name != '' && name != 'undefined' && row[name] != 'undefined' && row[name] != '' && name != 'recId') {
 				var children = new Array();
 				switch (name) {
 					case 'tx_damttaddress_dam_image':
@@ -53,7 +53,7 @@ if (typeof ics != 'object')
 				if (name != 'description' && name != 'tx_damttaddress_dam_image') {
 					children.push({
 						'tag': '',
-						'value': row[name]
+						'value':row[name]
 					});
 				}
 				

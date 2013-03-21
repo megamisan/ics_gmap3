@@ -27,6 +27,37 @@ $tempColumns = array (
 			'max' => '13',  
 		)
     ),
+	'sys_language_uid' => array(
+		'exclude' => 1,
+		'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+		'config'  => array(
+			'type'                => 'select',
+			'foreign_table'       => 'sys_language',
+			'foreign_table_where' => 'ORDER BY sys_language.title',
+			'items'               => array(
+				array('LLL:EXT:lang/locallang_general.php:LGL.allLanguages', -1),
+				array('LLL:EXT:lang/locallang_general.php:LGL.default_value', 0)
+			)
+		)
+	),
+	'l18n_parent' => array(
+		'displayCond' => 'FIELD:sys_language_uid:>:0',
+		'exclude'     => 1,
+		'label'       => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+		'config'      => array(
+			'type'  => 'select',
+			'items' => array(
+				array('', 0),
+			),
+			'foreign_table'       => 'tt_address_group',
+			'foreign_table_where' => 'AND tt_address_group.uid=###REC_FIELD_l18n_parent### AND tt_address_group.sys_language_uid IN (-1,0)',
+		)
+	),
+	'l18n_diffsource' => array(
+		'config'=> array(
+			'type' => 'passthrough'
+		)
+	),
 );
 
 t3lib_div::loadTCA('tt_address');
@@ -56,7 +87,9 @@ $indexPalettes++;
 
 t3lib_extMgm::addToAllTCAtypes('tt_address','--palette--;LLL:EXT:ics_gmap3_ttaddress/locallang_db.xml:tt_address.tx_icsgmap3ttaddress_coord;' . $indexPalettes);
 $TCA['tt_address']['palettes'][$indexPalettes] = array('showitem' => 'tx_icsgmap3ttaddress_lat, tx_icsgmap3ttaddress_lng', 'canNotCollapse' => 1);
-	
+$TCA['tt_address']['ctrl']['languageField'] = 'sys_language_uid';
+$TCA['tt_address']['ctrl']['transOrigPointerField'] = 'l18n_parent';
+$TCA['tt_address']['ctrl']['transOrigDiffSourceField'] = 'l18n_diffsource';
 
 $tempColumns = array (
     'tx_icsgmap3ttaddress_picto' => array (        

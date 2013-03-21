@@ -3,7 +3,10 @@
 #
 CREATE TABLE tt_address (
 	tx_icsgmap3ttaddress_lat decimal(10,8),
-	tx_icsgmap3ttaddress_lng decimal(12,9) 
+	tx_icsgmap3ttaddress_lng decimal(12,9),
+	sys_language_uid int(11) DEFAULT '0' NOT NULL,
+	l18n_parent int(11) DEFAULT '0' NOT NULL,
+	l18n_diffsource mediumblob NOT NULL
 );
 
 #

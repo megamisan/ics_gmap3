@@ -1,3 +1,7 @@
+2013-03-21 Emilie SAGNIEZ  <emilie.sagniez@plan-net.fr>
+	* Compatibility multilanguage
+	* Version changed to 1.1.2
+	
 2013-03-15 Emilie SAGNIEZ  <emilie.sagniez@plan-net.fr>
 	* Add picto for marker hover to tt_address_group records
 	* Add picto tags list to tt_address_group records  (only for default taglist)
