@@ -1,3 +1,6 @@
+2013-03-21 Emilie SAGNIEZ  <emilie.sagniez@plan-net.fr>
+	* Fix: Javascript error if no data
+
 2013-02-22 Pierrick Caillon <pierrick@in-cite.net>
 	* Fix: Support of providers with multiple roles.
 	* Fix: Support for multiple data sources.

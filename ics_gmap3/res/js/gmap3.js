@@ -40,7 +40,9 @@ ics.Map.prototype.initGMap_ = function() {
 }; // Initialise jQuery.gmap3
 	
 ics.Map.prototype.addStaticData = function(data) {
-	for (var i = 0; i < data.length; i++) this.data.push(data[i]);
+	if (data && typeof(data) == 'object') {
+		for (var i = 0; i < data.length; i++) this.data.push(data[i]);
+	}
 }; // Ajoute une liste de marqueur statique au stockage local
 
 ics.Map.prototype.createMarkersStatic_ = function(data) {
