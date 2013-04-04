@@ -288,10 +288,10 @@ class tx_icsgmap3ttaddress_provider implements tx_icsgmap3_iprovider {
 						$row['picto_hover'] = $this->checkPicto($row, 'picto_hover');
 						$row['picto_list'] = $this->checkPicto($row, 'picto_list');
 						$row['picto_list_hover'] = $this->checkPicto($row, 'picto_list_hover');
-						$address['icon'] = $row['picto'] ? $uploadfolder. '/' . $row['picto'] : '';
-						$address['icon_hover'] = $row['picto_hover'] ? $uploadfolder_hover. '/' . $row['picto_hover'] : '';
-						$address['icon_list'] = $row['picto_list'] ? $uploadfolder_list. '/' . $row['picto_list'] : '';
-						$address['icon_list_hover'] = $row['picto_list_hover'] ? $uploadfolder_list_hover. '/' . $row['picto_list_hover'] : '';
+						$address['icon'] = $row['picto'] ? '/' . $uploadfolder. '/' . $row['picto'] : '';
+						$address['icon_hover'] = $row['picto_hover'] ? '/' . $uploadfolder_hover. '/' . $row['picto_hover'] : '';
+						$address['icon_list'] = $row['picto_list'] ? '/' . $uploadfolder_list. '/' . $row['picto_list'] : '';
+						$address['icon_list_hover'] = $row['picto_list_hover'] ? '/' . $uploadfolder_list_hover. '/' . $row['picto_list_hover'] : '';
 						/*$address['data'] = array(
 							'name' => $row['name'],
 							'address' => $row['address'],
