@@ -212,7 +212,7 @@ jQuery(function(){
 
 		$marker = array(
 			'###MAP_ID###' => $this->mapId,
-			'###MAP_HEIGHT###' => $this->mapHeight,
+			'###MAP_HEIGHT###' =>!empty($this->mapHeight)?$this->mapHeight . 'px':'100%',
 			'###MAP_WIDTH###' => !empty($this->mapWidth)?$this->mapWidth . 'px':'100%',
 			'###MAP_LNG###' => $this->mapLng,
 			'###MAP_LAT###' => $this->mapLat,
