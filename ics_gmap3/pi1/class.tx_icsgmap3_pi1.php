@@ -136,6 +136,7 @@ class tx_icsgmap3_pi1 extends tslib_pibase {
 		$this->scrollwheel = $this->lConf['scrollwheel'] == "show"?"true":"false";
 		$this->streetViewControl = $this->lConf['streetview_control'] == "show"?"true":"false";
 		$this->windowsInfoFields = $this->lConf['windowsInfoFields'];
+		$this->styledMap = $this->lConf['styledMap'];
 
 		$includeLibJS = t3lib_div::trimExplode(',', $this->lConf['includeLibJS'], 1);
 		while (list(, $lib) = each($includeLibJS)) {
@@ -190,6 +191,16 @@ jQuery(function(){
 	}
 		$jsCodeInitData .= '
 	gmap3.createMap();
+	';
+	if(!empty($this->styledMap)) {
+		$jsCodeInitData .= '
+	var stylers = [
+' . $this->styledMap . '
+];
+	gmap3.setOptions({styles: stylers});;
+	';
+	}
+		$jsCodeInitData .= '
 	document.getElementById("' . $this->mapId . '").map = gmap3;
 });';
 		$this->incJsFile($jsCodeInitData, true, '_carto_init');

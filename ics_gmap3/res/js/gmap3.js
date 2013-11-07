@@ -39,6 +39,10 @@ ics.Map.prototype.initGMap_ = function() {
 	});
 }; // Initialise jQuery.gmap3
 	
+ics.Map.prototype.setOptions = function(options) {
+	var map = jQuery('#' + this.gmap3).gmap3('get');
+	map.setOptions(options);
+}
 ics.Map.prototype.addStaticData = function(data) {
 	if (data && typeof(data) == 'object') {
 		for (var i = 0; i < data.length; i++) this.data.push(data[i]);

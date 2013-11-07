@@ -242,6 +242,16 @@
 							</config>
 						</TCEforms>
 					</includeLibJS>
+					<styledMap>
+						<TCEforms>
+							<label>LLL:EXT:ics_gmap3/locallang.xml:flexform.sheets.general.styledMap</label>	
+							<config>
+								<type>text</type>
+								<cols>50</cols>
+								<rows>30</rows>
+							</config>
+						</TCEforms>
+					</styledMap>
 				</el>
 			</ROOT>
 		</sDEF>

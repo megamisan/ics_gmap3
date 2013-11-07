@@ -41,6 +41,7 @@
 			<label index="flexform.sheets.general.includeLibJS.jquery_ui">jQuery UI</label>
 			<label index="flexform.sheets.general.includeLibJS.gmap3">GMap 3</label>
 			<label index="flexform.sheets.general.includeLibJS.jquery_lib">jQuery lib</label>
+			<label index="flexform.sheets.general.styledMap">GMap style</label>
 			<label index="provider.tagList">Tags list</label>
 			<label index="provider.tagList.exclusivesTags">Exclusives tags</label>
 			<label index="provider.tagList.hiddenTags">Hidden tags</label>
