@@ -1,3 +1,6 @@
+2012-01-20 Emilie Sagniez <emilie.sagniez@plan-net.fr>
+	* Added: xclass inclusion to taglist providers
+
 2012-08-07 Frederic Goyer <fgoyer@in-cite.net>
 	* Features: Added addToContainer function in tx_icsgmap3hierarchicaltaglist.js
 	* Fix: Double point after this in function makeTreeNode_ in tx_icsgmap3hierarchicaltaglist.js
