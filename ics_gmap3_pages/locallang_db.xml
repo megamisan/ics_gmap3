@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'ics_gmap3_pages'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="pages.tx_icsgmap3pages_coord">Coordinates</label>
+			<label index="pages.tx_icsgmap3pages_lat">Latitude</label>
+			<label index="pages.tx_icsgmap3pages_lng">Longitude</label>
+			<label index="pages.tx_icsgmap3pages_level">Level</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="pages.tx_icsgmap3pages_coord">Coordonnées</label>
+			<label index="pages.tx_icsgmap3pages_lat">Latitude</label>
+			<label index="pages.tx_icsgmap3pages_lng">Longitude</label>
+			<label index="pages.tx_icsgmap3pages_level">Couche</label>
+		</languageKey>
+	</data>
+</T3locallang>

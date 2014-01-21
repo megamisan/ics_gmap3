@@ -1,0 +1,13 @@
+plugin.tx_icsgmap3pages {	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/b; type=string; label=Category: Category.
+	category =
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/c; type=string; label=tt_address fields visibles into tooltip: tt_address fields visibles into tooltip.
+	windowsInfoFields = title
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/d; type=string; label=Data separator: Data separator, use for separate data child and data parent.
+	separator =
+	
+	# cat=plugin.tx_icsgmap3_pi1/configuration/e; type=string; label=Parent path: Parent path.
+	withPath =
+}

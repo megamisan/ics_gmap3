@@ -1,0 +1,19 @@
+page.includeJS {
+	gmap3_pages_createMarker= EXT:ics_gmap3_pages/res/createMarker.js
+}
+
+plugin.tx_icsgmap3pages {
+	tooltip {
+		image = IMG_RESSOURCE
+		image {
+			file {
+				maxW = 240
+			}
+		}
+	}
+	
+	category = {$plugin.tx_icsgmap3pages.category}
+	windowsInfoFields = {$plugin.tx_icsgmap3pages.windowsInfoFields}
+	separator = {$plugin.tx_icsgmap3pages.separator}
+	withPath = {$plugin.tx_icsgmap3pages.withPath}
+}

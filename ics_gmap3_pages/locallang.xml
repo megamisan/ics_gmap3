@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'ics_gmap3'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="provider.pages">Pages data provider</label>
+			<label index="provider.pages.category">Category</label>
+			<label index="provider.pages.templateFile">Template file</label>
+			<label index="provider.pages.separator">Separator</label>
+			<label index="provider.pages.withPath">Parent path</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="provider.pages">Fournisseur de données pages</label>
+			<label index="provider.pages.category">Catégorie</label>
+			<label index="provider.pages.templateFile">Fichier template</label>
+			<label index="provider.pages.separator">Séparateur</label>
+			<label index="provider.pages.withPath">Chemin parent</label>
+		</languageKey>
+	</data>
+</T3locallang>
