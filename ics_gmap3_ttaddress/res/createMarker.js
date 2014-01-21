@@ -94,6 +94,32 @@ if (typeof ics != 'object')
 		(new ics.DataAddress()).setIcon(marker, event, data)
 		oldfuncmarkerEventMouseout.apply(this, arguments);
 	};
+
+	var oldfunctionMapCreateKmlLayer = ics.Map.prototype.createKmlLayer;
+	ics.Map.prototype.createKmlLayer = function(kml, visible, data) {
+	jQuery('#' + this.gmap3).gmap3({
+		action: 'addKmlLayer',
+		url: kml,
+		options:{
+			suppressInfoWindows: false,
+			preserveViewport: true
+		},
+		tag: 'kml' + (data != undefined && data.tag ? data.tag : (++arguments.callee.counter))
+	});
+	if(data == undefined){
+		this.centerMapDefault();
+	}
+	
+	if(!visible) {
+		kml = jQuery('#' + this.gmap3).gmap3({
+			action: 'get',
+			name: 'kmllayer',
+			tag: 'kml' + (data != undefined && data.tag ? data.tag : (arguments.callee.counter))
+		});
+		kml.setMap(null);
+	}
+	};
+	ics.Map.prototype.createKmlLayer.counter = 0;
 	
 })();
 

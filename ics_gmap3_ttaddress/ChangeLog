@@ -1,3 +1,6 @@
+2014-01-17 Mickaël Vanclooster  <mickael.vanclooster@plan-net.fr>
+	* Added: Use KML to tt_address records
+
 2013-04-04 Emilie SAGNIEZ  <emilie.sagniez@plan-net.fr>
 	* Fix: add first slash "/" to icon path
 	
