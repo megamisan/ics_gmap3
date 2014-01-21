@@ -1,3 +1,6 @@
+2014-01-20 Emilie SAGNIEZ  <emilie.sagniez@plan-net.fr>
+	* Fix: Add brace {} to javascript file
+	
 2013-04-04 Emilie SAGNIEZ  <emilie.sagniez@plan-net.fr>
 	* Feature: Possibility to have gmap with height 100%
 	

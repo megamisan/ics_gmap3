@@ -31,8 +31,9 @@ ics.createElements = function(elementDescriptionList) {
  */
 ics.createElement = function (elementDescription) {
 	var element = null;
-	if (elementDescription.tag == "")
+	if (elementDescription.tag == ""){
 		element = document.createTextNode(elementDescription.value);
+	}
 	else
 	{
 		element = document.createElement(elementDescription.tag);
@@ -103,3 +104,5 @@ ics.createElement.setAttributes = function (object, name, value) {
 		// object.onClick = value; => IE7 ?
 	}
 }
+
+
