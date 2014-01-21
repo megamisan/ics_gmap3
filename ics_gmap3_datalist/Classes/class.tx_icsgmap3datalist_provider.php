@@ -80,4 +80,8 @@ class tx_icsgmap3datalist_provider implements tx_icsgmap3_iprovider {
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $js;
 	}	
 }
+
+if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ics_gmap3_datalist/Classes/class.tx_icsgmap3datalist_provider.php'])	{
+	include_once($TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ics_gmap3_datalist/Classes/class.tx_icsgmap3datalist_provider.php']);
+}
 ?>
