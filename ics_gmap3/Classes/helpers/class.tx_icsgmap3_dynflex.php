@@ -26,18 +26,19 @@ class tx_icsgmap3_dynflex {
 							if(strpos($providerClassName[0],$class) !== false) {
 								$providerObj = t3lib_div::makeInstance($class);
 								$flexform = $providerObj->getFlexform($providerObj->conf);
-								
-								$flex.= '
+								if ($flexform) {
+									$flex.= '
 <' . $class . '>
 	<ROOT>
 		<TCEforms>
 			<sheetTitle>' . $subscribers[$class]['name'] . '</sheetTitle>
 		</TCEforms>
 		<type>array</type>';
-								$flex .= $flexform;
-								$flex .= '
+									$flex .= $flexform;
+									$flex .= '
 	</ROOT>
 </' . $class . '>';
+								}
 							}
 						}
 					}
