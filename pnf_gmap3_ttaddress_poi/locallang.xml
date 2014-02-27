@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for extension 'pnf_gmap3_ttaddress_poi'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="provider.ttaddress_poi">tt_address data provider (POI)</label>
+		</languageKey>
+		<languageKey index="fr" type="array">
+			<label index="provider.ttaddress_poi">Fournisseur de données tt_address (POI)</label>
+		</languageKey>
+	</data>
+</T3locallang>
