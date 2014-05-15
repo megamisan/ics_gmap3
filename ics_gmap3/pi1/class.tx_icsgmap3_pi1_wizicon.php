@@ -67,8 +67,16 @@ class tx_icsgmap3_pi1_wizicon {
 					 */
 					function includeLocalLang()	{
 						$llFile = t3lib_extMgm::extPath('ics_gmap3').'locallang.xml';
-						$LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
-
+						// $LOCAL_LANG = t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+						$version = class_exists('t3lib_utility_VersionNumber')
+									? t3lib_utility_VersionNumber::convertVersionNumberToInteger(TYPO3_version)
+									: t3lib_div::int_from_ver(TYPO3_version);
+						if ($version >= 4007000) {
+								$object = t3lib_div::makeInstance('t3lib_l10n_parser_Llxml');
+								$LOCAL_LANG =  $object->getParsedData($llFile, $GLOBALS['LANG']->lang);
+						} else {
+							$LOCAL_LANG =  t3lib_div::readLLXMLfile($llFile, $GLOBALS['LANG']->lang);
+						}        
 						return $LOCAL_LANG;
 					}
 				}
