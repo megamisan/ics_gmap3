@@ -42,7 +42,12 @@ ics.LevelsKml.prototype.init = function(map, kmls) {
 	var oldfuncHierarchicalTagListClick_ = ics.HierarchicalTagList.prototype.click_;
 	ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 		oldfuncHierarchicalTagListClick_.apply(this, arguments);
-		ics.Map.prototype.elementClicked = element;
+		/* if(element.checked) {
+			
+		}else{
+			ics.Map.prototype.elementClicked.push(element.attributes['value'].nodeValue);
+		} */
+		ics.Map.prototype.elementClicked = element.attributes['value'].nodeValue;
 		var kml = map.levelsKmlArray[element.value];
 		if (kml) {
 			//kml = 'http://static.touraineverte.com/kml/departements/56.kml';
