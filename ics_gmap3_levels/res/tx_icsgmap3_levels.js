@@ -27,10 +27,11 @@ ics.LevelsKml.prototype.init = function(map, kmls) {
 				ics.HierarchicalTagList.prototype.init(map, exclusivesTags, hiddenTags, defaultTags, viewDefaultTags, separator, checkOnParent, viewLinkSelectAll, lang);
 			}, 1000);
 		} else {
-			map.levelsKmlArray = new Array();
+			map.levelsKmlArray = [];
 			$.each(map.levelsKml, function(tag, kml) {
-				if (tag && kml && $.inArray(tag, map.htl.markersTags) < 0) {
-					map.htl.markersTags.push(tag);
+				if (tag && kml) {
+					if($.inArray(tag, map.htl.markersTags) < 0) 
+						map.htl.markersTags.push(tag);
 					map.levelsKmlArray[tag] = kml;
 				}
 			});
@@ -41,10 +42,11 @@ ics.LevelsKml.prototype.init = function(map, kmls) {
 	var oldfuncHierarchicalTagListClick_ = ics.HierarchicalTagList.prototype.click_;
 	ics.HierarchicalTagList.prototype.click_ = function (element, map) {
 		oldfuncHierarchicalTagListClick_.apply(this, arguments);
-		
+		ics.Map.prototype.elementClicked = element;
 		var kml = map.levelsKmlArray[element.value];
 		if (kml) {
-			ics.Map.prototype.createKmlLayer(kml, element.checked ? true : false, 'levels_' + element.value);
+			//kml = 'http://static.touraineverte.com/kml/departements/56.kml';
+			ics.Map.prototype.createKmlLayer(kml, element.checked ? true : false, 'levels_' + element.value.replace(/[ #-,]/gi, "_"));
 		}
 	
 	}

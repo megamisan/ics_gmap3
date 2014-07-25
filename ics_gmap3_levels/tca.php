@@ -6,7 +6,7 @@ if (!defined('TYPO3_MODE')) {
 $TCA['tx_icsgmap3levels_levels'] = array(
 	'ctrl' => $TCA['tx_icsgmap3levels_levels']['ctrl'],
 	'interface' => array(
-		'showRecordFieldList' => 'hidden,title,parent,picto,picto_map,kml'
+		'showRecordFieldList' => 'hidden,title,parent,picto,picto_map,kml,zoom'
 	),
 	'feInterface' => $TCA['tx_icsgmap3levels_levels']['feInterface'],
 	'columns' => array(
@@ -83,9 +83,18 @@ $TCA['tx_icsgmap3levels_levels'] = array(
 				'maxitems' => 1,
 			)
 		),
+		'zoom' => array(		
+			'exclude' => 0,		
+			'label' => 'LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels.zoom',		
+			'config' => array(
+				'type' => 'input',	
+				'size' => '5',	
+				'eval' => 'int',
+			)
+		),
 	),
 	'types' => array(
-		'0' => array('showitem' => 'hidden;;1;;1-1-1, title;;;;2-2-2, parent;;;;3-3-3, picto, picto_map, kml')
+		'0' => array('showitem' => 'hidden;;1;;1-1-1, title;;;;2-2-2, parent;;;;3-3-3, picto, picto_map, kml, zoom')
 	),
 	'palettes' => array(
 		'1' => array('showitem' => '')

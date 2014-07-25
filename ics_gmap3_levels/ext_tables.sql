@@ -15,6 +15,7 @@ CREATE TABLE tx_icsgmap3levels_levels (
 	picto text,
 	picto_map text,
 	kml text,
+	zoom int(11) DEFAULT '0' NOT NULL,
 	
 	PRIMARY KEY (uid),
 	KEY parent (pid)

@@ -12,6 +12,7 @@
 			<label index="tx_icsgmap3levels_levels.picto">Thumbnail</label>
 			<label index="tx_icsgmap3levels_levels.picto_map">Picto Map</label>
 			<label index="tx_icsgmap3levels_levels.kml">KML</label>
+			<label index="tx_icsgmap3levels_levels.zoom">Zoom (Default: 18)</label>
 		</languageKey>
 		<languageKey index="fr" type="array">
 			<label index="tx_icsgmap3levels_levels">Couche de cartographie</label>
@@ -20,6 +21,7 @@
 			<label index="tx_icsgmap3levels_levels.picto">Picto</label>
 			<label index="tx_icsgmap3levels_levels.picto_map">Picto Map</label>
 			<label index="tx_icsgmap3levels_levels.kml">KML</label>
+			<label index="tx_icsgmap3levels_levels.zoom">Zoom (defaut: 18)</label>
 		</languageKey>
 	</data>
 </T3locallang>
