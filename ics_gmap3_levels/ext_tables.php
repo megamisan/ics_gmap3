@@ -7,15 +7,15 @@ t3lib_extMgm::allowTableOnStandardPages('tx_icsgmap3levels_levels');
 
 $TCA['tx_icsgmap3levels_levels'] = array(
 	'ctrl' => array(
-		'title'     => 'LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels',		
+		'title'     => 'LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels',
 		'label'     => 'title',
 		'label_userFunc' => 'tx_icsgmap3levels_tca->getTitle',
 		'tstamp'    => 'tstamp',
 		'crdate'    => 'crdate',
 		'cruser_id' => 'cruser_id',
-		'sortby' => 'sorting',	
-		'delete' => 'deleted',	
-		'enablecolumns' => array(		
+		'sortby' => 'sorting',
+		'delete' => 'deleted',
+		'enablecolumns' => array(
 			'disabled' => 'hidden',
 		),
 		'dynamicConfigFile' => t3lib_extMgm::extPath($_EXTKEY) . 'tca.php',
@@ -26,8 +26,8 @@ $TCA['tx_icsgmap3levels_levels'] = array(
 
 $tempColumns = array();
 $tempColumns['tx_icsgmap3levels_level'] = array(
-	'exclude' => 0,		
-	'label' => 'LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels',		
+	'exclude' => 0,
+	'label' => 'LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels',
 	'config' => array (
 		'type'  => 'select',
 		'foreign_table'       => 'tx_icsgmap3levels_levels',
