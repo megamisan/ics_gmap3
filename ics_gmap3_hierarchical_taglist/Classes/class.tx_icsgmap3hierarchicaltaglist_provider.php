@@ -53,7 +53,7 @@ class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 			function (map) {
 				var exclusivesTags = new Array();
 				var hiddenTags = new Array();
-				var defaultTags = map.getMarkers(["default"]);
+				var defaultTags = ["default"];
 				var lang = new Array();
 
 				lang[\'select\'] = \'' . $GLOBALS['TSFE']->sL('LLL:EXT:ics_gmap3_hierarchical_taglist/locallang.xml:selectTags') . '\';
