@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 In Cité Solution <technique@in-cite.net>
+*  (c) 2011 In Citï¿½ Solution <technique@in-cite.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,38 +31,38 @@
 class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 
 	var $extKey = 'ics_gmap3_hierarchical_taglist';
-	
+
 	function __construct() {
 		$this->uploadsPath = 'uploads/tx_icsgmap3hierarchicaltaglist/';
 		$this->flexform = file_get_contents(t3lib_div::getFileAbsFileName('EXT:' . $this->extKey . '/flexform_taglist_ds.xml'));
 	}
-	
+
 	function getStaticData($conf) {
-		return null;	
+		return null;
 	}
-	
+
 	function getDynamicDataUrl($conf) {
 		return null;
 	}
-	
+
 	function getBehaviourInitFunction($conf) {
 		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/tx_icsgmap3hierarchicaltaglist.js', false, '_gmap3hierarchicaltaglist_provider');
-		
+
 		$jsCode = '';
 		$jsCode .= '
-			function (map) { 
+			function (map) {
 				var exclusivesTags = new Array();
 				var hiddenTags = new Array();
-				var defaultTags = new Array();
+				var defaultTags = map.getMarkers(["default"]);
 				var lang = new Array();
-				
+
 				lang[\'select\'] = \'' . $GLOBALS['TSFE']->sL('LLL:EXT:ics_gmap3_hierarchical_taglist/locallang.xml:selectTags') . '\';
 				lang[\'unselect\'] = \'' . $GLOBALS['TSFE']->sL('LLL:EXT:ics_gmap3_hierarchical_taglist/locallang.xml:unselectTags') . '\';';
-		
+
 		$exclusivesTags = explode(',', $conf['exclusivesTags']);
 		if (is_array($exclusivesTags) && !empty($exclusivesTags)) {
 			foreach ($exclusivesTags as $tag) {
-				if ($tag) 
+				if ($tag)
 					$jsCode .= '
 				exclusivesTags.push(\'' . addslashes($tag) . '\');';
 			}
@@ -70,33 +70,33 @@ class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 		$hiddenTags = explode(',', $conf['hiddenTags']);
 		if (is_array($hiddenTags) && !empty($hiddenTags)) {
 			foreach ($hiddenTags as $tag) {
-				if ($tag) 
+				if ($tag)
 					$jsCode .= '
 				hiddenTags.push(\'' . addslashes($tag) . '\');';
-				
+
 			}
 		}
 		$defaultTags = explode(',', $conf['defaultTags']);
 		if (is_array($defaultTags) && !empty($defaultTags)) {
 			foreach ($defaultTags as $tag) {
-				if ($tag) 
+				if ($tag)
 					$jsCode .= '
 				defaultTags.push(\'' . addslashes($tag) . '\');';
 			}
 		}
-		
+
 		$jsCode .= '
 				(new ics.HierarchicalTagList()).init(map, exclusivesTags, hiddenTags, defaultTags, ' . $conf['defaultMapEmpty'] . ', "' . $conf['separator'] . '", ' . $conf['checkOnParent'] . ', ' . $conf['viewLinkSelectAll'] . ', lang);
 			}
 		';
-		
+
 		return $jsCode;
 	}
-	
+
 	function getFlexform($conf) {
 		return $this->flexform;
 	}
-	
+
 	/**
 	* Function to insert Javascript at Ext. Runtime
 	*
@@ -113,7 +113,7 @@ class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 			</script>';
 		}
 		$GLOBALS['TSFE']->additionalHeaderData[$this->extKey . $suffix . $this->cObj->data['uid']] .= $js;
-	}	
+	}
 }
 
 if (defined('TYPO3_MODE') && $TYPO3_CONF_VARS[TYPO3_MODE]['XCLASS']['ext/ics_gmap3_hierarchical_taglist/Classes/class.tx_icsgmap3hierarchicaltaglist_provider.php'])	{
