@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 In Cit� Solution <technique@in-cite.net>
+*  (c) 2011 In Cité Solution <technique@in-cite.net>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -47,13 +47,13 @@ class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 
 	function getBehaviourInitFunction($conf) {
 		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/tx_icsgmap3hierarchicaltaglist.js', false, '_gmap3hierarchicaltaglist_provider');
-
+		
 		$jsCode = '';
 		$jsCode .= '
 			function (map) {
 				var exclusivesTags = new Array();
 				var hiddenTags = new Array();
-				var defaultTags = ["default"];
+				var defaultTags = new Array();
 				var lang = new Array();
 
 				lang[\'select\'] = \'' . $GLOBALS['TSFE']->sL('LLL:EXT:ics_gmap3_hierarchical_taglist/locallang.xml:selectTags') . '\';
@@ -79,6 +79,17 @@ class tx_icsgmap3hierarchicaltaglist_provider implements tx_icsgmap3_iprovider {
 		$defaultTags = explode(',', $conf['defaultTags']);
 		if (is_array($defaultTags) && !empty($defaultTags)) {
 			foreach ($defaultTags as $tag) {
+				if ($tag)
+					$jsCode .= '
+				defaultTags.push(\'' . addslashes($tag) . '\');';
+			}
+		}
+		$s_selectedTags = t3lib_div::_GP('selectedTags');
+		if (!empty($s_selectedTags)) {
+			$selectedTags = explode(',', $s_selectedTags);
+			$jsCode .= '
+				defaultTags = new Array()';
+			foreach ($selectedTags as $tag) {
 				if ($tag)
 					$jsCode .= '
 				defaultTags.push(\'' . addslashes($tag) . '\');';

@@ -92,6 +92,7 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 	}
 	
 	function getBehaviourInitFunction($conf) {
+		$this->conf['separator'] = $conf['separator'];
 		$this->incJsFile(t3lib_extMgm::siteRelPath($this->extKey).'res/tx_icsgmap3_levels.js', false, '_gmap3levels_provider');
 		$queryArray = $this->makeQuery($conf);
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -164,7 +165,7 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 				$this->categories[$parent] = false;
 		}
 		if (!empty($this->categories[$parent])) {
-			$path = $this->categories[$parent]['catName'] . '#-#' . $path;
+			$path = $this->categories[$parent]['catName'] . $this->conf['separator'] . $path;
 			$path = $this->resolvPath($this->categories[$parent]['catId'], $path, $this->categories[$parent]['catParent']);
 		}
 		return $path;

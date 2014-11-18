@@ -110,6 +110,7 @@ class tx_icsgmap3pages_provider implements tx_icsgmap3_iprovider {
 				$data[] = $service;
 		}
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);
+		$this->conf['separator'] = $conf['separator'];
 		
 		return $this->initTagsListJSon($data, implode(',',t3lib_div::trimExplode(',',$conf['windowsInfoFields'],true)), 'pages', $conf['withPath']);
 	}
@@ -166,7 +167,7 @@ class tx_icsgmap3pages_provider implements tx_icsgmap3_iprovider {
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('title','tx_icsgmap3levels_levels','1=1 AND uid='.$id);
 		if($res) {
             $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-            $output = $row['title'].'#-#'.$child;
+            $output = $row['title'] . $this->conf['separator'] . $child;
         }
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
         return $output;
