@@ -57,7 +57,7 @@ foreach ($TCA['pages']['palettes'] as $index => $value) {
 }
 $indexPalettes++;
 
-t3lib_extMgm::addToAllTCAtypes('pages','--palette--;LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels;' . $indexPalettes);
+t3lib_extMgm::addToAllTCAtypes('pages','--palette--;LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels;' . $indexPalettes,'','after:tx_pnfdata_geoloc_address');
 $TCA['pages']['palettes'][$indexPalettes] = array('showitem' => 'tx_icsgmap3levels_level', 'canNotCollapse' => 1);
 
 
@@ -70,7 +70,7 @@ foreach ($TCA['tt_address']['palettes'] as $index => $value) {
 }
 $indexPalettes++;
 
-t3lib_extMgm::addToAllTCAtypes('tt_address','--palette--;LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels;' . $indexPalettes);
+t3lib_extMgm::addToAllTCAtypes('tt_address','--div--;Geoloc,--palette--;LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels;' . $indexPalettes);
 $TCA['tt_address']['palettes'][$indexPalettes] = array('showitem' => 'tx_icsgmap3levels_level', 'canNotCollapse' => 1);
 
 ?>
