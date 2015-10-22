@@ -45,7 +45,7 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 	}
 
 	function getStaticData($conf) {
-		return null;	
+		return null;
 	}
 	
 	function getDynamicDataUrl($conf) {
@@ -112,7 +112,13 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 				$kmls[$path] = addslashes($row['kml']);
 			}
 		}
-		
+
+		// Pré-selection de levels via paramètres GET
+		// Exemple : &tx_icsgmap3_pi1[selectedLevels]=1,8
+		// Où 1 et 8 sont les uids des levels sélectionnés
+		$selectedLevels = t3lib_div::_GP($conf['prefixId'])['selectedLevels'];
+		$selectedLevels = t3lib_div::intExplode(',', $selectedLevels);
+
 		// Zooms
 		$queryArray = $this->makeQuery($conf, 0);
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -123,19 +129,22 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 			$queryArray['ORDER'],
 			$queryArray['LIMIT']
 		);
-		$zooms = array();
+		$levels = array();
 		if (is_array($rows) && !empty($rows)) {
 			foreach ($rows as $row) {
 				$path = $this->resolvPath($row['uid'], $row['title'], $row['parent']);
 				$path = addslashes($path);
-				$zooms[$path] = addslashes($row['zoom']);
+				$levels[$path] = array(
+					'zoom' => addslashes($row['zoom']),
+					'selected' => (in_array($row['uid'], $selectedLevels) ? '1' : '0')
+				);
 			}
 		}
 		$jsCode = '
-			function(map) { 
+			function(map) {
 				var kmls = ' . json_encode($kmls) . ';
-				ics.Map.prototype.zooms = ' . json_encode($zooms) . ';
-				(new ics.LevelsKml()).init(map, kmls); 
+				ics.Map.prototype.levels = ' . json_encode($levels) . ';
+				(new ics.LevelsKml()).init(map, kmls);
 			}';
 		return $jsCode;
 	}
