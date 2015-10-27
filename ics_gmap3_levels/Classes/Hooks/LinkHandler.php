@@ -28,6 +28,11 @@ class LinkHandler {
             'uid' => $linkHandlerValue,
         );
 
+        // $linkParams contient par exemple "ics_gmap3_levels_preselect_levels:38 _blank"
+        // On retire "ics_gmap3_levels_preselect_levels:X" et on ajoute les autres paramètres à ajouter !
+        $parameter = str_replace($linkHandlerKeyword . ':' . $linkHandlerValue, '', $linkParams);
+        $linkConfigArray['parameter'] .= $parameter;
+
         $localcObj = clone $parentObject;
         $localcObj->start($recordArray, '');
 
