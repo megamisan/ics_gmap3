@@ -73,4 +73,9 @@ $indexPalettes++;
 t3lib_extMgm::addToAllTCAtypes('tt_address','--div--;Geoloc,--palette--;LLL:EXT:ics_gmap3_levels/locallang_db.xml:tx_icsgmap3levels_levels;' . $indexPalettes);
 $TCA['tt_address']['palettes'][$indexPalettes] = array('showitem' => 'tx_icsgmap3levels_level', 'canNotCollapse' => 1);
 
+// Champ fictif utilisé dans la configuration de BrowseLinks
+$tempColumns['tx_icsgmap3levels_level']['config']['maxitems'] = 10;
+t3lib_extMgm::addTCAcolumns('tt_content',$tempColumns,1);
+
+TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'GMap 3 Levels');
 ?>

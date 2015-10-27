@@ -1,0 +1,9 @@
+plugin.tx_icsgmap3_levels {
+    linkhandler {
+        ics_gmap3_levels_preselect_levels {
+            parameter = {$plugin.tx_icsgmap3_levels.linkhandler.ics_gmap3_levels_preselect_levels.pageUid}
+            additionalParams = &tx_icsgmap3_pi1[selectedLevels]={field:uid}
+            additionalParams.insertData = 1
+        }
+    }
+}

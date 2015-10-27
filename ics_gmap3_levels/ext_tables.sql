@@ -34,3 +34,9 @@ CREATE TABLE pages (
 CREATE TABLE tt_address (
 	tx_icsgmap3levels_level text
 );
+#
+# Table structure for table 'tt_content'
+#
+CREATE TABLE tt_content (
+	tx_icsgmap3levels_level text
+);

@@ -1,0 +1,8 @@
+plugin.tx_icsgmap3_levels {
+    linkhandler {
+        ics_gmap3_levels_preselect_levels {
+            # cat=plugin.tx_icsgmap3_levels/content/010; type=int; label= Map page Uid
+            pageUid =
+        }
+    }
+}
