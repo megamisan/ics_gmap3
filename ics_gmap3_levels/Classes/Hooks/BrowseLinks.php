@@ -70,7 +70,6 @@ class BrowseLinks implements ElementBrowserHookInterface {
                         // Utilisation de isNaN(parseInt()) pour tester si c est un entier
                         if (!isNaN(uid)) {
                             if (uidLevelsSelected.indexOf(uid) >= 0) {
-                                console.log(element.select(\'input[type="checkbox"]\'));
                                 element.select(\'input[type="checkbox"]\')[0].checked = true;
                             }
                         }
