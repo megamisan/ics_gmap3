@@ -69,6 +69,7 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 				levels.`title`,
 				levels.`parent`,
 				levels.`zoom`,
+				levels.`sorting`,
 				levels.`kml`';
 				
 		$query['FROM'] = '`tx_icsgmap3levels_levels` levels';
@@ -135,6 +136,7 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 				$path = $this->resolvPath($row['uid'], $row['title'], $row['parent']);
 				$path = addslashes($path);
 				$levels[$path] = array(
+					'sorting' => $row['sorting'],
 					'zoom' => addslashes($row['zoom']),
 					'selected' => (in_array($row['uid'], $selectedLevels) ? '1' : '0')
 				);
