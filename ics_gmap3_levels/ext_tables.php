@@ -75,6 +75,7 @@ $TCA['tt_address']['palettes'][$indexPalettes] = array('showitem' => 'tx_icsgmap
 
 // Champ fictif utilisé dans la configuration de BrowseLinks
 $tempColumns['tx_icsgmap3levels_level']['config']['maxitems'] = 10;
+$tempColumns['tx_icsgmap3levels_level']['config']['treeConfig']['appearance']['nonSelectableLevels'] = '0,1';
 t3lib_extMgm::addTCAcolumns('tt_content',$tempColumns,1);
 
 TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile($_EXTKEY, 'Configuration/TypoScript', 'GMap 3 Levels');
