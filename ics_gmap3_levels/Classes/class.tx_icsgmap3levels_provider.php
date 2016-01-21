@@ -134,7 +134,7 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 		if (is_array($rows) && !empty($rows)) {
 			foreach ($rows as $row) {
 				$path = $this->resolvPath($row['uid'], $row['title'], $row['parent']);
-				$path = addslashes($path);
+				// $path = addslashes($path);
 				$levels[$path] = array(
 					'sorting' => $row['sorting'],
 					'zoom' => addslashes($row['zoom']),
