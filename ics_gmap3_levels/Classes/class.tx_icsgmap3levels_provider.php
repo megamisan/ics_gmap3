@@ -138,7 +138,7 @@ class tx_icsgmap3levels_provider implements tx_icsgmap3_iprovider {
 				$levels[$path] = array(
 					'sorting' => $row['sorting'],
 					'zoom' => addslashes($row['zoom']),
-					'selected' => (in_array($row['uid'], $selectedLevels) ? '1' : '0')
+					'selected' => (((in_array($row['uid'], $selectedLevels) && $row['parent'] != 0) || in_array($row['parent'], $selectedLevels)) ? '1' : '0')
 				);
 			}
 		}
