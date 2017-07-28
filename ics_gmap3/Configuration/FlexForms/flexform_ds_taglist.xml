@@ -1,0 +1,64 @@
+<el>
+	<exclusivesTags>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/Resources/Private/Language/locallang.xlf:provider.tagList.exclusivesTags</label>
+			<config>
+				<type>text</type>
+				<cols>50</cols>
+				<rows>30</rows>
+			</config>
+		</TCEforms>
+	</exclusivesTags>
+	<hiddenTags>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/Resources/Private/Language/locallang.xlf:provider.tagList.hiddenTags</label>
+			<config>
+				<type>text</type>
+				<cols>50</cols>
+				<rows>30</rows>
+			</config>
+		</TCEforms>
+	</hiddenTags>
+	<defaultTags>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/Resources/Private/Language/locallang.xlf:provider.tagList.defaultTags</label>
+			<config>
+				<type>text</type>
+				<cols>50</cols>
+				<rows>30</rows>
+			</config>
+		</TCEforms>
+	</defaultTags>
+	<defaultMapEmpty>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/Resources/Private/Language/locallang.xlf:provider.tagList.defaultMapEmpty</label>
+			<config>
+				<type>check</type>
+				<default>0</default>
+			</config>
+		</TCEforms>
+	</defaultMapEmpty>
+	<tagsSelector>
+		<TCEforms>
+			<label>LLL:EXT:ics_gmap3/Resources/Private/Language/locallang.xlf:provider.tagList.tagsSelector</label>
+			<config>
+				<type>select</type>
+				<items type="array">
+					<numIndex index="0" type="array">
+						<numIndex index="0"></numIndex>
+						<numIndex index="1"></numIndex>
+					</numIndex>
+					<numIndex index="1" type="array">
+						<numIndex index="0">LLL:EXT:ics_gmap3/Resources/Private/Language/locallang.xlf:provider.tagList.tagsSelector.checkbox</numIndex>
+						<numIndex index="1">checkbox</numIndex>
+					</numIndex>
+					<numIndex index="2" type="array">
+						<numIndex index="0">LLL:EXT:ics_gmap3/Resources/Private/Language/locallang.xlf:provider.tagList.tagsSelector.select</numIndex>
+						<numIndex index="1">select</numIndex>
+					</numIndex>
+				</items>
+			</config>
+		</TCEforms>
+	</tagsSelector>
+	<!-- ###ADDITIONAL FLEX### -->
+</el>

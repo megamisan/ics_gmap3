@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-06-30T10:40:30Z" product-name="ics_gmap3">
+		<header />
+		<body>
+			<trans-unit id="list_mode_1" xml:space="preserve">
+				<source>Mode 1</source>
+			</trans-unit>
+			<trans-unit id="list_mode_2" xml:space="preserve">
+				<source>Mode 2</source>
+			</trans-unit>
+			<trans-unit id="list_mode_3" xml:space="preserve">
+				<source>Mode 3</source>
+			</trans-unit>
+			<trans-unit id="back" xml:space="preserve">
+				<source>Back</source>
+			</trans-unit>
+			<trans-unit id="submit_button_label" xml:space="preserve">
+				<source>Click here to submit value</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

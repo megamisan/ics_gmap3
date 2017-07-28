@@ -1,16 +1,22 @@
 <?php
 if (!defined('TYPO3_MODE')) {
-	die ('Access denied.');
+    die ('Access denied.');
 }
-t3lib_extMgm::addUserTSConfig('
-	options.saveDocNew.tx_icsgmap3levels_levels=1
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('
+options.saveDocNew.tx_icsgmap3levels_levels=1
 ');
-
-tx_icsgmap3_provider_manager::subscribe(tx_icsgmap3_provider_manager::BEHAVIOUR_ADD, 'tx_icsgmap3levels_provider', 'LLL:EXT:ics_gmap3_levels/locallang.xml:provider');
-
-// Hooks pour pré selectionner une couche de cartographie
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/rtehtmlarea/mod3/class.tx_rtehtmlarea_browse_links.php']['browseLinksHook']['ics_gmap3_levels_preselect_levels'] = '\PlanNet\IcsGmap3Levels\Hooks\BrowseLinks';
-
+if (TYPO3_MODE === 'BE') {
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig('
+TCEMAIN.linkHandler.mapLayer {
+    handler = PlanNet\\IcsGmap3Levels\\LinkHandler\\MapLayerLinkHandler
+    label = LLL:EXT:ics_gmap3_levels/Resources/Private/Language/locallang_browse_links.xlf:mapLayer
+    scanBefore = page
+}
+');
+}
+\PlanNet\IcsGmap3\Provider\Manager::subscribe(
+    \PlanNet\IcsGmap3\Provider\Manager::BEHAVIOUR_ADD,
+    'PlanNet\IcsGmap3Levels\Provider',
+    'LLL:EXT:ics_gmap3_levels/Resources/Private/Language/locallang.xlf:provider');
 // Hook sur Parser typolink pour construction des liens en FE
-$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['typolinkLinkHandler']['ics_gmap3_levels_preselect_levels'] = '\PlanNet\IcsGmap3Levels\Hooks\LinkHandler';
-?>
+$GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_content.php']['typolinkLinkHandler']['ics_gmap3_levels_preselect_levels'] = 'PlanNet\IcsGmap3Levels\Hooks\LinkHandler';

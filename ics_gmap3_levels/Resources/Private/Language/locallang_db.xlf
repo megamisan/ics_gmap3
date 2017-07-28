@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-06-30T10:43:45Z" product-name="ics_gmap3_levels">
+		<header />
+		<body>
+			<trans-unit id="tx_icsgmap3levels_levels" xml:space="preserve">
+				<source>Gmap3 levels</source>
+			</trans-unit>
+			<trans-unit id="tx_icsgmap3levels_levels.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tx_icsgmap3levels_levels.parent" xml:space="preserve">
+				<source>Parent</source>
+			</trans-unit>
+			<trans-unit id="tx_icsgmap3levels_levels.picto" xml:space="preserve">
+				<source>Thumbnail</source>
+			</trans-unit>
+			<trans-unit id="tx_icsgmap3levels_levels.picto_map" xml:space="preserve">
+				<source>Picto Map</source>
+			</trans-unit>
+			<trans-unit id="tx_icsgmap3levels_levels.kml" xml:space="preserve">
+				<source>KML</source>
+			</trans-unit>
+			<trans-unit id="tx_icsgmap3levels_levels.zoom" xml:space="preserve">
+				<source>Zoom (Default: 18)</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

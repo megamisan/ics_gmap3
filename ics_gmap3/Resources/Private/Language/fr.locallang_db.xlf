@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+	<file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2017-06-30T10:40:26Z" product-name="ics_gmap3">
+		<header />
+		<body>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve" approved="yes">
+				<source>Google map (v3)</source>
+				<target>Google map (v3)</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

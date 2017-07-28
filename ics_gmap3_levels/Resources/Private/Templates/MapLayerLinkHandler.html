@@ -1,0 +1,66 @@
+<div xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers" data-namespace-typo3-fluid="true">
+	<div class="mapLayer-tabContent"
+		 data-save-alert="{f:translate(key: '{f:if(condition: new, then: \'layersSaveEmptyNew\', else: \'layersSaveEmpty\')}')}">
+		<table border="0" cellpadding="0" cellspacing="0" id="typo3-linkMapLayers">
+			<tr>
+				<td class="c-wCell" valign="top">
+					<h3>
+						<f:translate key="layersTree" />
+					</h3>
+					<f:render section="tree-level" arguments="{treeEntries: levels, addClass: ' list-tree-root'}" />
+				</td>
+			</tr>
+			<tr>
+				<td class="c-wCell" valign="top">
+					<form action="" name="llinkform" id="llinkform" class="t3js-dummyform">
+						<input class="btn btn-default t3js-linkCurrent" type="submit" value="{f:translate(key: 'layersSave')}">
+					</form>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<f:section name="tree-level">
+		<ul class="list-tree{addClass}">
+			<f:for each="{treeEntries}" as="treeEntry">
+				<li>
+					<span class="list-tree-group">
+						<f:render
+								section="{f:if(condition: '{treeEntry.children->f:count()}', then: 'children', else: 'leaf')}-{f:if(condition: '{treeEntry.selected}', then: 'true', else: 'false')}"
+								arguments="{treeEntry: treeEntry}" />
+						<span class="list-tree-title">
+							<f:if condition="{treeEntry.children->f:count()}">
+								<f:then>
+									{treeEntry.title}
+								</f:then>
+								<f:else>
+									<a href="#" class="t3js-mapLayerLink" data-id="{treeEntry.uid}">{treeEntry.title}</a>
+								</f:else>
+							</f:if>
+						</span>
+					</span>
+					<f:if condition="{treeEntry.children->f:count()}">
+						<f:render section="tree-level" arguments="{treeEntries: treeEntry.children, addClass: ''}" />
+					</f:if>
+				</li>
+			</f:for>
+		</ul>
+	</f:section>
+	<f:section name="leaf-true">
+		<span>
+			<input type="checkbox" class="map-layer-leaf" value="{treeEntry.uid}" checked="checked" title="{treeEntry.title}" />
+		</span>
+	</f:section>
+	<f:section name="leaf-false">
+		<span>
+			<input type="checkbox" class="map-layer-leaf" value="{treeEntry.uid}" title="{treeEntry.title}" />
+		</span>
+	</f:section>
+	<f:section name="children-false">
+		<span>
+			<input type="checkbox" disabled="disabled" title="{treeEntry.title}" />
+		</span>
+	</f:section>
+	<f:section name="children-true">
+		<f:render section="children-false" arguments="{_all}" />
+	</f:section>
+</div>

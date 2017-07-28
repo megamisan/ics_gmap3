@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+	<file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2017-06-30T10:43:40Z" product-name="ics_gmap3_levels">
+		<header />
+		<body>
+			<trans-unit id="provider" xml:space="preserve">
+				<source>Add KMLs to map layers</source>
+				<target>Ajout des KML au niveau des couches cartographiques</target>
+			</trans-unit>
+			<trans-unit id="layersTree" xml:space="preserve">
+				<source>Layers tree:</source>
+				<target>Arborescence des couches :</target>
+			</trans-unit>
+			<trans-unit id="layersSave" xml:space="preserve">
+				<source>Save selection</source>
+				<target>Enregistrer la sélection</target>
+			</trans-unit>
+			<trans-unit id="layersSaveEmpty" xml:space="preserve">
+				<source>Please select layers to display or remove the link.</source>
+				<target>Veuillez sélectionner des couches à afficher ou supprimer le lien.</target>
+			</trans-unit>
+			<trans-unit id="layersSaveEmptyNew" xml:space="preserve">
+				<source>Please select layers to display, another link type or cancel the insertion.</source>
+				<target>Veuillez sélectionner des couches à afficher, un autre type de lien ou annuler l'insertion.</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

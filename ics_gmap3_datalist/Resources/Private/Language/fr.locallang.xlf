@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2017-06-30T10:43:20Z" product-name="ics_gmap3_datalist">
+		<header />
+		<body>
+			<trans-unit id="provider.dataList" xml:space="preserve" approved="yes">
+				<source>Data List</source>
+				<target>Liste des données</target>
+			</trans-unit>
+			<trans-unit id="pagebrowser_markerperpage" xml:space="preserve" approved="yes">
+				<source>Number of marker per page</source>
+				<target>Nombre de marker par page</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

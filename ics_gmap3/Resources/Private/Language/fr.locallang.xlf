@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+	<file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2017-06-30T10:40:22Z" product-name="ics_gmap3">
+		<header />
+		<body>
+			<trans-unit id="pi1_title" xml:space="preserve" approved="yes">
+				<source>Google map (v3)</source>
+				<target>Google map (v3)</target>
+			</trans-unit>
+			<trans-unit id="pi2_title" xml:space="preserve" approved="yes">
+				<source>TagList</source>
+				<target>TagList</target>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.sheet_general" xml:space="preserve" approved="yes">
+				<source>Configuration</source>
+				<target>Configuration de la carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.templateFile" xml:space="preserve" approved="yes">
+				<source>Template file</source>
+				<target>Fichier template</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.providers" xml:space="preserve" approved="yes">
+				<source>Providers</source>
+				<target>Fournisseurs</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.startingpoint" xml:space="preserve" approved="yes">
+				<source>Storage page</source>
+				<target>Dossier de stockage</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.mapId" xml:space="preserve" approved="yes">
+				<source>Map id</source>
+				<target>Identifiant de la Carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.width" xml:space="preserve" approved="yes">
+				<source>Map width</source>
+				<target>Largeur de la Carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.height" xml:space="preserve" approved="yes">
+				<source>Map height</source>
+				<target>Hauteur de la Carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.zoom" xml:space="preserve" approved="yes">
+				<source>Map zoom</source>
+				<target>Niveau de zoom de la Carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.lng" xml:space="preserve" approved="yes">
+				<source>Longitude</source>
+				<target>Longitude</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.lat" xml:space="preserve" approved="yes">
+				<source>Latitude</source>
+				<target>Latitude</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type" xml:space="preserve" approved="yes">
+				<source>Type of map</source>
+				<target>Type de la Carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type.map" xml:space="preserve" approved="yes">
+				<source>Roadmap</source>
+				<target>Carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type.satellite" xml:space="preserve" approved="yes">
+				<source>Satellite</source>
+				<target>Satellite</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type.hybrid" xml:space="preserve" approved="yes">
+				<source>Hybrid</source>
+				<target>Hybride</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type.terrain" xml:space="preserve" approved="yes">
+				<source>Terrain</source>
+				<target>Terrain</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type_controls" xml:space="preserve" approved="yes">
+				<source>Show type controls</source>
+				<target>Afficher les types de Carte</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type_controls.1" xml:space="preserve" approved="yes">
+				<source>Show</source>
+				<target>Afficher</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.type_controls.2" xml:space="preserve" approved="yes">
+				<source>Hide</source>
+				<target>Cacher</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.nav_controls" xml:space="preserve" approved="yes">
+				<source>Navigation controls</source>
+				<target>Afficher la navigation</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.nav_controls.1" xml:space="preserve" approved="yes">
+				<source>Small</source>
+				<target>Petite</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.nav_controls.2" xml:space="preserve" approved="yes">
+				<source>Large</source>
+				<target>Grande</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.nav_controls.3" xml:space="preserve" approved="yes">
+				<source>Hide</source>
+				<target>Cacher</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.scrollwheel" xml:space="preserve" approved="yes">
+				<source>Scrollwheel</source>
+				<target>Activer le zoom molette</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.scrollwheel.1" xml:space="preserve" approved="yes">
+				<source>Enable</source>
+				<target>Activer</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.scrollwheel.2" xml:space="preserve" approved="yes">
+				<source>Disable</source>
+				<target>Desactiver</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.streetview_control" xml:space="preserve" approved="yes">
+				<source>StreetView Control</source>
+				<target>Activer StreetView</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.streetview_control.1" xml:space="preserve" approved="yes">
+				<source>Enable</source>
+				<target>Activer</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.streetview_control.2" xml:space="preserve" approved="yes">
+				<source>Disable</source>
+				<target>Désactiver</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.includeLibJS" xml:space="preserve" approved="yes">
+				<source>Include following librairies</source>
+				<target>Inclure les bibliothèques suivantes</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.includeLibJS.gmap_api" xml:space="preserve" approved="yes">
+				<source>API Google Map</source>
+				<target>API Google Map</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.includeLibJS.jquery_ui" xml:space="preserve" approved="yes">
+				<source>jQuery UI</source>
+				<target>jQuery UI</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.includeLibJS.gmap3" xml:space="preserve" approved="yes">
+				<source>GMap 3</source>
+				<target>GMap 3</target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.includeLibJS.jquery_lib" xml:space="preserve" approved="yes">
+				<source>jQuery lib</source>
+				<target>Bibliothèque jQuery </target>
+			</trans-unit>
+			<trans-unit id="flexform.sheets.general.styledMap" xml:space="preserve" approved="yes">
+				<source>GMap style</source>
+				<target></target>
+			</trans-unit>
+			<trans-unit id="provider.tagList" xml:space="preserve" approved="yes">
+				<source>Tags list</source>
+				<target>Liste de tags</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.exclusivesTags" xml:space="preserve" approved="yes">
+				<source>Exclusives tags</source>
+				<target>Tags exclusifs</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.hiddenTags" xml:space="preserve" approved="yes">
+				<source>Hidden tags</source>
+				<target>Tags cachés</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.defaultTags" xml:space="preserve" approved="yes">
+				<source>Default tags</source>
+				<target>Tags affichés par défaut</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.defaultMapEmpty" xml:space="preserve" approved="yes">
+				<source>View defaut tags if selected tags are empty</source>
+				<target>Afficher les tags par défaut si aucun tag n'est coché</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.title" xml:space="preserve" approved="yes">
+				<source>Behaviour provider (tags list)</source>
+				<target>Fournisseur de comportement (Liste de tags)</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.tagsSelector" xml:space="preserve" approved="yes">
+				<source>Selector tags type</source>
+				<target>Type de sélection des tags</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.tagsSelector.checkbox" xml:space="preserve" approved="yes">
+				<source>Checkbox</source>
+				<target>Cases à cocher</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.tagsSelector.select" xml:space="preserve" approved="yes">
+				<source>Select</source>
+				<target>Liste déroulante</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

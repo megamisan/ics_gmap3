@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 https://docs.oasis-open.org/xliff/v1.2/os/xliff-core-1.2-strict.xsd">
+	<file source-language="en" target-language="fr" datatype="plaintext" original="messages" date="2017-06-30T10:43:31Z" product-name="ics_gmap3_hierarchical_taglist">
+		<header />
+		<body>
+			<trans-unit id="provider.tagList" xml:space="preserve" approved="yes">
+				<source>Hierarchic tags list</source>
+				<target>Liste de tags hiérarchique</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.checkOnParent" xml:space="preserve" approved="yes">
+				<source>Parent category with checkbox?</source>
+				<target>Des checkbox pour les parents?</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.separator" xml:space="preserve" approved="yes">
+				<source>Separator</source>
+				<target>Séparateur</target>
+			</trans-unit>
+			<trans-unit id="provider.tagList.viewLinkSelectAll" xml:space="preserve" approved="yes">
+				<source>View select and unselect links</source>
+				<target>Afficher les liens &quot;Sélectionner&quot; et &quot;Désectionner&quot; ?</target>
+			</trans-unit>
+			<trans-unit id="selectTags" xml:space="preserve" approved="yes">
+				<source>Select</source>
+				<target>Sélectionner</target>
+			</trans-unit>
+			<trans-unit id="unselectTags" xml:space="preserve" approved="yes">
+				<source>Unselect</source>
+				<target>Déselectionner</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

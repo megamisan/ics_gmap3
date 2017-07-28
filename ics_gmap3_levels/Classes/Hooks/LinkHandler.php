@@ -1,9 +1,15 @@
 <?php
+
 namespace PlanNet\IcsGmap3Levels\Hooks;
 
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+/**
+ * Class LinkHandler
+ * @package PlanNet\IcsGmap3Levels\Hooks
+ */
 class LinkHandler {
+
     /**
      * Process the link generation
      *
@@ -23,22 +29,17 @@ class LinkHandler {
                          $parentObject) {
         unset($typoLinkConfiguration['parameter.']); // Conflit avec configuration de l'extension
         $linkConfigArray = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_icsgmap3_levels.']['linkhandler.']['ics_gmap3_levels_preselect_levels.'];
-
         $recordArray = array(
             'uid' => $linkHandlerValue,
         );
-
         // $linkParams contient par exemple "ics_gmap3_levels_preselect_levels:38 _blank"
         // On retire "ics_gmap3_levels_preselect_levels:X" et on ajoute les autres paramètres à ajouter !
         $parameter = str_replace($linkHandlerKeyword . ':' . $linkHandlerValue, '', $linkParams);
         $linkConfigArray['parameter'] .= $parameter;
-
         $localcObj = clone $parentObject;
         $localcObj->start($recordArray, '');
-
         // build the full link to the record
-        $generatedLink = $localcObj->typoLink($linkTxt, array_merge($linkConfigArray , $typoLinkConfiguration));
-
+        $generatedLink = $localcObj->typoLink($linkTxt, array_merge($linkConfigArray, $typoLinkConfiguration));
         return $generatedLink;
     }
 }

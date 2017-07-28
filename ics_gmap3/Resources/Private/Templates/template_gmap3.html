@@ -1,0 +1,70 @@
+<!-- ###TEMPLATE_GMAP### begin -->
+	<!-- ###TEMPLATE_CONTENT### begin -->
+		###ACCESSIBILITY###
+		###MAP###
+	<!-- ###TEMPLATE_CONTENT### end -->
+<!-- ###TEMPLATE_GMAP### end -->
+
+
+
+<!-- jQuery('####MAP_ID###') ici il y 4 # devant MAP_ID car le premier est le selecteur jQuery -->
+<!-- ###DISPLAY_MAP### begin -->
+	<div id="###MAP_ID###" style="height:###MAP_HEIGHT###; width:###MAP_WIDTH###"></div>
+<!-- ###DISPLAY_MAP### end -->
+
+
+<!-- ###LIST_OF_TAGS### begin -->
+	{
+		action:'addMarkers',
+		markers: ###TAG_NAME###,
+		marker: {
+			###ICON###
+			events:{
+				mouseover: function(marker, event, data){
+					jQuery(this).gmap3(
+					{
+						action:'clear', list:'overlay'
+					},
+					{
+						action:'addOverlay',
+						latLng: marker.getPosition(),
+						content:'<div class="infobulle'+(data.access4disabled ? ' access4disabled' : '')+'">' +
+								'	<div class="bg"></div>' +
+								'	<div class="text"> ' + data.name  + ' ' + data.address  + '</div>' +
+								'</div>' +
+								'<div class="arrow"></div>',
+						offset: {
+							x:-46,
+							y:-73
+						}
+					});
+				},
+				mouseout: function(){
+					jQuery(this).gmap3({action:'clear', list:'overlay'});
+				},
+				click: function(marker, event, data){
+					jQuery(this).gmap3({
+						action:'panTo', 
+						args:[marker.position]
+					});
+				}
+			}
+		}
+	}
+<!-- ###LIST_OF_TAGS### end -->
+
+<!-- ###ACCESSIBILITY_LIST### begin -->
+<div class="###PREFIXID###_resultsListContent" id="###PREFIXID###_resultsListContent">
+	<noscript>
+		<ul class="###PREFIXID###_resultsList">
+			<!-- ###DATA_ITEM### begin -->
+			<li class="###PREFIXID###_resultItem">
+				<!-- ###FIELDS### begin -->
+				<span class="###FIELD_NAME###">###FIELD_VALUE###</span>
+				<!-- ###FIELDS### end -->
+			</li>
+			<!-- ###DATA_ITEM### end -->
+		</ul>
+	</noscript>
+</div>
+<!-- ###ACCESSIBILITY_LIST### end -->
