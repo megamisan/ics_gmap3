@@ -1,6 +1,4 @@
-if (typeof ics !== 'object') {
-    ics = {};
-}
+ics = ics || {};
 
 /**
  * Create html elements from description and returns the created elements.
@@ -12,7 +10,7 @@ ics.createElements = function (elementDescriptionList) {
     var elements = [];
     for (var i = 0; i < elementDescriptionList.length; i++) {
         var element = ics.createElement(elementDescriptionList[i]);
-        if (element !== null) {
+        if (typeof(element) === 'object') {
             elements.push(element);
         }
     }
@@ -37,22 +35,22 @@ ics.createElement = function (elementDescription) {
     }
     else {
         element = document.createElement(elementDescription.tag);
-        if (element !== null) {
-            if (elementDescription.children !== null) {
+        if (typeof(element) === 'object') {
+            if (elementDescription.hasOwnProperty('children')) {
                 var elements = ics.createElements(elementDescription.children);
                 for (var i = 0; i < elements.length; i++) {
                     element.appendChild(elements[i]);
                 }
             }
             var name;
-            if (elementDescription.properties !== null) {
+            if (elementDescription.hasOwnProperty('properties')) {
                 for (name in elementDescription.properties) {
                     if (elementDescription.properties.hasOwnProperty(name)) {
                         ics.createElement.setProperty(element, name, elementDescription.properties[name]);
                     }
                 }
             }
-            if (elementDescription.attributes !== null) {
+            if (elementDescription.hasOwnProperty('attributes')) {
                 for (name in elementDescription.attributes) {
                     if (elementDescription.attributes.hasOwnProperty(name)) {
                         ics.createElement.setAttributes(element, name, elementDescription.attributes[name]);
@@ -73,12 +71,10 @@ ics.createElement = function (elementDescription) {
  */
 ics.createElement.setProperty = function (object, name, value) {
     if (typeof(value) === 'object') {
-        if (object[name] === null) {
-            object[name] = {};
-        }
+        object[name] = object[name] || {};
         object = object[name];
         for (name in value) {
-            //noinspection JSUnfilteredForInLoop
+            if (!value.hasOwnProperty(name)) continue;
             ics.createElement.setProperty(object, name, value[name]);
         }
     }
@@ -96,12 +92,10 @@ ics.createElement.setProperty = function (object, name, value) {
  */
 ics.createElement.setAttributes = function (object, name, value) {
     if (typeof(value) === 'object') {
-        if (object[name] === null) {
-            object[name] = {};
-        }
+        object[name] = object[name] || {};
         object = object[name];
         for (name in value) {
-            //noinspection JSUnfilteredForInLoop
+            if (!value.hasOwnProperty(name)) continue;
             ics.createElement.setAttributes(object, name, value[name]);
         }
     }
